@@ -25,8 +25,8 @@ public class MazeGenerator : MonoBehaviour
     private int currentRoom = 0;
     private bool roomsComplete = false;
 
-    //TODO: Sort out row/column issue, probably go back to xy and change all references
-    // also fix orientation of walls to correspond to cardinal directions
+    //TODO: Figure out how to decide where doors are going between rooms
+    // write a DrawMaze() funtion rather than creating walls first, then destroying them, then creating doors
 
     private void Start()
     {
@@ -48,19 +48,14 @@ public class MazeGenerator : MonoBehaviour
 
         // start at (0, 0)
         MazeCell currentCell = MazeCells[0, 0];
-
-        int bail = 0;
+        
         while (!roomsComplete)
         {
             VisitCellAndCheckConnection(currentCell, false, true);
             currentCell = GetNextUnvisitedCell();
             currentRoom++;
-            Debug.Log("New room " + currentRoom);
-            UpdateDebugCells();
-            bail++;
-            if (bail > 100)
-                return;
         }
+        UpdateDebugCells();
     }
 
     void UpdateDebugCells()
@@ -69,7 +64,7 @@ public class MazeGenerator : MonoBehaviour
         {
             for (int x = 0; x < MazeX; x++)
             {
-                int cellNo = y * MazeY + x;
+                int cellNo = y * MazeX + x;
                 Cells[cellNo] = MazeCells[x, y];
             }
         }
@@ -90,20 +85,20 @@ public class MazeGenerator : MonoBehaviour
     {
         if (cell.visited)
         {
-            Debug.Log("Cell has already been visited");
+            Debug.LogError("Visited cell getting visited again!");
             return;
         }
+           
 
         MazeCell nextCell = null;
         // mark cell as visited so we dont come back
-        Debug.Log("Checking cell " + cell.CellNumber.ToString() + ". Direction: " + dir + ". First cell? " + isFirstCellInRoom);
+
         // dir: false = east, true = north
         if (dir)
         {
             // north
             if(!cell.HasNorthWall)
             {
-                Debug.Log("Cell doesnt have a north wall, check the cell above");
                 cell.NorthSouthRoom = true;
                 cell.visited = true;
                 cell.roomNo = currentRoom;
@@ -112,15 +107,14 @@ public class MazeGenerator : MonoBehaviour
             }
             else
             {
-                Debug.Log("Cell has a north wall, stop");
                 cell.visited = true;
+                cell.roomNo = currentRoom;
                 // wall here
                 // if this is the first cell in room then it is a one cell room
                 if (isFirstCellInRoom)
-                {
-                    Debug.Log("Cell is a single room");
                     cell.SingleCellRoom = true;
-                }                    
+                else
+                    cell.NorthSouthRoom = true;              
             }
         }
         else
@@ -128,23 +122,36 @@ public class MazeGenerator : MonoBehaviour
             // east
             if(!cell.HasEastWall)
             {
-                Debug.Log("Cell doesnt have an east wall, check the cell to the right");
-                cell.EastWestRoom = true;
                 cell.visited = true;
                 cell.roomNo = currentRoom;
                 nextCell = MazeCells[cell.CellX + 1, cell.CellY];
-                VisitCellAndCheckConnection(nextCell, dir, false);
+                // as we are going to the right, we may run into a NorthWestRoom
+                if (!nextCell.visited)
+                {
+                    cell.EastWestRoom = true;
+                    VisitCellAndCheckConnection(nextCell, dir, false);
+                }                    
+                else
+                {
+                    if (isFirstCellInRoom)
+                        cell.SingleCellRoom = true;
+                    else
+                        cell.EastWestRoom = true;
+                }
             }
             else
             {
-                Debug.Log("Cell has an east wall");
                 // there is a wall here, if this is the first cell in room, run again but looking north
                 if (isFirstCellInRoom)
                 {
-                    Debug.Log("Checking for a passage north");
                     VisitCellAndCheckConnection(cell, !dir, isFirstCellInRoom);
                 }
-                cell.visited = true;
+                else
+                {
+                    cell.visited = true;
+                    cell.roomNo = currentRoom;
+                    cell.EastWestRoom = true;
+                }                
             }
         }
 
@@ -428,7 +435,7 @@ public class MazeGenerator : MonoBehaviour
                     CellX = x,
                     CellY = y
                 };
-                //Debug.Log("Cell " + cellNo + " created at (" + x + ", " + y + ")");
+
                 GameObject CurrentCell = new GameObject
                 {
                     name = "Maze Cell " + cellNo.ToString()
@@ -472,9 +479,6 @@ public class MazeGenerator : MonoBehaviour
                 MazeCells[x, y].HasEastWall = true;
                 MazeCells[x, y].EastWall.transform.Rotate(Vector3.up * 90f);
                 tempWall.transform.parent = CurrentCell.transform;
-
-                // DEBUG PURPOSES
-                Cells[cellNo] = MazeCells[x, y];
             }
         }
     }

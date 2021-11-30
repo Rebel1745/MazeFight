@@ -18,7 +18,7 @@ public class MazeCell
     public bool HasWestWall = false;
     public GameObject WestWall; // 4
     public GameObject Floor;
-    public int roomNo = 0;
+    public int roomNo = -1;
     public bool EastWestRoom = false;
     public bool NorthSouthRoom = false;
     public bool SingleCellRoom = false;
