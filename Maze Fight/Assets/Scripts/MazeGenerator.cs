@@ -12,8 +12,10 @@ public class MazeGenerator : MonoBehaviour
     public GameObject Player;
     private float wallLength = 0.0f;
     private float floorLength = 0.0f;
+    private float doorLength = 0.0f;
     public int MazeX = 5;
     public int MazeY = 5;
+    public int MazeSeed = 0;
     private int mazeCellCount;
     // for debugging purposes only
     public MazeCell[] Cells;
@@ -30,9 +32,68 @@ public class MazeGenerator : MonoBehaviour
 
     private void Start()
     {
+        Random.InitState(MazeSeed);
         InitialiseMaze();
         CreateMaze();
         CreateRooms();
+        CreateDoors();
+    }
+
+    void CreateDoors()
+    {
+        GameObject tempDoor;
+
+        for (int y = 0; y < MazeY; y++)
+        {
+            for (int x = 0; x < MazeX; x++)
+            {
+                if (MazeCells[x, y].EastWestRoom)
+                {
+                    // cell is in an EastWestRoom therefore if it doesnt have a NorthWall, put a door there
+                    if(!MazeCells[x, y].HasNorthWall)
+                    {
+                        tempDoor = Instantiate(Door, new Vector3(x * doorLength, 0, (y * doorLength) + (doorLength / 2f)), Quaternion.identity) as GameObject;
+                        MazeCells[x, y].NorthWall = tempDoor;
+                        MazeCells[x, y].NorthWall.name = "North Door " + x + "," + y;
+                        MazeCells[x, y].HasNorthWall = true;
+                        tempDoor.transform.parent = MazeCells[x, y].CellHolder;
+                    }
+                    if(!MazeCells[x, y].HasSouthWall && !MazeCells[x, y - 1].HasNorthWall)
+                    {
+                        tempDoor = Instantiate(Door, new Vector3(x * doorLength, 0, ((y - 1) * doorLength) + (doorLength / 2f)), Quaternion.identity) as GameObject;
+                        MazeCells[x, y - 1].NorthWall = tempDoor;
+                        MazeCells[x, y - 1].NorthWall.name = "North Door " + x + "," + (y - 1);
+                        MazeCells[x, y - 1].HasNorthWall = true;
+                        tempDoor.transform.parent = MazeCells[x, y - 1].CellHolder;
+                    }
+                } else if (MazeCells[x, y].NorthSouthRoom)
+                {
+                    if (!MazeCells[x, y].HasEastWall)
+                    {
+                        // cell is in an NorthSouthRoom therefore if it doesnt have an EastWall, put a door there
+                        tempDoor = Instantiate(Door, new Vector3((x * doorLength) + (doorLength / 2f), 0, y * doorLength), Quaternion.identity) as GameObject;
+                        MazeCells[x, y].EastWall = tempDoor;
+                        MazeCells[x, y].EastWall.name = "East Door " + x + "," + y;
+                        MazeCells[x, y].HasEastWall = true;
+                        MazeCells[x, y].EastWall.transform.Rotate(Vector3.up * 90f);
+                        tempDoor.transform.parent = MazeCells[x, y].CellHolder;
+                    }
+                    if(!MazeCells[x,y].HasWestWall && !MazeCells[x - 1, y].HasEastWall)
+                    {
+                        tempDoor = Instantiate(Door, new Vector3(((x - 1) * doorLength) + (doorLength / 2f), 0, y * doorLength), Quaternion.identity) as GameObject;
+                        MazeCells[x - 1, y].EastWall = tempDoor;
+                        MazeCells[x - 1, y].EastWall.name = "East Door " + (x - 1) + "," + y;
+                        MazeCells[x - 1, y].HasEastWall = true;
+                        MazeCells[x - 1, y].EastWall.transform.Rotate(Vector3.up * 90f);
+                        tempDoor.transform.parent = MazeCells[x - 1, y].CellHolder;
+                    }
+                }
+                else if(MazeCells[x, y].SingleCellRoom)
+                {
+                    // cell is a SingleCellRoom, the door has already been created above
+                }
+            }
+        }
     }
 
     void CreateRooms()
@@ -411,6 +472,7 @@ public class MazeGenerator : MonoBehaviour
 
         wallLength = Wall.transform.localScale.x;
         floorLength = Floor.transform.localScale.x;
+        doorLength = Door.transform.localScale.x;
 
         MazeCells = new MazeCell[MazeX, MazeY];
         // DEBUG
@@ -429,17 +491,20 @@ public class MazeGenerator : MonoBehaviour
             for (int x = 0; x < MazeX; x++)
             {
                 int cellNo = y * MazeX + x;
-                MazeCells[x, y] = new MazeCell
-                {
-                    CellNumber = cellNo,
-                    CellX = x,
-                    CellY = y
-                };
 
                 GameObject CurrentCell = new GameObject
                 {
                     name = "Maze Cell " + cellNo.ToString()
                 };
+
+                MazeCells[x, y] = new MazeCell
+                {
+                    CellNumber = cellNo,
+                    CellX = x,
+                    CellY = y,
+                    CellHolder = CurrentCell.transform
+                };
+
                 CurrentCell.transform.parent = MazeCellHolder.transform;
                 
                 // start with the floor
