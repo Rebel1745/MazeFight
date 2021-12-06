@@ -11,8 +11,10 @@ public class MazeGenerator : MonoBehaviour
     public GameObject Door;
     public GameObject Player;
     private float wallLength = 0.0f;
+    private float wallHeight = 0.0f;
     private float floorLength = 0.0f;
     private float doorLength = 0.0f;
+    private float doorHeight = 0.0f;
     public int MazeX = 5;
     public int MazeY = 5;
     public int MazeSeed = 0;
@@ -30,7 +32,7 @@ public class MazeGenerator : MonoBehaviour
     //TODO: Figure out how to decide where doors are going between rooms
     // write a DrawMaze() funtion rather than creating walls first, then destroying them, then creating doors
 
-    private void Start()
+    public void GenerateMaze()
     {
         Random.InitState(MazeSeed);
         InitialiseMaze();
@@ -52,7 +54,7 @@ public class MazeGenerator : MonoBehaviour
                     // cell is in an EastWestRoom therefore if it doesnt have a NorthWall, put a door there
                     if(!MazeCells[x, y].HasNorthWall)
                     {
-                        tempDoor = Instantiate(Door, new Vector3(x * doorLength, 0, (y * doorLength) + (doorLength / 2f)), Quaternion.identity) as GameObject;
+                        tempDoor = Instantiate(Door, new Vector3(x * doorLength, doorHeight / 2f, (y * doorLength) + (doorLength / 2f)), Quaternion.identity) as GameObject;
                         MazeCells[x, y].NorthWall = tempDoor;
                         MazeCells[x, y].NorthWall.name = "North Door " + x + "," + y;
                         MazeCells[x, y].HasNorthWall = true;
@@ -60,7 +62,7 @@ public class MazeGenerator : MonoBehaviour
                     }
                     if(!MazeCells[x, y].HasSouthWall && !MazeCells[x, y - 1].HasNorthWall)
                     {
-                        tempDoor = Instantiate(Door, new Vector3(x * doorLength, 0, ((y - 1) * doorLength) + (doorLength / 2f)), Quaternion.identity) as GameObject;
+                        tempDoor = Instantiate(Door, new Vector3(x * doorLength, doorHeight / 2f, ((y - 1) * doorLength) + (doorLength / 2f)), Quaternion.identity) as GameObject;
                         MazeCells[x, y - 1].NorthWall = tempDoor;
                         MazeCells[x, y - 1].NorthWall.name = "North Door " + x + "," + (y - 1);
                         MazeCells[x, y - 1].HasNorthWall = true;
@@ -71,7 +73,7 @@ public class MazeGenerator : MonoBehaviour
                     if (!MazeCells[x, y].HasEastWall)
                     {
                         // cell is in an NorthSouthRoom therefore if it doesnt have an EastWall, put a door there
-                        tempDoor = Instantiate(Door, new Vector3((x * doorLength) + (doorLength / 2f), 0, y * doorLength), Quaternion.identity) as GameObject;
+                        tempDoor = Instantiate(Door, new Vector3((x * doorLength) + (doorLength / 2f), doorHeight / 2f, y * doorLength), Quaternion.identity) as GameObject;
                         MazeCells[x, y].EastWall = tempDoor;
                         MazeCells[x, y].EastWall.name = "East Door " + x + "," + y;
                         MazeCells[x, y].HasEastWall = true;
@@ -80,7 +82,7 @@ public class MazeGenerator : MonoBehaviour
                     }
                     if(!MazeCells[x,y].HasWestWall && !MazeCells[x - 1, y].HasEastWall)
                     {
-                        tempDoor = Instantiate(Door, new Vector3(((x - 1) * doorLength) + (doorLength / 2f), 0, y * doorLength), Quaternion.identity) as GameObject;
+                        tempDoor = Instantiate(Door, new Vector3(((x - 1) * doorLength) + (doorLength / 2f), doorHeight / 2f, y * doorLength), Quaternion.identity) as GameObject;
                         MazeCells[x - 1, y].EastWall = tempDoor;
                         MazeCells[x - 1, y].EastWall.name = "East Door " + (x - 1) + "," + y;
                         MazeCells[x - 1, y].HasEastWall = true;
@@ -471,8 +473,10 @@ public class MazeGenerator : MonoBehaviour
         mazeCellCount = MazeX * MazeY;
 
         wallLength = Wall.transform.localScale.x;
+        wallHeight = Wall.transform.localScale.y;
         floorLength = Floor.transform.localScale.x;
         doorLength = Door.transform.localScale.x;
+        doorHeight = Door.transform.localScale.y;
 
         MazeCells = new MazeCell[MazeX, MazeY];
         // DEBUG
@@ -508,21 +512,22 @@ public class MazeGenerator : MonoBehaviour
                 CurrentCell.transform.parent = MazeCellHolder.transform;
                 
                 // start with the floor
-                tempFloor = Instantiate(Floor, new Vector3(x * floorLength, -(floorLength / 2f), y * floorLength), Quaternion.identity) as GameObject;
+                tempFloor = Instantiate(Floor, new Vector3(x * floorLength, 0, y * floorLength), Quaternion.identity) as GameObject;
                 MazeCells[x, y].Floor = tempFloor;
                 MazeCells[x, y].Floor.name = "Floor " + x + "," + y;
+                MazeCells[x, y].Floor.GetComponent<Floor>().FloorCellNo = cellNo;
                 tempFloor.transform.parent = CurrentCell.transform;
 
                 if (y == 0)
                 {
-                    tempWall = Instantiate(Wall, new Vector3(x * wallLength, 0, (y * wallLength) - (wallLength / 2f)), Quaternion.identity) as GameObject;
+                    tempWall = Instantiate(Wall, new Vector3(x * wallLength, wallHeight / 2f, (y * wallLength) - (wallLength / 2f)), Quaternion.identity) as GameObject;
                     MazeCells[x, y].SouthWall = tempWall;
                     MazeCells[x, y].SouthWall.name = "South Wall " + x + "," + y;
                     MazeCells[x, y].HasSouthWall = true;
                     tempWall.transform.parent = CurrentCell.transform;
                 }
 
-                tempWall = Instantiate(Wall, new Vector3(x * wallLength, 0, (y * wallLength) + (wallLength / 2f)), Quaternion.identity) as GameObject;
+                tempWall = Instantiate(Wall, new Vector3(x * wallLength, wallHeight / 2f, (y * wallLength) + (wallLength / 2f)), Quaternion.identity) as GameObject;
                 MazeCells[x, y].NorthWall = tempWall;
                 MazeCells[x, y].NorthWall.name = "North Wall " + x + "," + y;
                 MazeCells[x, y].HasNorthWall = true;
@@ -530,7 +535,7 @@ public class MazeGenerator : MonoBehaviour
                 
                 if (x == 0)
                 {
-                    tempWall = Instantiate(Wall, new Vector3((x * wallLength) - (wallLength / 2f), 0, y * wallLength), Quaternion.identity) as GameObject;
+                    tempWall = Instantiate(Wall, new Vector3((x * wallLength) - (wallLength / 2f), wallHeight / 2f, y * wallLength), Quaternion.identity) as GameObject;
                     MazeCells[x, y].WestWall = tempWall;
                     MazeCells[x, y].WestWall.name = "West Wall " + x + "," + y;
                     MazeCells[x, y].HasWestWall = true;
@@ -538,7 +543,7 @@ public class MazeGenerator : MonoBehaviour
                     tempWall.transform.parent = CurrentCell.transform;
                 }
 
-                tempWall = Instantiate(Wall, new Vector3((x * wallLength) + (wallLength / 2f), 0, y * wallLength), Quaternion.identity) as GameObject;
+                tempWall = Instantiate(Wall, new Vector3((x * wallLength) + (wallLength / 2f), wallHeight / 2f, y * wallLength), Quaternion.identity) as GameObject;
                 MazeCells[x, y].EastWall = tempWall;
                 MazeCells[x, y].EastWall.name = "East Wall " + x + "," + y;
                 MazeCells[x, y].HasEastWall = true;

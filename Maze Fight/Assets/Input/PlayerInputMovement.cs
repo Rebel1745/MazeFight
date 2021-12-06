@@ -17,6 +17,13 @@ public class PlayerInputMovement : MonoBehaviour
     public Transform BodyCube;
     public Transform BodySphere;
 
+    [Space]
+    [Header("Camera Follow")]
+    public Transform FollowTarget;
+    public float MaxLookaheadDistance = 2f;
+    public float TargetMoveSpeed = 0.02f;
+    public float BounceBackSpeed = 0.05f;
+
     private void Start()
     {
         currentSpeed = WalkSpeed;
@@ -28,6 +35,27 @@ public class PlayerInputMovement : MonoBehaviour
     private void Update()
     {
         DoMovement();
+        UpdateCameraTargetLocation();
+    }
+
+    void UpdateCameraTargetLocation()
+    {
+        // if we aren't at our max distance for the target, move
+        if (Vector3.Distance(transform.position, FollowTarget.transform.position) < MaxLookaheadDistance)
+        {
+            Vector3 dir = new Vector3(moveInput.x, 0, moveInput.y);
+            FollowTarget.transform.position += dir * TargetMoveSpeed;
+        }
+
+        // if we arent moving, move the follow target towards the player
+        if (moveInput == Vector2.zero)
+        {
+            if (Vector3.Distance(transform.position, FollowTarget.transform.position) > 0)
+            {
+                Vector3 dir = transform.position - FollowTarget.transform.position;
+                FollowTarget.transform.position += dir * BounceBackSpeed;
+            }
+        }
     }
 
     public void Movement(InputAction.CallbackContext context)

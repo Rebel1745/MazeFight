@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3354180}
   - component: {fileID: 6525508}
   - component: {fileID: 2319184}
+  - component: {fileID: 4767175521952743553}
   m_Layer: 0
   m_Name: Floor
   m_TagString: Floor
@@ -28,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 140734}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 0.15, z: 1}
+  m_LocalScale: {x: 6, y: 0.15, z: 6}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -95,3 +96,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &4767175521952743553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 140734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6650a2be712f5aa42be349472b33bbf8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FloorCellNo: -1
