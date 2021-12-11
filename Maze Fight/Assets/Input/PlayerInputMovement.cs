@@ -4,6 +4,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerInputMovement : MonoBehaviour
 {
+    public GameManager gm;
+
     [Header("Movement")]
     private bool canMove = true;
     public float WalkSpeed = 3f;
@@ -24,6 +26,20 @@ public class PlayerInputMovement : MonoBehaviour
     public float TargetMoveSpeed = 0.02f;
     public float BounceBackSpeed = 0.05f;
 
+    [Space]
+    [Header("Floor Check")]
+    public Transform FloorCheck;
+    public LayerMask WhatIsFloor;
+    public float FloorCheckRadius = 1f;
+    int currentCellNo = -1;
+    public Transform CurrentFloor;
+    public MazeCell CurrentCell;
+
+    private void Awake()
+    {
+        gm = FindObjectOfType<GameManager>();
+    }
+
     private void Start()
     {
         currentSpeed = WalkSpeed;
@@ -36,6 +52,17 @@ public class PlayerInputMovement : MonoBehaviour
     {
         DoMovement();
         UpdateCameraTargetLocation();
+        CheckFloor();
+    }
+
+    void CheckFloor()
+    {
+        if (Physics.Raycast(FloorCheck.position, Vector3.down, out RaycastHit hit, FloorCheckRadius, WhatIsFloor))
+        {
+            CurrentFloor = hit.transform;
+            currentCellNo = hit.transform.GetComponent<Floor>().FloorCellNo;
+            CurrentCell = gm.mg.GetMazeCellFromInt(currentCellNo);
+        }
     }
 
     void UpdateCameraTargetLocation()
@@ -114,5 +141,10 @@ public class PlayerInputMovement : MonoBehaviour
             BodyCube.gameObject.SetActive(!BodyCube.gameObject.activeSelf);
             BodySphere.gameObject.SetActive(!BodySphere.gameObject.activeSelf);
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Debug.DrawRay(FloorCheck.position, Vector3.down * FloorCheckRadius, Color.green);
     }
 }

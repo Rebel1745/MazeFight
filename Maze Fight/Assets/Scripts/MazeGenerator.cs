@@ -29,7 +29,7 @@ public class MazeGenerator : MonoBehaviour
     private int currentRoom = 0;
     private bool roomsComplete = false;
 
-    //TODO: Figure out how to decide where doors are going between rooms
+    //TODO: 
     // write a DrawMaze() funtion rather than creating walls first, then destroying them, then creating doors
 
     public void GenerateMaze()
@@ -549,7 +549,17 @@ public class MazeGenerator : MonoBehaviour
                 MazeCells[x, y].HasEastWall = true;
                 MazeCells[x, y].EastWall.transform.Rotate(Vector3.up * 90f);
                 tempWall.transform.parent = CurrentCell.transform;
+                MazeCell temp = GetMazeCellFromInt(cellNo);
             }
         }
+    }
+
+    public MazeCell GetMazeCellFromInt(int cellNo)
+    {
+        int cellX = cellNo % MazeX;
+        int cellY = Mathf.FloorToInt (cellNo / MazeX);
+
+        return MazeCells[cellX, cellY];
+        
     }
 }
