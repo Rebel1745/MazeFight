@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraFollow : MonoBehaviour
 {
     public Transform FollowTarget;
-    public float SmoothSpeed = 0.125f;
+    public float SmoothSpeed = 0.01f;
     public Vector3 Offset;
     PlayerInputMovement pm;
     public MazeGenerator mg;
@@ -13,7 +13,7 @@ public class CameraFollow : MonoBehaviour
     // TODO:
     // Make the movement a little cleaner especially when rotating the character
     
-    void Update()
+    void LateUpdate()
     {
         // dont do anything if there is no target
         if (FollowTarget)

@@ -313,7 +313,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FollowTarget: {fileID: 1273461459}
-  SmoothSpeed: 0.125
+  SmoothSpeed: 0.01
   Offset: {x: 0, y: 10, z: 0}
   mg: {fileID: 0}
 --- !u!1 &1231071523
@@ -396,8 +396,9 @@ MonoBehaviour:
   Floor: {fileID: 140734, guid: 736acf0c96a324445a9aea0788a960c1, type: 3}
   Door: {fileID: 195376, guid: 738057d5cbb4893478aa0a341ec9be6a, type: 3}
   Player: {fileID: 4660377099881405992, guid: 0b0939b11d0d34248b61278930b63cd8, type: 3}
+  Poker: {fileID: 254857078606120856, guid: 6040e30a991513e468ec65cc8224c3ed, type: 3}
   MazeX: 10
-  MazeY: 8
+  MazeY: 6
   MazeSeed: 0
   Cells: []
 --- !u!4 &1273461459

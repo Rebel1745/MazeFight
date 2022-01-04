@@ -10,8 +10,10 @@ public class MazeGenerator : MonoBehaviour
     public GameObject Floor;
     public GameObject Door;
     public GameObject Player;
+    public GameObject Poker;
     private float wallLength = 0.0f;
     private float wallHeight = 0.0f;
+    private float wallWidth = 0.0f;
     private float floorLength = 0.0f;
     private float doorLength = 0.0f;
     private float doorHeight = 0.0f;
@@ -39,6 +41,52 @@ public class MazeGenerator : MonoBehaviour
         CreateMaze();
         CreateRooms();
         CreateDoors();
+        CreateHazards();
+    }
+
+    void CreateHazards()
+    {
+        GameObject HazardHolder = new GameObject
+        {
+            name = "Hazards"
+        };
+        // test cell will be the second cell created
+        MazeCell currentCell;
+        GameObject tempHazard, currentFloor;
+        float pokerWidth = Poker.transform.localScale.x;
+        float pokerLength = Poker.transform.localScale.z;
+        float xOffset, zOffset;
+
+        for (int y = 0; y < MazeY; y++)
+        {
+            for (int x = 0; x < MazeX; x++)
+            {
+                if(x != 0 || y != 0)
+                {
+                    currentCell = MazeCells[x, y];
+                    currentFloor = currentCell.Floor;
+
+                    int totalXHazards = Mathf.CeilToInt(floorLength / pokerWidth);
+                    int totalZHazards = Mathf.CeilToInt(floorLength / pokerLength);
+
+                    float startPosX = currentFloor.transform.position.x - (floorLength / 2) + (pokerWidth / 2);
+                    float startPosZ = currentFloor.transform.position.z - (floorLength / 2) + (pokerLength / 2);
+
+                    for (int zHaz = 0; zHaz < totalZHazards; zHaz++)
+                    {
+                        for (int xHaz = 0; xHaz < totalXHazards; xHaz++)
+                        {
+                            xOffset = xHaz * pokerLength;
+                            zOffset = zHaz * pokerWidth;
+                            tempHazard = Instantiate(Poker, new Vector3(startPosX + xOffset, 0f, startPosZ + zOffset), Quaternion.identity);
+                            tempHazard.transform.parent = HazardHolder.transform;
+                            tempHazard.name = "Poker (" + xHaz + ", " + zHaz + ")";
+                        }
+                    }
+                }                
+            }
+        }             
+
     }
 
     void CreateDoors()
@@ -60,14 +108,6 @@ public class MazeGenerator : MonoBehaviour
                         MazeCells[x, y].HasNorthWall = true;
                         tempDoor.transform.parent = MazeCells[x, y].CellHolder;
                     }
-                    if(!MazeCells[x, y].HasSouthWall && !MazeCells[x, y - 1].HasNorthWall)
-                    {
-                        tempDoor = Instantiate(Door, new Vector3(x * doorLength, doorHeight / 2f, ((y - 1) * doorLength) + (doorLength / 2f)), Quaternion.identity) as GameObject;
-                        MazeCells[x, y - 1].NorthWall = tempDoor;
-                        MazeCells[x, y - 1].NorthWall.name = "North Door " + x + "," + (y - 1);
-                        MazeCells[x, y - 1].HasNorthWall = true;
-                        tempDoor.transform.parent = MazeCells[x, y - 1].CellHolder;
-                    }
                 } else if (MazeCells[x, y].NorthSouthRoom)
                 {
                     if (!MazeCells[x, y].HasEastWall)
@@ -79,15 +119,6 @@ public class MazeGenerator : MonoBehaviour
                         MazeCells[x, y].HasEastWall = true;
                         MazeCells[x, y].EastWall.transform.Rotate(Vector3.up * 90f);
                         tempDoor.transform.parent = MazeCells[x, y].CellHolder;
-                    }
-                    if(!MazeCells[x,y].HasWestWall && !MazeCells[x - 1, y].HasEastWall)
-                    {
-                        tempDoor = Instantiate(Door, new Vector3(((x - 1) * doorLength) + (doorLength / 2f), doorHeight / 2f, y * doorLength), Quaternion.identity) as GameObject;
-                        MazeCells[x - 1, y].EastWall = tempDoor;
-                        MazeCells[x - 1, y].EastWall.name = "East Door " + (x - 1) + "," + y;
-                        MazeCells[x - 1, y].HasEastWall = true;
-                        MazeCells[x - 1, y].EastWall.transform.Rotate(Vector3.up * 90f);
-                        tempDoor.transform.parent = MazeCells[x - 1, y].CellHolder;
                     }
                 }
                 else if(MazeCells[x, y].SingleCellRoom)
@@ -474,6 +505,7 @@ public class MazeGenerator : MonoBehaviour
 
         wallLength = Wall.transform.localScale.x;
         wallHeight = Wall.transform.localScale.y;
+        wallWidth = Wall.transform.localScale.z;
         floorLength = Floor.transform.localScale.x;
         doorLength = Door.transform.localScale.x;
         doorHeight = Door.transform.localScale.y;

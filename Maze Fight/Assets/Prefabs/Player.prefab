@@ -168,7 +168,7 @@ GameObject:
   - component: {fileID: 4660377099437301966}
   - component: {fileID: 4660377099437301967}
   - component: {fileID: 4660377099437301964}
-  - component: {fileID: 4660377099437301965}
+  - component: {fileID: 3825468563262920726}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -239,8 +239,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &4660377099437301965
-BoxCollider:
+--- !u!136 &3825468563262920726
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -249,8 +249,9 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4660377099855808468
 GameObject:
@@ -376,7 +377,7 @@ Transform:
   m_GameObject: {fileID: 4660377099881405992}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_Children:
   - {fileID: 2836975517157328055}
   - {fileID: 3091549865485271872}
@@ -491,6 +492,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0146f07d68993234cac92879f4fdb634, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gm: {fileID: 0}
   WalkSpeed: 3
   RollSpeed: 5
   rb: {fileID: 4660377099881405989}
@@ -498,14 +500,34 @@ MonoBehaviour:
   BodyCube: {fileID: 4660377100068340016}
   BodySphere: {fileID: 4660377099948460235}
   FollowTarget: {fileID: 2213618401767038508}
-  MaxLookaheadDistance: 3
-  TargetMoveSpeed: 0.02
-  BounceBackSpeed: 0.05
+  MaxLookaheadDistance: 5
+  TargetMoveSpeed: 0.002
+  BounceBackSpeed: 0.005
   FloorCheck: {fileID: 2836975517157328055}
   WhatIsFloor:
     serializedVersion: 2
     m_Bits: 128
   FloorCheckRadius: 1
+  CurrentFloor: {fileID: 0}
+  CurrentCell:
+    CellNumber: 0
+    CellX: 0
+    CellY: 0
+    CellHolder: {fileID: 0}
+    visited: 0
+    HasNorthWall: 0
+    NorthWall: {fileID: 0}
+    HasSouthWall: 0
+    SouthWall: {fileID: 0}
+    HasEastWall: 0
+    EastWall: {fileID: 0}
+    HasWestWall: 0
+    WestWall: {fileID: 0}
+    Floor: {fileID: 0}
+    roomNo: -1
+    EastWestRoom: 0
+    NorthSouthRoom: 0
+    SingleCellRoom: 0
 --- !u!114 &-2172467751907006917
 MonoBehaviour:
   m_ObjectHideFlags: 0
