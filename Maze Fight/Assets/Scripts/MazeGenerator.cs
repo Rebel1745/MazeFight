@@ -11,6 +11,7 @@ public class MazeGenerator : MonoBehaviour
     public GameObject Door;
     public GameObject Player;
     public GameObject Poker;
+    public GameObject RotatingArm;
     private float wallLength = 0.0f;
     private float wallHeight = 0.0f;
     private float wallWidth = 0.0f;
@@ -46,16 +47,17 @@ public class MazeGenerator : MonoBehaviour
 
     void CreateHazards()
     {
-        GameObject HazardHolder = new GameObject
+        GameObject hazardHolder = new GameObject
         {
             name = "Hazards"
         };
         // test cell will be the second cell created
         MazeCell currentCell;
-        GameObject tempHazard, currentFloor;
-        float pokerWidth = Poker.transform.localScale.x;
-        float pokerLength = Poker.transform.localScale.z;
-        float xOffset, zOffset;
+        GameObject currentFloor;
+
+        // used for debugging
+        /*currentCell = MazeCells[1, 0];
+        currentFloor = currentCell.Floor;*/
 
         for (int y = 0; y < MazeY; y++)
         {
@@ -66,27 +68,47 @@ public class MazeGenerator : MonoBehaviour
                     currentCell = MazeCells[x, y];
                     currentFloor = currentCell.Floor;
 
-                    int totalXHazards = Mathf.CeilToInt(floorLength / pokerWidth);
-                    int totalZHazards = Mathf.CeilToInt(floorLength / pokerLength);
+                    //CreateRotationHazardCell(currentCell, currentFloor, hazardHolder);  // Used to create rotating arm traps
+                    //CreatePokerHazardCell(currentCell, currentFloor, hazardHolder);  // Used to create poker traps
 
-                    float startPosX = currentFloor.transform.position.x - (floorLength / 2) + (pokerWidth / 2);
-                    float startPosZ = currentFloor.transform.position.z - (floorLength / 2) + (pokerLength / 2);
-
-                    for (int zHaz = 0; zHaz < totalZHazards; zHaz++)
-                    {
-                        for (int xHaz = 0; xHaz < totalXHazards; xHaz++)
-                        {
-                            xOffset = xHaz * pokerLength;
-                            zOffset = zHaz * pokerWidth;
-                            tempHazard = Instantiate(Poker, new Vector3(startPosX + xOffset, 0f, startPosZ + zOffset), Quaternion.identity);
-                            tempHazard.transform.parent = HazardHolder.transform;
-                            tempHazard.name = "Poker (" + xHaz + ", " + zHaz + ")";
-                        }
-                    }
                 }                
             }
-        }             
+        }
 
+    }
+
+    void CreateRotationHazardCell(MazeCell currentCell, GameObject currentFloor, GameObject hazardHolder)
+    {
+        GameObject tempHazard;
+        tempHazard = Instantiate(RotatingArm, currentFloor.transform.position, Quaternion.identity);
+        tempHazard.transform.parent = hazardHolder.transform;
+        tempHazard.name = "Rotating Arm (" + currentCell.CellNumber + ")";
+    }
+
+    void CreatePokerHazardCell(MazeCell curentCell, GameObject currentFloor, GameObject hazardHolder)
+    {
+        GameObject tempHazard;
+        float pokerWidth = Poker.transform.localScale.x;
+        float pokerLength = Poker.transform.localScale.z;
+        float xOffset, zOffset;
+
+        int totalXHazards = Mathf.CeilToInt(floorLength / pokerWidth);
+        int totalZHazards = Mathf.CeilToInt(floorLength / pokerLength);
+
+        float startPosX = currentFloor.transform.position.x - (floorLength / 2) + (pokerWidth / 2);
+        float startPosZ = currentFloor.transform.position.z - (floorLength / 2) + (pokerLength / 2);
+
+        for (int zHaz = 0; zHaz < totalZHazards; zHaz++)
+        {
+            for (int xHaz = 0; xHaz < totalXHazards; xHaz++)
+            {
+                xOffset = xHaz * pokerLength;
+                zOffset = zHaz * pokerWidth;
+                tempHazard = Instantiate(Poker, new Vector3(startPosX + xOffset, 0f, startPosZ + zOffset), Quaternion.identity);
+                tempHazard.transform.parent = hazardHolder.transform;
+                tempHazard.name = "Poker (" + xHaz + ", " + zHaz + ")";
+            }
+        }
     }
 
     void CreateDoors()
