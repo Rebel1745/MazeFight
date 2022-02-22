@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 public class PlayerInputMovement : MonoBehaviour
 {
     public GameManager gm;
+    [SerializeField] PlayerController playerController;
 
     [Header("Movement")]
     private bool canMove = true;
@@ -107,6 +108,12 @@ public class PlayerInputMovement : MonoBehaviour
                 Quaternion toRotation = Quaternion.LookRotation(lookDirection, Vector3.up);
 
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, RotationSpeed * Time.deltaTime);
+
+                playerController.ChangeAnimationState(playerController.PLAYER_WALK);
+            }
+            else
+            {
+                playerController.ChangeAnimationState(playerController.PLAYER_IDLE);
             }
         } else // we be rolling
         {
