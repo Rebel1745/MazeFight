@@ -37,8 +37,8 @@ public class PlayerController : MonoBehaviour
     private string animState;
     internal string PLAYER_IDLE = "Idle";
     internal string PLAYER_WALK = "Walk";
-    internal string PLAYER_TO_BALL = "TransformToBall";
-    internal string PLAYER_FROM_BALL = "TransformFromBall";
+    internal string PLAYER_TO_BALL = "TransitionToBall";
+    internal string PLAYER_FROM_BALL = "TransitionFromBall";
     internal string PLAYER_ATTACK_PUNCH_RIGHT = "AttackPunchRight";
     internal string PLAYER_ATTACK_PUNCH_LEFT = "AttackPunchLeft";
     internal string PLAYER_ATTACK_RANGED = "AttackRanged";

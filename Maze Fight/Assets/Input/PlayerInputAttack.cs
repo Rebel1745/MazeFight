@@ -16,6 +16,9 @@ public class PlayerInputAttack : MonoBehaviour
     bool attackRangedAvailable = false;
     public float AttackRangedCooldown = 1f;
     float attackRangedCooldown = 0f;
+    bool attackSpinAvailable = false;
+    public float AttackSpinCooldown = 1f;
+    float attackSpinCooldown = 0f;
 
     void Update()
     {
@@ -42,6 +45,12 @@ public class PlayerInputAttack : MonoBehaviour
 
         if (attackRangedCooldown <= 0f)
             attackRangedAvailable = true;
+
+        if (!attackSpinAvailable)
+            attackSpinCooldown -= Time.deltaTime;
+
+        if (attackSpinCooldown <= 0f)
+            attackSpinAvailable = true;
     }
 
     public void AttackLeft(InputAction.CallbackContext context)
@@ -74,6 +83,17 @@ public class PlayerInputAttack : MonoBehaviour
             isAttacking = true;
             attackRangedAvailable = false;
             attackRangedCooldown = AttackRangedCooldown;
+        }
+    }
+
+    public void AttackSpin(InputAction.CallbackContext context)
+    {
+        if (context.performed && attackSpinAvailable)
+        {
+            playerController.ChangeAnimationState(playerController.PLAYER_ATTACK_SPIN_FISTS);
+            isAttacking = true;
+            attackSpinAvailable = false;
+            attackSpinCooldown = AttackSpinCooldown;
         }
     }
 

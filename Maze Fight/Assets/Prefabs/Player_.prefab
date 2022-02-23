@@ -170,11 +170,10 @@ GameObject:
   - component: {fileID: 4660377099881405994}
   - component: {fileID: 4660377099881405995}
   - component: {fileID: -2172467751907006917}
-  - component: {fileID: 1136786427390698898}
   - component: {fileID: -7030439557488716169}
   - component: {fileID: -5669329568131381912}
   m_Layer: 0
-  m_Name: Player
+  m_Name: Player_
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -358,25 +357,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   DoorCheckDistance: 1
---- !u!95 &1136786427390698898
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4660377099881405992}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d679ffa968a8192479984653943d2ef1, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &-7030439557488716169
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -611,3 +591,22 @@ CapsuleCollider:
   m_Height: 2.852703
   m_Direction: 1
   m_Center: {x: 0, y: 1.5151925, z: 0}
+--- !u!95 &397247271306599458
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2815506581400405096}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d679ffa968a8192479984653943d2ef1, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

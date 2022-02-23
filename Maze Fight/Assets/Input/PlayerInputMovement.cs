@@ -16,8 +16,8 @@ public class PlayerInputMovement : MonoBehaviour
     public Rigidbody rb;
     public float RotationSpeed = 500f;
 
-    bool isCube = true;
-    public Transform BodyCube;
+    bool isBodyStandard = true;
+    public Transform BodyStandard;
     public Transform BodySphere;
 
     [Space]
@@ -44,8 +44,8 @@ public class PlayerInputMovement : MonoBehaviour
     private void Start()
     {
         currentSpeed = WalkSpeed;
-        isCube = true;
-        BodyCube.gameObject.SetActive(true);
+        isBodyStandard = true;
+        BodyStandard.gameObject.SetActive(true);
         BodySphere.gameObject.SetActive(false);
     }
 
@@ -96,11 +96,11 @@ public class PlayerInputMovement : MonoBehaviour
         if (!canMove)
             return;
 
-        // if the player is in the default state, move them slowly
-        if (isCube)
-        {
-            Vector3 lookDirection = new Vector3(moveInput.x, 0f, moveInput.y);
+        Vector3 lookDirection = new Vector3(moveInput.x, 0f, moveInput.y);
 
+        // if the player is in the default state, move them slowly
+        if (isBodyStandard)
+        {
             rb.velocity = new Vector3(moveInput.x * currentSpeed, rb.velocity.y, moveInput.y * currentSpeed);
 
             if (moveInput != Vector2.zero)
@@ -118,6 +118,7 @@ public class PlayerInputMovement : MonoBehaviour
         } else // we be rolling
         {
             Vector3 force = new Vector3(moveInput.x, 0f, moveInput.y);
+            transform.LookAt(lookDirection);
 
             rb.AddForce(force * RollSpeed);
         }
@@ -144,9 +145,31 @@ public class PlayerInputMovement : MonoBehaviour
     {
         if (context.performed)
         {
-            isCube = !isCube;
-            BodyCube.gameObject.SetActive(!BodyCube.gameObject.activeSelf);
-            BodySphere.gameObject.SetActive(!BodySphere.gameObject.activeSelf);
+            if (isBodyStandard)
+            {
+                isBodyStandard = false;
+                playerController.ChangeAnimationState(playerController.PLAYER_TO_BALL);
+            }
+            else
+            {
+                isBodyStandard = true;
+                playerController.ChangeAnimationState(playerController.PLAYER_FROM_BALL);
+
+            }
+        }
+    }
+
+    public void ChangeStanceModel()
+    {
+        if (isBodyStandard)
+        {
+            BodyStandard.gameObject.SetActive(false);
+            BodySphere.gameObject.SetActive(true);
+        }
+        else
+        {
+            BodyStandard.gameObject.SetActive(true);
+            BodySphere.gameObject.SetActive(false);
         }
     }
 
