@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     public Transform MazeLoader;
     public MazeGenerator mg;
     public GameObject PlayerPrefab;
+    public GameObject CameraFollowTargetPrefab;
     public CameraFollow cf;
 
     private void Awake()
@@ -20,6 +21,9 @@ public class GameManager : MonoBehaviour
         mg.GenerateMaze();
         Vector3 playerSpawnPos = new Vector3(mg.MazeCells[0, 0].Floor.transform.position.x, mg.MazeCells[0, 0].Floor.transform.position.y + 1.5f, mg.MazeCells[0, 0].Floor.transform.position.z);
         GameObject player = Instantiate(PlayerPrefab, playerSpawnPos, Quaternion.identity);
-        cf.FollowTarget = player.GetComponent<PlayerInputMovement>().FollowTarget;
+        GameObject camFollowTarget = Instantiate(CameraFollowTargetPrefab, playerSpawnPos, Quaternion.identity);
+        camFollowTarget.GetComponent<CameraFollowTarget>().pl = player;
+        camFollowTarget.GetComponent<CameraFollowTarget>().pm = player.GetComponent<PlayerInputMovement>();
+        cf.FollowTarget = camFollowTarget.transform;
     }
 }

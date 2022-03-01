@@ -25,7 +25,7 @@ public class PlayerDoorController : MonoBehaviour
 
     void UpdateCurrentDoor()
     {
-        if (Physics.Raycast(DoorCheck.position, transform.forward, out RaycastHit hit, DoorCheckDistance, WhatIsDoor) && hit.transform.gameObject != currentDoor)
+        if (Physics.Raycast(DoorCheck.position, DoorCheck.transform.forward, out RaycastHit hit, DoorCheckDistance, WhatIsDoor) && hit.transform.gameObject != currentDoor)
         {
             currentDoor = hit.transform.gameObject;
         }
@@ -33,5 +33,10 @@ public class PlayerDoorController : MonoBehaviour
         {
             currentDoor = null;
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Debug.DrawRay(DoorCheck.position, DoorCheck.transform.forward * DoorCheckDistance, Color.red);
     }
 }

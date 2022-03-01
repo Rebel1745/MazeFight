@@ -12,20 +12,13 @@ public class PlayerInputMovement : MonoBehaviour
     public float WalkSpeed = 3f;
     public float RollSpeed = 5f;
     internal float currentSpeed;
-    Vector2 moveInput;
+    public Vector2 moveInput;
     public Rigidbody rb;
     public float RotationSpeed = 500f;
 
     bool isBodyStandard = true;
     public Transform BodyStandard;
     public Transform BodySphere;
-
-    [Space]
-    [Header("Camera Follow")]
-    public Transform FollowTarget;
-    public float MaxLookaheadDistance = 2f;
-    public float TargetMoveSpeed = 0.02f;
-    public float BounceBackSpeed = 0.05f;
 
     [Space]
     [Header("Floor Check")]
@@ -52,7 +45,6 @@ public class PlayerInputMovement : MonoBehaviour
     private void Update()
     {
         DoMovement();
-        UpdateCameraTargetLocation();
         CheckFloor();
     }
 
@@ -63,26 +55,6 @@ public class PlayerInputMovement : MonoBehaviour
             CurrentFloor = hit.transform;
             currentCellNo = hit.transform.GetComponent<Floor>().FloorCellNo;
             CurrentCell = gm.mg.GetMazeCellFromInt(currentCellNo);
-        }
-    }
-
-    void UpdateCameraTargetLocation()
-    {
-        // if we aren't at our max distance for the target, move
-        if (Vector3.Distance(transform.position, FollowTarget.transform.position) < MaxLookaheadDistance)
-        {
-            Vector3 dir = new Vector3(moveInput.x, 0, moveInput.y);
-            FollowTarget.transform.position += dir * TargetMoveSpeed;
-        }
-
-        // if we arent moving, move the follow target towards the player
-        if (moveInput == Vector2.zero)
-        {
-            if (Vector3.Distance(transform.position, FollowTarget.transform.position) > 0)
-            {
-                Vector3 dir = transform.position - FollowTarget.transform.position;
-                FollowTarget.transform.position += dir * BounceBackSpeed;
-            }
         }
     }
 
@@ -175,6 +147,6 @@ public class PlayerInputMovement : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Debug.DrawRay(FloorCheck.position, Vector3.down * FloorCheckRadius, Color.green);
+        //Debug.DrawRay(FloorCheck.position, Vector3.down * FloorCheckRadius, Color.green);
     }
 }

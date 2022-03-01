@@ -18,12 +18,13 @@ public class CameraFollow : MonoBehaviour
         // dont do anything if there is no target
         if (FollowTarget)
         {
-            if (!pm)
+            Vector3 desiredPosition = FollowTarget.position + Offset;
+
+            /*if (!pm)
             {
                 pm = FollowTarget.GetComponentInParent<PlayerInputMovement>();
             }
 
-            Vector3 desiredPosition = FollowTarget.position + Offset;
 
             if (pm.CurrentCell.EastWestRoom)
             {
@@ -32,7 +33,7 @@ public class CameraFollow : MonoBehaviour
             else if (pm.CurrentCell.NorthSouthRoom)
             {
                 desiredPosition = new Vector3(pm.CurrentFloor.position.x, desiredPosition.y, desiredPosition.z);
-            }
+            }*/
 
             Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, SmoothSpeed);
             transform.position = smoothedPosition;
