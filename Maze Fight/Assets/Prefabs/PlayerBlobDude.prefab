@@ -1767,6 +1767,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7bb890158c19b4499972d1093db739f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mg: {fileID: 0}
+  pm: {fileID: 7076842604959875437}
   DoorCheck: {fileID: 612039456003202054}
   WhatIsDoor:
     serializedVersion: 2

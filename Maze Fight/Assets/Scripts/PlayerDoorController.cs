@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerDoorController : MonoBehaviour
 {
     public MazeGenerator mg;
+    public PlayerInputMovement pm;
     public Transform DoorCheck;
     public LayerMask WhatIsDoor;
     public float DoorCheckDistance = 1f;
@@ -24,7 +25,13 @@ public class PlayerDoorController : MonoBehaviour
     {
         if (currentDoor)
         {
-            mg.ActivateRoom(currentDoor.GetComponent<Door>().DoorToCellNo);
+            int nextRoom;
+            if (pm.CurrentCell.CellNumber == currentDoor.GetComponent<Door>().DoorToCellNo1)
+                nextRoom = currentDoor.GetComponent<Door>().DoorToCellNo2;
+            else
+                nextRoom = currentDoor.GetComponent<Door>().DoorToCellNo1;
+
+            mg.ActivateRoom(nextRoom);
             Destroy(currentDoor);
             currentDoor = null;
         }

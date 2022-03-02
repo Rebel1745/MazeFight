@@ -167,7 +167,7 @@ public class MazeGenerator : MonoBehaviour
         }
     }
 
-    // TODO: fix doors so you can go through them either left/right or up/down and the DoorToCellNo is correct (currently they only work one way)
+    // TODO: fix doors for a single cell room
     void CreateDoors()
     {
         GameObject tempDoor;
@@ -187,7 +187,9 @@ public class MazeGenerator : MonoBehaviour
                         MazeCells[x, y].HasNorthWall = true;
                         tempDoor.transform.parent = MazeCells[x, y].CellHolder;
                         int northDoorToCellNo = (y + 1) * MazeX + x;
-                        tempDoor.GetComponent<Door>().DoorToCellNo = northDoorToCellNo;
+                        int southDoorToCellNo = y * MazeX + x;
+                        tempDoor.GetComponent<Door>().DoorToCellNo1 = northDoorToCellNo;
+                        tempDoor.GetComponent<Door>().DoorToCellNo2 = southDoorToCellNo;
                     }
                 } else if (MazeCells[x, y].NorthSouthRoom)
                 {
@@ -201,7 +203,9 @@ public class MazeGenerator : MonoBehaviour
                         MazeCells[x, y].EastWall.transform.Rotate(Vector3.up * 90f);
                         tempDoor.transform.parent = MazeCells[x, y].CellHolder;
                         int eastDoorToCellNo = y * MazeX + x + 1;
-                        tempDoor.GetComponent<Door>().DoorToCellNo = eastDoorToCellNo;
+                        int westDoorToCellNo = y * MazeX + x;
+                        tempDoor.GetComponent<Door>().DoorToCellNo1 = eastDoorToCellNo;
+                        tempDoor.GetComponent<Door>().DoorToCellNo2 = westDoorToCellNo;
                     }
                 }
                 else if(MazeCells[x, y].SingleCellRoom)

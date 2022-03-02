@@ -4,5 +4,6 @@ using UnityEngine;
 
 public class Door : MonoBehaviour
 {
-    public int DoorToCellNo = -1;
+    public int DoorToCellNo1 = -1;
+    public int DoorToCellNo2 = -1;
 }
