@@ -42,7 +42,63 @@ public class MazeGenerator : MonoBehaviour
         CreateMaze();
         CreateRooms();
         CreateDoors();
+        UpdateAdjoiningWalls();
+        DeactivateRooms();
         CreateHazards();
+    }
+
+    void DeactivateRooms()
+    {
+        MazeCell currentCell;
+        // if we arent in the first room, deactivate all walls and doors
+        for (int y = 0; y < MazeY; y++)
+        {
+            for (int x = 0; x < MazeX; x++)
+            {
+                currentCell = MazeCells[x, y];
+
+                if (currentCell.roomNo != 0)
+                {
+                    if (currentCell.HasNorthWall)
+                        currentCell.NorthWall.SetActive(false);
+                    if (currentCell.HasSouthWall)
+                        currentCell.SouthWall.SetActive(false);
+                    if (currentCell.HasEastWall)
+                        currentCell.EastWall.SetActive(false);
+                    if (currentCell.HasWestWall)
+                        currentCell.WestWall.SetActive(false);
+                    currentCell.Floor.SetActive(false);
+                }
+            }
+        }
+    }
+
+    public void ActivateRoom(int cellNo)
+    {
+
+        MazeCell currentCell = GetMazeCellFromInt(cellNo);
+        int roomNo = currentCell.roomNo;
+
+        for (int y = 0; y < MazeY; y++)
+        {
+            for (int x = 0; x < MazeX; x++)
+            {
+                currentCell = MazeCells[x, y];
+
+                if (currentCell.roomNo == roomNo)
+                {
+                    if (currentCell.NorthWall)
+                        currentCell.NorthWall.SetActive(true);
+                    if (currentCell.SouthWall)
+                        currentCell.SouthWall.SetActive(true);
+                    if (currentCell.EastWall)
+                        currentCell.EastWall.SetActive(true);
+                    if (currentCell.WestWall)
+                        currentCell.WestWall.SetActive(true);
+                    currentCell.Floor.SetActive(true);
+                }
+            }
+        }
     }
 
     void CreateHazards()
@@ -111,6 +167,7 @@ public class MazeGenerator : MonoBehaviour
         }
     }
 
+    // TODO: fix doors so you can go through them either left/right or up/down and the DoorToCellNo is correct (currently they only work one way)
     void CreateDoors()
     {
         GameObject tempDoor;
@@ -129,6 +186,8 @@ public class MazeGenerator : MonoBehaviour
                         MazeCells[x, y].NorthWall.name = "North Door " + x + "," + y;
                         MazeCells[x, y].HasNorthWall = true;
                         tempDoor.transform.parent = MazeCells[x, y].CellHolder;
+                        int northDoorToCellNo = (y + 1) * MazeX + x;
+                        tempDoor.GetComponent<Door>().DoorToCellNo = northDoorToCellNo;
                     }
                 } else if (MazeCells[x, y].NorthSouthRoom)
                 {
@@ -141,6 +200,8 @@ public class MazeGenerator : MonoBehaviour
                         MazeCells[x, y].HasEastWall = true;
                         MazeCells[x, y].EastWall.transform.Rotate(Vector3.up * 90f);
                         tempDoor.transform.parent = MazeCells[x, y].CellHolder;
+                        int eastDoorToCellNo = y * MazeX + x + 1;
+                        tempDoor.GetComponent<Door>().DoorToCellNo = eastDoorToCellNo;
                     }
                 }
                 else if(MazeCells[x, y].SingleCellRoom)
@@ -586,7 +647,7 @@ public class MazeGenerator : MonoBehaviour
                 MazeCells[x, y].NorthWall.name = "North Wall " + x + "," + y;
                 MazeCells[x, y].HasNorthWall = true;
                 tempWall.transform.parent = CurrentCell.transform;
-                
+
                 if (x == 0)
                 {
                     tempWall = Instantiate(Wall, new Vector3((x * wallLength) - (wallLength / 2f), wallHeight / 2f, y * wallLength), Quaternion.identity) as GameObject;
@@ -603,7 +664,24 @@ public class MazeGenerator : MonoBehaviour
                 MazeCells[x, y].HasEastWall = true;
                 MazeCells[x, y].EastWall.transform.Rotate(Vector3.up * 90f);
                 tempWall.transform.parent = CurrentCell.transform;
-                MazeCell temp = GetMazeCellFromInt(cellNo);
+                //MazeCell temp = GetMazeCellFromInt(cellNo);
+            }
+        }
+    }
+
+    void UpdateAdjoiningWalls()
+    {
+        for (int y = 0; y < MazeY; y++)
+        {
+            for (int x = 0; x < MazeX; x++)
+            {
+                // if there is a cell above this one then its south wall IS this north wall
+                if (y < MazeY - 2)
+                    MazeCells[x, y + 1].SouthWall = MazeCells[x, y].NorthWall;
+
+                // if there is a cell right of this one then its west wall IS this east wall
+                if (x < MazeX - 2)
+                    MazeCells[x + 1, y].WestWall = MazeCells[x, y].EastWall;
             }
         }
     }

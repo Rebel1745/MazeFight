@@ -4,11 +4,17 @@ using UnityEngine;
 
 public class PlayerDoorController : MonoBehaviour
 {
+    public MazeGenerator mg;
     public Transform DoorCheck;
     public LayerMask WhatIsDoor;
     public float DoorCheckDistance = 1f;
     GameObject currentDoor;
-    
+
+    private void Start()
+    {
+        mg = FindObjectOfType<MazeGenerator>();
+    }
+
     void Update()
     {
         UpdateCurrentDoor();
@@ -18,6 +24,7 @@ public class PlayerDoorController : MonoBehaviour
     {
         if (currentDoor)
         {
+            mg.ActivateRoom(currentDoor.GetComponent<Door>().DoorToCellNo);
             Destroy(currentDoor);
             currentDoor = null;
         }
