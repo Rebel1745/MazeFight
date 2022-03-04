@@ -58,6 +58,7 @@ public class PlayerInputMovement : MonoBehaviour
         }
     }
 
+     // TODO: fix player movement when rolling and sort the camera
     public void Movement(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
