@@ -605,7 +605,7 @@ public class MazeGenerator : MonoBehaviour
 
         // create the black void of the underfloor to be slightly bigger than the whole maze
         float underFloorStartX = floorLength * (MazeX / 2) - (floorLength / 2);
-        float underFloorStartY = UnderFloorHeight;
+        float underFloorStartY = -0.45f;
         float underFloorStartZ = floorLength * (MazeY / 2) - (floorLength / 2);
         // make the length and width of the underfloor double the size of the maze so it extends to cover the whole camera
         float underfloorLength = floorLength * (MazeX * 2);
@@ -613,7 +613,7 @@ public class MazeGenerator : MonoBehaviour
 
         tempUnderFloor = Instantiate(UnderFloor, new Vector3(underFloorStartX, underFloorStartY, underFloorStartZ), Quaternion.identity);
         tempUnderFloor.transform.localScale = new Vector3(underfloorLength, 1f, underfloorWidth);
-        //tempUnderFloor.transform.parent = transform;
+        tempUnderFloor.AddComponent<BoxCollider>();
 
         for (int y = 0; y < MazeY; y++)
         {

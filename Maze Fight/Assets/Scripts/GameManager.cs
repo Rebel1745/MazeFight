@@ -25,5 +25,6 @@ public class GameManager : MonoBehaviour
         camFollowTarget.GetComponent<CameraFollowTarget>().pl = player;
         camFollowTarget.GetComponent<CameraFollowTarget>().pm = player.GetComponent<PlayerInputMovement>();
         cf.FollowTarget = camFollowTarget.transform;
+        cf.pm = player.GetComponent<PlayerInputMovement>();
     }
 }

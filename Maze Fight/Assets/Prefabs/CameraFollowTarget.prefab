@@ -133,6 +133,6 @@ MonoBehaviour:
   WhatIsWall:
     serializedVersion: 2
     m_Bits: 256
-  MaxLookaheadDistance: 2
+  MaxLookaheadDistance: 0
   WallDistanceThreshold: 1
   distToWall: 0

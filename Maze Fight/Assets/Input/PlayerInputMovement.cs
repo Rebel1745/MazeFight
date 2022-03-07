@@ -16,15 +16,10 @@ public class PlayerInputMovement : MonoBehaviour
     public Rigidbody rb;
     public float RotationSpeed = 500f;
 
-    bool isBodyStandard = true;
+    public bool isBodyStandard = true;
     public Transform BodyStandard;
     public Transform BodySphere;
 
-    [Space]
-    [Header("Floor Check")]
-    public Transform FloorCheck;
-    public LayerMask WhatIsFloor;
-    public float FloorCheckRadius = 1f;
     int currentCellNo = -1;
     public Transform CurrentFloor;
     public MazeCell CurrentCell;
@@ -45,17 +40,13 @@ public class PlayerInputMovement : MonoBehaviour
     private void Update()
     {
         DoMovement();
-        CheckFloor();
     }
 
-    void CheckFloor()
+    public void UpdateFloor(Transform floor, int cellNo)
     {
-        if (Physics.Raycast(FloorCheck.position, Vector3.down, out RaycastHit hit, FloorCheckRadius, WhatIsFloor))
-        {
-            CurrentFloor = hit.transform;
-            currentCellNo = hit.transform.GetComponent<Floor>().FloorCellNo;
-            CurrentCell = gm.mg.GetMazeCellFromInt(currentCellNo);
-        }
+        CurrentFloor = floor;
+        currentCellNo = cellNo;
+        CurrentCell = gm.mg.GetMazeCellFromInt(currentCellNo);
     }
 
      // TODO: fix player movement when rolling and sort the camera
@@ -92,7 +83,7 @@ public class PlayerInputMovement : MonoBehaviour
         {
             Vector3 force = new Vector3(moveInput.x, 0f, moveInput.y);
             transform.LookAt(lookDirection);
-
+            
             rb.AddForce(force * RollSpeed);
         }
     }
@@ -120,14 +111,13 @@ public class PlayerInputMovement : MonoBehaviour
         {
             if (isBodyStandard)
             {
-                isBodyStandard = false;
-                playerController.ChangeAnimationState(playerController.PLAYER_TO_BALL);
+                //playerController.ChangeAnimationState(playerController.PLAYER_TO_BALL);
+                ChangeStanceModel();
             }
             else
             {
-                isBodyStandard = true;
-                playerController.ChangeAnimationState(playerController.PLAYER_FROM_BALL);
-
+                //playerController.ChangeAnimationState(playerController.PLAYER_FROM_BALL);
+                ChangeStanceModel();
             }
         }
     }
@@ -136,18 +126,15 @@ public class PlayerInputMovement : MonoBehaviour
     {
         if (isBodyStandard)
         {
+            isBodyStandard = false;
             BodyStandard.gameObject.SetActive(false);
             BodySphere.gameObject.SetActive(true);
         }
         else
         {
+            isBodyStandard = true;
             BodyStandard.gameObject.SetActive(true);
             BodySphere.gameObject.SetActive(false);
         }
-    }
-
-    private void OnDrawGizmos()
-    {
-        //Debug.DrawRay(FloorCheck.position, Vector3.down * FloorCheckRadius, Color.green);
     }
 }

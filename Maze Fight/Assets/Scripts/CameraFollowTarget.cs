@@ -58,6 +58,9 @@ public class CameraFollowTarget : MonoBehaviour
                         lookaheadDistance = -Mathf.Min(distToWall, MaxLookaheadDistance);
                     }
                 }
+                // if we are rolling, don't lookahead
+                if (!pm.isBodyStandard)
+                    lookaheadDistance = 0;
                 // if we are in an east west room, limit the z position
                 newPos = new Vector3(pl.transform.position.x + lookaheadDistance, 0.5f, pm.CurrentCell.Floor.transform.position.z);
             }
@@ -87,6 +90,9 @@ public class CameraFollowTarget : MonoBehaviour
                         lookaheadDistance = -Mathf.Min(distToWall, MaxLookaheadDistance);
                     }
                 }
+                // if we are rolling, don't lookahead
+                if (!pm.isBodyStandard)
+                    lookaheadDistance = 0;
                 // north south room, limit the x position
                 newPos = new Vector3(pm.CurrentCell.Floor.transform.position.x, 0.5f, pl.transform.position.z + lookaheadDistance);
             }            
