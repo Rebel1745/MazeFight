@@ -12,9 +12,11 @@ public class PlayerInputMovement : MonoBehaviour
     public float WalkSpeed = 3f;
     public float RollSpeed = 5f;
     internal float currentSpeed;
-    public Vector2 moveInput;
+    public Vector2 MoveInput;
+    Vector3 lookDirection;
     public Rigidbody rb;
     public float RotationSpeed = 500f;
+    public bool CameraSnap = false;
 
     public bool isBodyStandard = true;
     public Transform BodyStandard;
@@ -23,6 +25,7 @@ public class PlayerInputMovement : MonoBehaviour
     int currentCellNo = -1;
     public Transform CurrentFloor;
     public MazeCell CurrentCell;
+    int currentRoom;
 
     private void Awake()
     {
@@ -47,12 +50,23 @@ public class PlayerInputMovement : MonoBehaviour
         CurrentFloor = floor;
         currentCellNo = cellNo;
         CurrentCell = gm.mg.GetMazeCellFromInt(currentCellNo);
+
+        if(currentRoom != CurrentCell.roomNo)
+        {
+            ChangeRoom(CurrentCell.roomNo);
+        }
+    }
+
+    void ChangeRoom(int roomNo)
+    {
+        currentRoom = roomNo;
+        CameraSnap = false;
     }
 
      // TODO: fix player movement when rolling and sort the camera
     public void Movement(InputAction.CallbackContext context)
     {
-        moveInput = context.ReadValue<Vector2>();
+        MoveInput = context.ReadValue<Vector2>();
     }
 
     void DoMovement()
@@ -60,19 +74,15 @@ public class PlayerInputMovement : MonoBehaviour
         if (!canMove)
             return;
 
-        Vector3 lookDirection = new Vector3(moveInput.x, 0f, moveInput.y);
+        lookDirection = new Vector3(MoveInput.x, 0f, MoveInput.y);
 
         // if the player is in the default state, move them slowly
         if (isBodyStandard)
         {
-            rb.velocity = new Vector3(moveInput.x * currentSpeed, rb.velocity.y, moveInput.y * currentSpeed);
+            rb.velocity = new Vector3(MoveInput.x, rb.velocity.y, MoveInput.y) * WalkSpeed;
 
-            if (moveInput != Vector2.zero)
+            if (MoveInput != Vector2.zero)
             {
-                Quaternion toRotation = Quaternion.LookRotation(lookDirection, Vector3.up);
-
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, RotationSpeed * Time.deltaTime);
-
                 playerController.ChangeAnimationState(playerController.PLAYER_WALK);
             }
             else
@@ -81,10 +91,16 @@ public class PlayerInputMovement : MonoBehaviour
             }
         } else // we be rolling
         {
-            Vector3 force = new Vector3(moveInput.x, 0f, moveInput.y);
-            transform.LookAt(lookDirection);
-            
+            Vector3 force = new Vector3(MoveInput.x, 0f, MoveInput.y);
+
             rb.AddForce(force * RollSpeed);
+        }
+
+        if (MoveInput != Vector2.zero)
+        {
+            Quaternion toRotation = Quaternion.LookRotation(lookDirection, Vector3.up);
+
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, RotationSpeed * Time.deltaTime);
         }
     }
 
@@ -135,6 +151,7 @@ public class PlayerInputMovement : MonoBehaviour
             isBodyStandard = true;
             BodyStandard.gameObject.SetActive(true);
             BodySphere.gameObject.SetActive(false);
+            playerController.ChangeAnimationState(playerController.PLAYER_WALK);
         }
     }
 }
