@@ -55,7 +55,7 @@ public class PlayerInputAttack : MonoBehaviour
 
     public void AttackLeft(InputAction.CallbackContext context)
     {
-        if (context.performed && attackLeftAvailable)
+        if (context.performed && attackLeftAvailable && playerController.playerInputMove.isBodyStandard)
         {
             playerController.ChangeAnimationState(playerController.PLAYER_ATTACK_PUNCH_LEFT);
             isAttacking = true;
@@ -66,7 +66,7 @@ public class PlayerInputAttack : MonoBehaviour
 
     public void AttackRight(InputAction.CallbackContext context)
     {
-        if (context.performed && attackRightAvailable)
+        if (context.performed && attackRightAvailable && playerController.playerInputMove.isBodyStandard)
         {
             playerController.ChangeAnimationState(playerController.PLAYER_ATTACK_PUNCH_RIGHT);
             isAttacking = true;
@@ -77,7 +77,7 @@ public class PlayerInputAttack : MonoBehaviour
 
     public void AttackRanged(InputAction.CallbackContext context)
     {
-        if (context.performed && attackRangedAvailable)
+        if (context.performed && attackRangedAvailable && playerController.playerInputMove.isBodyStandard)
         {
             playerController.ChangeAnimationState(playerController.PLAYER_ATTACK_RANGED);
             isAttacking = true;
@@ -88,7 +88,7 @@ public class PlayerInputAttack : MonoBehaviour
 
     public void AttackSpin(InputAction.CallbackContext context)
     {
-        if (context.performed && attackSpinAvailable)
+        if (context.performed && attackSpinAvailable && playerController.playerInputMove.isBodyStandard)
         {
             playerController.ChangeAnimationState(playerController.PLAYER_ATTACK_SPIN_FISTS);
             isAttacking = true;

@@ -11,12 +11,10 @@ public class PlayerInputMovement : MonoBehaviour
     private bool canMove = true;
     public float WalkSpeed = 3f;
     public float RollSpeed = 5f;
-    internal float currentSpeed;
     public Vector2 MoveInput;
     Vector3 lookDirection;
     public Rigidbody rb;
     public float RotationSpeed = 500f;
-    public bool CameraSnap = false;
 
     public bool isBodyStandard = true;
     public Transform BodyStandard;
@@ -34,7 +32,6 @@ public class PlayerInputMovement : MonoBehaviour
 
     private void Start()
     {
-        currentSpeed = WalkSpeed;
         isBodyStandard = true;
         BodyStandard.gameObject.SetActive(true);
         BodySphere.gameObject.SetActive(false);
@@ -60,10 +57,8 @@ public class PlayerInputMovement : MonoBehaviour
     void ChangeRoom(int roomNo)
     {
         currentRoom = roomNo;
-        CameraSnap = false;
     }
-
-     // TODO: fix player movement when rolling and sort the camera
+    
     public void Movement(InputAction.CallbackContext context)
     {
         MoveInput = context.ReadValue<Vector2>();
@@ -151,7 +146,6 @@ public class PlayerInputMovement : MonoBehaviour
             isBodyStandard = true;
             BodyStandard.gameObject.SetActive(true);
             BodySphere.gameObject.SetActive(false);
-            playerController.ChangeAnimationState(playerController.PLAYER_WALK);
         }
     }
 }

@@ -1692,10 +1692,11 @@ MonoBehaviour:
   gm: {fileID: 0}
   playerController: {fileID: 4393225039927298353}
   WalkSpeed: 3
-  RollSpeed: 10
-  moveInput: {x: 0, y: 0}
+  RollSpeed: 9
+  MoveInput: {x: 0, y: 0}
   rb: {fileID: 7076842604959875427}
   RotationSpeed: 500
+  CameraSnap: 0
   isBodyStandard: 1
   BodyStandard: {fileID: 7076842604066791030}
   BodySphere: {fileID: 7076842604758505357}
