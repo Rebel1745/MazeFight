@@ -402,7 +402,7 @@ MonoBehaviour:
   Wall: {fileID: 195376, guid: 5e6043ea0e6446c4b99fa86b481393a1, type: 3}
   Floor: {fileID: 140734, guid: 736acf0c96a324445a9aea0788a960c1, type: 3}
   UnderFloor: {fileID: 140734, guid: d0d6657ef0f116e43b7c8fbc91490bf1, type: 3}
-  Door: {fileID: 195376, guid: 738057d5cbb4893478aa0a341ec9be6a, type: 3}
+  Door: {fileID: 129612843123279255, guid: 935df08b5df40ec4fa3ffff9532826be, type: 3}
   Player: {fileID: 7076842604959875438, guid: 2f660afd6d30b4f4aa12657b3c9ea64f, type: 3}
   Poker: {fileID: 254857078606120856, guid: 6040e30a991513e468ec65cc8224c3ed, type: 3}
   RotatingArm: {fileID: 5093173483362830944, guid: b5a8a3ede041ff643906701f7e42748b, type: 3}

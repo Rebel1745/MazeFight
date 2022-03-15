@@ -187,8 +187,8 @@ public class MazeGenerator : MonoBehaviour
                     tempDoor.transform.parent = MazeCells[x, y].CellHolder;
                     int eastDoorToCellNo = y * MazeX + x + 1;
                     int westDoorToCellNo = y * MazeX + x;
-                    tempDoor.GetComponent<Door>().DoorToCellNo1 = eastDoorToCellNo;
-                    tempDoor.GetComponent<Door>().DoorToCellNo2 = westDoorToCellNo;
+                    tempDoor.GetComponentInChildren<Door>().DoorToCellNo1 = eastDoorToCellNo;
+                    tempDoor.GetComponentInChildren<Door>().DoorToCellNo2 = westDoorToCellNo;
                 }
                 else if (y + 1 < MazeY && MazeCells[x, y].roomNo != MazeCells[x, y + 1].roomNo && !MazeCells[x, y].HasNorthWall)
                 {
@@ -199,8 +199,8 @@ public class MazeGenerator : MonoBehaviour
                     tempDoor.transform.parent = MazeCells[x, y].CellHolder;
                     int northDoorToCellNo = (y + 1) * MazeX + x;
                     int southDoorToCellNo = y * MazeX + x;
-                    tempDoor.GetComponent<Door>().DoorToCellNo1 = northDoorToCellNo;
-                    tempDoor.GetComponent<Door>().DoorToCellNo2 = southDoorToCellNo;
+                    tempDoor.GetComponentInChildren<Door>().DoorToCellNo1 = northDoorToCellNo;
+                    tempDoor.GetComponentInChildren<Door>().DoorToCellNo2 = southDoorToCellNo;
                 }
                 else if (MazeCells[x, y].SingleCellRoom)
                 {

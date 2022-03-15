@@ -1445,7 +1445,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: aae0a2bcb93e2234181830f9b09b0f9a, type: 2}
+  - {fileID: 2100000, guid: 35820c1408e402f4fb930fff3f856b43, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1696,7 +1696,6 @@ MonoBehaviour:
   MoveInput: {x: 0, y: 0}
   rb: {fileID: 7076842604959875427}
   RotationSpeed: 500
-  CameraSnap: 0
   isBodyStandard: 1
   BodyStandard: {fileID: 7076842604066791030}
   BodySphere: {fileID: 7076842604758505357}
