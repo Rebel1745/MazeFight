@@ -137,6 +137,8 @@ public class PlayerInputMovement : MonoBehaviour
     {
         if (isBodyStandard)
         {
+            // set this to idle to 'reset' the animation state for when you exit the ball
+            playerController.ChangeAnimationState(playerController.PLAYER_IDLE);
             isBodyStandard = false;
             BodyStandard.gameObject.SetActive(false);
             BodySphere.gameObject.SetActive(true);
