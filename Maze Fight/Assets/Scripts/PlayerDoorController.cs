@@ -6,19 +6,11 @@ public class PlayerDoorController : MonoBehaviour
 {
     public MazeGenerator mg;
     public PlayerInputMovement pm;
-    public Transform DoorCheck;
-    public LayerMask WhatIsDoor;
-    public float DoorCheckDistance = 1f;
-    GameObject currentDoor;
+    Door currentDoor;
 
     private void Start()
     {
         mg = FindObjectOfType<MazeGenerator>();
-    }
-
-    void Update()
-    {
-        UpdateCurrentDoor();
     }
 
     public void OpenDoor()
@@ -26,31 +18,19 @@ public class PlayerDoorController : MonoBehaviour
         if (currentDoor)
         {
             int nextRoom;
-            if (pm.CurrentCell.CellNumber == currentDoor.GetComponent<Door>().DoorToCellNo1)
-                nextRoom = currentDoor.GetComponent<Door>().DoorToCellNo2;
+            if (pm.CurrentCell.CellNumber == currentDoor.DoorToCellNo1)
+                nextRoom = currentDoor.DoorToCellNo2;
             else
-                nextRoom = currentDoor.GetComponent<Door>().DoorToCellNo1;
+                nextRoom = currentDoor.DoorToCellNo1;
 
             mg.ActivateRoom(nextRoom);
-            Destroy(currentDoor);
+            Destroy(currentDoor.gameObject);
             currentDoor = null;
         }
     }
 
-    void UpdateCurrentDoor()
+    public void UpdateCurrentDoor(Door door)
     {
-        if (Physics.Raycast(DoorCheck.position, DoorCheck.transform.forward, out RaycastHit hit, DoorCheckDistance, WhatIsDoor) && hit.transform.gameObject != currentDoor)
-        {
-            currentDoor = hit.transform.gameObject;
-        }
-        else
-        {
-            currentDoor = null;
-        }
-    }
-
-    private void OnDrawGizmos()
-    {
-        Debug.DrawRay(DoorCheck.position, DoorCheck.transform.forward * DoorCheckDistance, Color.red);
+        currentDoor = door;
     }
 }
