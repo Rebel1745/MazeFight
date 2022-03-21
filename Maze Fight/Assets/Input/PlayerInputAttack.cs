@@ -20,6 +20,13 @@ public class PlayerInputAttack : MonoBehaviour
     public float AttackSpinCooldown = 1f;
     float attackSpinCooldown = 0f;
 
+    public float attackRightDuration, attackLeftDuration, attackRangedDuration, attackSpinFistsDuration;
+
+    private void Start()
+    {
+        SetAnimClipTimes();
+    }
+
     void Update()
     {
         UpdateAttackCountdowns();
@@ -55,51 +62,93 @@ public class PlayerInputAttack : MonoBehaviour
 
     public void AttackLeft(InputAction.CallbackContext context)
     {
-        if (context.performed && attackLeftAvailable && playerController.playerInputMove.isBodyStandard)
+        if (context.performed && attackLeftAvailable && playerController.playerInputMove.isBodyStandard && !isAttacking)
         {
             playerController.ChangeAnimationState(playerController.PLAYER_ATTACK_PUNCH_LEFT);
             isAttacking = true;
             attackLeftAvailable = false;
             attackLeftCooldown = AttackLeftCooldown;
+            CancelAttackAfterAnimation(attackLeftDuration);
         }
     }
 
     public void AttackRight(InputAction.CallbackContext context)
     {
-        if (context.performed && attackRightAvailable && playerController.playerInputMove.isBodyStandard)
+        if (context.performed && attackRightAvailable && playerController.playerInputMove.isBodyStandard && !isAttacking)
         {
             playerController.ChangeAnimationState(playerController.PLAYER_ATTACK_PUNCH_RIGHT);
             isAttacking = true;
             attackRightAvailable = false;
             attackRightCooldown = AttackRightCooldown;
+            CancelAttackAfterAnimation(attackRightDuration);
         }
     }
 
     public void AttackRanged(InputAction.CallbackContext context)
     {
-        if (context.performed && attackRangedAvailable && playerController.playerInputMove.isBodyStandard)
+        if (context.performed && attackRangedAvailable && playerController.playerInputMove.isBodyStandard && !isAttacking)
         {
             playerController.ChangeAnimationState(playerController.PLAYER_ATTACK_RANGED);
             isAttacking = true;
             attackRangedAvailable = false;
             attackRangedCooldown = AttackRangedCooldown;
+            CancelAttackAfterAnimation(attackRangedDuration);
         }
     }
 
     public void AttackSpin(InputAction.CallbackContext context)
     {
-        if (context.performed && attackSpinAvailable && playerController.playerInputMove.isBodyStandard)
+        if (context.performed && attackSpinAvailable && playerController.playerInputMove.isBodyStandard && !isAttacking)
         {
             playerController.ChangeAnimationState(playerController.PLAYER_ATTACK_SPIN_FISTS);
             isAttacking = true;
             attackSpinAvailable = false;
             attackSpinCooldown = AttackSpinCooldown;
+            CancelAttackAfterAnimation(attackSpinFistsDuration);
         }
+    }
+
+    void CancelAttackAfterAnimation(float t)
+    {
+        Invoke("StopAttacking", t);
     }
 
     void StopAttacking()
     {
         isAttacking = false;
+        playerController.ChangeAnimationState(playerController.PLAYER_IDLE);
+    }
+
+    public void SetAnimClipTimes()
+    {
+        // llop through the attack animations and get their duration.  If the animation is slower than the attack cooldown, change the cooldown
+        AnimationClip[] clips = playerController.anim.runtimeAnimatorController.animationClips;
+        foreach (AnimationClip clip in clips)
+        {
+            switch (clip.name)
+            {
+                case "AttackPunchRight":
+                    attackRightDuration = clip.length;
+                    if (AttackRightCooldown < attackRightDuration)
+                        AttackRightCooldown = attackRightDuration;
+                    break;
+                case "AttackPunchLeft":
+                    attackLeftDuration = clip.length;
+                    if (AttackLeftCooldown < attackLeftDuration)
+                        AttackLeftCooldown = attackLeftDuration;
+                    break;
+                case "AttackRanged":
+                    attackRangedDuration = clip.length;
+                    if (AttackRangedCooldown < attackRangedDuration)
+                        AttackRangedCooldown = attackRangedDuration;
+                    break;
+                case "SpinFists":
+                    attackSpinFistsDuration = clip.length;
+                    if (AttackSpinCooldown < attackSpinFistsDuration)
+                        AttackSpinCooldown = attackSpinFistsDuration;
+                    break;
+            }
+        }
     }
 
     #endregion

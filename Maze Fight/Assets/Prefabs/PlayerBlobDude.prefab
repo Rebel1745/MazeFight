@@ -1745,8 +1745,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c31fee204d2a6a947b644df58eefe822, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  anim: {fileID: 0}
   playerInputMove: {fileID: 7076842604959875437}
   playerInputAttack: {fileID: 1426370420010457646}
+  animState: 
 --- !u!114 &1426370420010457646
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1761,10 +1763,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerController: {fileID: 4393225039927298353}
   isAttacking: 0
-  AttackRightCooldown: 1
-  AttackLeftCooldown: 1
-  AttackRangedCooldown: 1
-  AttackSpinCooldown: 1
+  AttackRightCooldown: 0.1
+  AttackLeftCooldown: 0.5
+  AttackRangedCooldown: 0.5
+  AttackSpinCooldown: 0.5
+  attackRightDuration: 0
+  attackLeftDuration: 0
+  attackRangedDuration: 0
+  attackSpinFistsDuration: 0
 --- !u!1 &7154442487531051998
 GameObject:
   m_ObjectHideFlags: 0

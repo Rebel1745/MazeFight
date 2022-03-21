@@ -29,12 +29,14 @@ public class PlayerController : MonoBehaviour
 
     internal Rigidbody rb;
     internal PlayerInputActions pc;
-    Animator anim;
+    public Animator anim;
 
     [SerializeField] internal PlayerInputMovement playerInputMove;
     [SerializeField] internal PlayerInputAttack playerInputAttack;
 
-    private string animState;
+    public string animState;
+
+    // also used in PlayerInputAttack as strings
     internal string PLAYER_IDLE = "Idle";
     internal string PLAYER_WALK = "Walk";
     internal string PLAYER_TO_BALL = "TransitionToBall";
@@ -48,7 +50,7 @@ public class PlayerController : MonoBehaviour
     {
         if (animState == newState)
             return;
-
+        
         anim.Play(newState);
 
         animState = newState;

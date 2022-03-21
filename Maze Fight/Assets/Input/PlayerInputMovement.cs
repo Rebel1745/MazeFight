@@ -36,7 +36,7 @@ public class PlayerInputMovement : MonoBehaviour
         BodyStandard.gameObject.SetActive(true);
         BodySphere.gameObject.SetActive(false);
     }
-
+// maybe fixed update
     private void Update()
     {
         DoMovement();
@@ -76,14 +76,18 @@ public class PlayerInputMovement : MonoBehaviour
         {
             rb.velocity = new Vector3(MoveInput.x, rb.velocity.y, MoveInput.y) * WalkSpeed;
 
-            if (MoveInput != Vector2.zero)
+            if (!playerController.playerInputAttack.isAttacking)
             {
-                playerController.ChangeAnimationState(playerController.PLAYER_WALK);
+                if (MoveInput != Vector2.zero)
+                {
+                    playerController.ChangeAnimationState(playerController.PLAYER_WALK);
+                }
+                else
+                {
+                    playerController.ChangeAnimationState(playerController.PLAYER_IDLE);
+                }
             }
-            else
-            {
-                playerController.ChangeAnimationState(playerController.PLAYER_IDLE);
-            }
+            
         } else // we be rolling
         {
             Vector3 force = new Vector3(MoveInput.x, 0f, MoveInput.y);
