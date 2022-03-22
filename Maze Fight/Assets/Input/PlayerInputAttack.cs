@@ -13,12 +13,17 @@ public class PlayerInputAttack : MonoBehaviour
     bool attackLeftAvailable = false;
     public float AttackLeftCooldown = 1f;
     float attackLeftCooldown = 0f;
-    bool attackRangedAvailable = false;
-    public float AttackRangedCooldown = 1f;
-    float attackRangedCooldown = 0f;
     bool attackSpinAvailable = false;
     public float AttackSpinCooldown = 1f;
     float attackSpinCooldown = 0f;
+
+    bool attackRangedAvailable = false;
+    public float AttackRangedCooldown = 1f;
+    float attackRangedCooldown = 0f;
+    public GameObject RangedProjectilePrefab;
+    public Transform ProjectileSpawnPoint;
+    public float ProjectileSpeed = 1f;
+    public float ProjectileLifetime = 3f;
 
     public float attackRightDuration, attackLeftDuration, attackRangedDuration, attackSpinFistsDuration;
 
@@ -84,6 +89,18 @@ public class PlayerInputAttack : MonoBehaviour
         }
     }
 
+    public void AttackSpin(InputAction.CallbackContext context)
+    {
+        if (context.performed && attackSpinAvailable && playerController.playerInputMove.isBodyStandard && !isAttacking)
+        {
+            playerController.ChangeAnimationState(playerController.PLAYER_ATTACK_SPIN_FISTS);
+            isAttacking = true;
+            attackSpinAvailable = false;
+            attackSpinCooldown = AttackSpinCooldown;
+            CancelAttackAfterAnimation(attackSpinFistsDuration);
+        }
+    }
+
     public void AttackRanged(InputAction.CallbackContext context)
     {
         if (context.performed && attackRangedAvailable && playerController.playerInputMove.isBodyStandard && !isAttacking)
@@ -96,16 +113,15 @@ public class PlayerInputAttack : MonoBehaviour
         }
     }
 
-    public void AttackSpin(InputAction.CallbackContext context)
+    public void FireRangedPrefab()
     {
-        if (context.performed && attackSpinAvailable && playerController.playerInputMove.isBodyStandard && !isAttacking)
-        {
-            playerController.ChangeAnimationState(playerController.PLAYER_ATTACK_SPIN_FISTS);
-            isAttacking = true;
-            attackSpinAvailable = false;
-            attackSpinCooldown = AttackSpinCooldown;
-            CancelAttackAfterAnimation(attackSpinFistsDuration);
-        }
+        // instantiate the prjectile and set it flying
+        GameObject projectile = Instantiate(RangedProjectilePrefab, ProjectileSpawnPoint.position, Quaternion.identity);
+        projectile.GetComponent<Rigidbody>().velocity = ProjectileSpawnPoint.forward * ProjectileSpeed;
+        HazardProjectile hp = projectile.GetComponent<HazardProjectile>();
+        hp.ProjectileLifetime = ProjectileLifetime;
+        hp.CanBounce = false;
+        hp.MaxBounces = 0;
     }
 
     void CancelAttackAfterAnimation(float t)

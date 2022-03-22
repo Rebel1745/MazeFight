@@ -19,6 +19,7 @@ public class PlayerInputMovement : MonoBehaviour
     public bool isBodyStandard = true;
     public Transform BodyStandard;
     public Transform BodySphere;
+    bool isTransforming = false;
 
     int currentCellNo = -1;
     public Transform CurrentFloor;
@@ -35,6 +36,7 @@ public class PlayerInputMovement : MonoBehaviour
         isBodyStandard = true;
         BodyStandard.gameObject.SetActive(true);
         BodySphere.gameObject.SetActive(false);
+        isTransforming = false;
     }
 // maybe fixed update
     private void Update()
@@ -76,7 +78,7 @@ public class PlayerInputMovement : MonoBehaviour
         {
             rb.velocity = new Vector3(MoveInput.x, rb.velocity.y, MoveInput.y) * WalkSpeed;
 
-            if (!playerController.playerInputAttack.isAttacking)
+            if (!playerController.playerInputAttack.isAttacking && !isTransforming)
             {
                 if (MoveInput != Vector2.zero)
                 {
@@ -126,12 +128,12 @@ public class PlayerInputMovement : MonoBehaviour
         {
             if (isBodyStandard)
             {
-                //playerController.ChangeAnimationState(playerController.PLAYER_TO_BALL);
-                ChangeStanceModel();
+                isTransforming = true;
+                playerController.ChangeAnimationState(playerController.PLAYER_TO_BALL);
+                //ChangeStanceModel();
             }
             else
             {
-                //playerController.ChangeAnimationState(playerController.PLAYER_FROM_BALL);
                 ChangeStanceModel();
             }
         }
@@ -152,6 +154,12 @@ public class PlayerInputMovement : MonoBehaviour
             isBodyStandard = true;
             BodyStandard.gameObject.SetActive(true);
             BodySphere.gameObject.SetActive(false);
+            playerController.ChangeAnimationState(playerController.PLAYER_FROM_BALL);
         }
+    }
+
+    public void FinishTranstionFromBall()
+    {
+        isTransforming = false;
     }
 }
