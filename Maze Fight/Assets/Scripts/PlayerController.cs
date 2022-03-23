@@ -46,11 +46,12 @@ public class PlayerController : MonoBehaviour
     internal string PLAYER_ATTACK_RANGED = "AttackRanged";
     internal string PLAYER_ATTACK_SPIN_FISTS = "SpinFists";
 
-    public void ChangeAnimationState(string newState)
+    public void ChangeAnimationState(string newState, float speed = 1f)
     {
         if (animState == newState)
             return;
-        
+
+        anim.speed = speed;
         anim.Play(newState);
 
         animState = newState;

@@ -1778,17 +1778,18 @@ MonoBehaviour:
   playerController: {fileID: 4393225039927298353}
   isAttacking: 0
   AttackRightCooldown: 0.1
+  AttackRightAnimationSpeed: 1
   AttackLeftCooldown: 0.5
+  AttackLeftAnimationSpeed: 1
   AttackSpinCooldown: 0.5
+  AttackSpinNumber: 1
   AttackRangedCooldown: 0.5
+  AttackRangedAnimationSpeed: 1
   RangedProjectilePrefab: {fileID: 1254802954257865886, guid: cd6373f52bdf0734ebb0048a0b120f02, type: 3}
   ProjectileSpawnPoint: {fileID: 1064771857688485755}
   ProjectileSpeed: 1
-  ProjectileLifetime: 3
-  attackRightDuration: 0
-  attackLeftDuration: 0
-  attackRangedDuration: 0
-  attackSpinFistsDuration: 0
+  ProjectileSpeedMultiplier: 1
+  ProjectileLifetime: 60
 --- !u!1 &7154442487531051998
 GameObject:
   m_ObjectHideFlags: 0

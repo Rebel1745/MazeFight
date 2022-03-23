@@ -7,25 +7,36 @@ public class PlayerInputAttack : MonoBehaviour
 
     [Header("Attacks")]
     public bool isAttacking = false;
+
     bool attackRightAvailable = false;
     public float AttackRightCooldown = 1f;
     float attackRightCooldown = 0f;
+    public float AttackRightAnimationSpeed = 1f;
+    float lastAttackRightAnimationSpeed;
+
     bool attackLeftAvailable = false;
     public float AttackLeftCooldown = 1f;
     float attackLeftCooldown = 0f;
+    public float AttackLeftAnimationSpeed = 1f;
+    float lastAttackLeftAnimationSpeed;
+
     bool attackSpinAvailable = false;
     public float AttackSpinCooldown = 1f;
     float attackSpinCooldown = 0f;
+    public int AttackSpinNumber = 1;
 
     bool attackRangedAvailable = false;
     public float AttackRangedCooldown = 1f;
     float attackRangedCooldown = 0f;
+    public float AttackRangedAnimationSpeed = 1f;
+    float lastAttackRangedAnimationSpeed;
     public GameObject RangedProjectilePrefab;
     public Transform ProjectileSpawnPoint;
     public float ProjectileSpeed = 1f;
-    public float ProjectileLifetime = 3f;
+    public float ProjectileSpeedMultiplier = 1f;
+    public float ProjectileLifetime = 999f;
 
-    public float attackRightDuration, attackLeftDuration, attackRangedDuration, attackSpinFistsDuration;
+    float attackRightDuration, attackLeftDuration, attackRangedDuration, attackSpinFistsDuration;
 
     private void Start()
     {
@@ -35,6 +46,24 @@ public class PlayerInputAttack : MonoBehaviour
     void Update()
     {
         UpdateAttackCountdowns();
+        CheckAnimationSpeedChanges();
+    }
+
+    void CheckAnimationSpeedChanges()
+    {
+        // if the animation speed for any of the attacks has changed, recalculate the durations
+        if (
+            AttackRightAnimationSpeed != lastAttackRightAnimationSpeed ||
+            AttackLeftAnimationSpeed != lastAttackLeftAnimationSpeed ||
+            AttackRangedAnimationSpeed != lastAttackRangedAnimationSpeed
+            )
+        {
+            SetAnimClipTimes();
+
+            lastAttackRightAnimationSpeed = AttackRightAnimationSpeed;
+            lastAttackLeftAnimationSpeed = AttackLeftAnimationSpeed;
+            lastAttackRangedAnimationSpeed = AttackRangedAnimationSpeed;
+        }
     }
 
     #region Attacking
@@ -69,10 +98,10 @@ public class PlayerInputAttack : MonoBehaviour
     {
         if (context.performed && attackLeftAvailable && playerController.playerInputMove.isBodyStandard && !isAttacking)
         {
-            playerController.ChangeAnimationState(playerController.PLAYER_ATTACK_PUNCH_LEFT);
+            playerController.ChangeAnimationState(playerController.PLAYER_ATTACK_PUNCH_LEFT, AttackLeftAnimationSpeed);
             isAttacking = true;
             attackLeftAvailable = false;
-            attackLeftCooldown = AttackLeftCooldown;
+            attackLeftCooldown = AttackLeftCooldown / AttackLeftAnimationSpeed;
             CancelAttackAfterAnimation(attackLeftDuration);
         }
     }
@@ -81,10 +110,10 @@ public class PlayerInputAttack : MonoBehaviour
     {
         if (context.performed && attackRightAvailable && playerController.playerInputMove.isBodyStandard && !isAttacking)
         {
-            playerController.ChangeAnimationState(playerController.PLAYER_ATTACK_PUNCH_RIGHT);
+            playerController.ChangeAnimationState(playerController.PLAYER_ATTACK_PUNCH_RIGHT, AttackRightAnimationSpeed);
             isAttacking = true;
             attackRightAvailable = false;
-            attackRightCooldown = AttackRightCooldown;
+            attackRightCooldown = AttackRightCooldown / AttackRightAnimationSpeed;
             CancelAttackAfterAnimation(attackRightDuration);
         }
     }
@@ -105,10 +134,10 @@ public class PlayerInputAttack : MonoBehaviour
     {
         if (context.performed && attackRangedAvailable && playerController.playerInputMove.isBodyStandard && !isAttacking)
         {
-            playerController.ChangeAnimationState(playerController.PLAYER_ATTACK_RANGED);
+            playerController.ChangeAnimationState(playerController.PLAYER_ATTACK_RANGED, AttackRangedAnimationSpeed);
             isAttacking = true;
             attackRangedAvailable = false;
-            attackRangedCooldown = AttackRangedCooldown;
+            attackRangedCooldown = AttackRangedCooldown / AttackRangedAnimationSpeed;
             CancelAttackAfterAnimation(attackRangedDuration);
         }
     }
@@ -117,7 +146,7 @@ public class PlayerInputAttack : MonoBehaviour
     {
         // instantiate the prjectile and set it flying
         GameObject projectile = Instantiate(RangedProjectilePrefab, ProjectileSpawnPoint.position, Quaternion.identity);
-        projectile.GetComponent<Rigidbody>().velocity = ProjectileSpawnPoint.forward * ProjectileSpeed;
+        projectile.GetComponent<Rigidbody>().velocity = ProjectileSpawnPoint.forward * ProjectileSpeed * ProjectileSpeedMultiplier;
         HazardProjectile hp = projectile.GetComponent<HazardProjectile>();
         hp.ProjectileLifetime = ProjectileLifetime;
         hp.CanBounce = false;
@@ -144,17 +173,17 @@ public class PlayerInputAttack : MonoBehaviour
             switch (clip.name)
             {
                 case "AttackPunchRight":
-                    attackRightDuration = clip.length;
+                    attackRightDuration = clip.length / AttackRightAnimationSpeed;
                     if (AttackRightCooldown < attackRightDuration)
                         AttackRightCooldown = attackRightDuration;
                     break;
                 case "AttackPunchLeft":
-                    attackLeftDuration = clip.length;
+                    attackLeftDuration = clip.length / AttackLeftAnimationSpeed;
                     if (AttackLeftCooldown < attackLeftDuration)
                         AttackLeftCooldown = attackLeftDuration;
                     break;
                 case "AttackRanged":
-                    attackRangedDuration = clip.length;
+                    attackRangedDuration = clip.length / AttackRangedAnimationSpeed;
                     if (AttackRangedCooldown < attackRangedDuration)
                         AttackRangedCooldown = attackRangedDuration;
                     break;
