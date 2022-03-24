@@ -21,9 +21,12 @@ public class PlayerInputAttack : MonoBehaviour
     float lastAttackLeftAnimationSpeed;
 
     bool attackSpinAvailable = false;
+    bool isSpinning = false;
     public float AttackSpinCooldown = 1f;
     float attackSpinCooldown = 0f;
     public int AttackSpinNumber = 1;
+    float maxSpinDuration;
+    float currentSpinDuration;
 
     bool attackRangedAvailable = false;
     public float AttackRangedCooldown = 1f;
@@ -36,7 +39,7 @@ public class PlayerInputAttack : MonoBehaviour
     public float ProjectileSpeedMultiplier = 1f;
     public float ProjectileLifetime = 999f;
 
-    float attackRightDuration, attackLeftDuration, attackRangedDuration, attackSpinFistsDuration;
+    float attackRightAnimationDuration, attackLeftAnimationDuration, attackRangedAnimationDuration, attackSpinAnimationDuration;
 
     private void Start()
     {
@@ -47,6 +50,7 @@ public class PlayerInputAttack : MonoBehaviour
     {
         UpdateAttackCountdowns();
         CheckAnimationSpeedChanges();
+        CheckSpinning();
     }
 
     void CheckAnimationSpeedChanges()
@@ -102,7 +106,7 @@ public class PlayerInputAttack : MonoBehaviour
             isAttacking = true;
             attackLeftAvailable = false;
             attackLeftCooldown = AttackLeftCooldown / AttackLeftAnimationSpeed;
-            CancelAttackAfterAnimation(attackLeftDuration);
+            CancelAttackAfterAnimation(attackLeftAnimationDuration);
         }
     }
 
@@ -114,7 +118,7 @@ public class PlayerInputAttack : MonoBehaviour
             isAttacking = true;
             attackRightAvailable = false;
             attackRightCooldown = AttackRightCooldown / AttackRightAnimationSpeed;
-            CancelAttackAfterAnimation(attackRightDuration);
+            CancelAttackAfterAnimation(attackRightAnimationDuration);
         }
     }
 
@@ -122,12 +126,41 @@ public class PlayerInputAttack : MonoBehaviour
     {
         if (context.performed && attackSpinAvailable && playerController.playerInputMove.isBodyStandard && !isAttacking)
         {
-            playerController.ChangeAnimationState(playerController.PLAYER_ATTACK_SPIN_FISTS);
-            isAttacking = true;
-            attackSpinAvailable = false;
-            attackSpinCooldown = AttackSpinCooldown;
-            CancelAttackAfterAnimation(attackSpinFistsDuration);
+            StartSpinning();
         }
+        else if (context.canceled && isSpinning)
+        {
+            float spinTimeRemaining = (maxSpinDuration - currentSpinDuration) % attackSpinAnimationDuration;
+            Invoke("StopSpinning", spinTimeRemaining);
+        }
+    }
+
+    void StartSpinning()
+    {
+        playerController.ChangeAnimationState(playerController.PLAYER_ATTACK_SPIN_FISTS);
+        maxSpinDuration = attackSpinAnimationDuration * AttackSpinNumber;
+        isAttacking = true;
+        isSpinning = true;
+        currentSpinDuration = 0f;
+        attackSpinAvailable = false;
+    }
+
+    void StopSpinning()
+    {
+        isSpinning = false;
+        attackSpinCooldown = AttackSpinCooldown;
+        StopAttacking();
+    }
+
+    void CheckSpinning()
+    {
+        if (!isSpinning)
+            return;
+
+        currentSpinDuration += Time.deltaTime;
+
+        if (currentSpinDuration > maxSpinDuration)
+            StopSpinning();
     }
 
     public void AttackRanged(InputAction.CallbackContext context)
@@ -138,7 +171,7 @@ public class PlayerInputAttack : MonoBehaviour
             isAttacking = true;
             attackRangedAvailable = false;
             attackRangedCooldown = AttackRangedCooldown / AttackRangedAnimationSpeed;
-            CancelAttackAfterAnimation(attackRangedDuration);
+            CancelAttackAfterAnimation(attackRangedAnimationDuration);
         }
     }
 
@@ -173,24 +206,24 @@ public class PlayerInputAttack : MonoBehaviour
             switch (clip.name)
             {
                 case "AttackPunchRight":
-                    attackRightDuration = clip.length / AttackRightAnimationSpeed;
-                    if (AttackRightCooldown < attackRightDuration)
-                        AttackRightCooldown = attackRightDuration;
+                    attackRightAnimationDuration = clip.length / AttackRightAnimationSpeed;
+                    if (AttackRightCooldown < attackRightAnimationDuration)
+                        AttackRightCooldown = attackRightAnimationDuration;
                     break;
                 case "AttackPunchLeft":
-                    attackLeftDuration = clip.length / AttackLeftAnimationSpeed;
-                    if (AttackLeftCooldown < attackLeftDuration)
-                        AttackLeftCooldown = attackLeftDuration;
+                    attackLeftAnimationDuration = clip.length / AttackLeftAnimationSpeed;
+                    if (AttackLeftCooldown < attackLeftAnimationDuration)
+                        AttackLeftCooldown = attackLeftAnimationDuration;
                     break;
                 case "AttackRanged":
-                    attackRangedDuration = clip.length / AttackRangedAnimationSpeed;
-                    if (AttackRangedCooldown < attackRangedDuration)
-                        AttackRangedCooldown = attackRangedDuration;
+                    attackRangedAnimationDuration = clip.length / AttackRangedAnimationSpeed;
+                    if (AttackRangedCooldown < attackRangedAnimationDuration)
+                        AttackRangedCooldown = attackRangedAnimationDuration;
                     break;
                 case "SpinFists":
-                    attackSpinFistsDuration = clip.length;
-                    if (AttackSpinCooldown < attackSpinFistsDuration)
-                        AttackSpinCooldown = attackSpinFistsDuration;
+                    attackSpinAnimationDuration = clip.length;
+                    if (AttackSpinCooldown < attackSpinAnimationDuration)
+                        AttackSpinCooldown = attackSpinAnimationDuration;
                     break;
             }
         }
