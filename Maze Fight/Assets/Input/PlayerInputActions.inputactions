@@ -33,18 +33,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "AttackPunchRight",
+                    "name": "AttackMelee",
                     "type": "Button",
                     "id": "a931c677-78f5-4367-aec9-afc5a23af82f",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "AttackPunchLeft",
-                    "type": "Button",
-                    "id": "f310d3a5-296c-471d-b3d6-643f75a9d99a",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -161,7 +152,7 @@
                 {
                     "name": "",
                     "id": "d9efe9be-99c9-4e2c-a39b-b44b1401e98b",
-                    "path": "<Keyboard>/e",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
@@ -172,7 +163,7 @@
                 {
                     "name": "",
                     "id": "7fdfdd6b-cbea-44b6-a4bc-12c3c0408943",
-                    "path": "<Gamepad>/buttonEast",
+                    "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "Controller",
@@ -187,25 +178,25 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "AttackPunchRight",
+                    "action": "AttackMelee",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "3154b7ea-9c53-4208-b50a-1aa1adf19dcd",
-                    "path": "<Mouse>/rightButton",
+                    "id": "897a92f1-8df6-4010-8632-9100ad62d68d",
+                    "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "AttackPunchLeft",
+                    "groups": "Controller",
+                    "action": "AttackMelee",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
                     "id": "d7a0a302-aca4-4b28-a378-b0beb525a4aa",
-                    "path": "<Mouse>/middleButton",
+                    "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
@@ -215,11 +206,33 @@
                 },
                 {
                     "name": "",
+                    "id": "06968c6b-f16a-4461-9c35-d565dd12de86",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "AttackRanged",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "6dd16191-8228-4ac2-a714-8296929b4cb5",
-                    "path": "<Mouse>/backButton",
+                    "path": "<Mouse>/middleButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
+                    "action": "AttackSpin",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "987bfab3-1996-41ce-8f64-8a13c7deb2ba",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
                     "action": "AttackSpin",
                     "isComposite": false,
                     "isPartOfComposite": false

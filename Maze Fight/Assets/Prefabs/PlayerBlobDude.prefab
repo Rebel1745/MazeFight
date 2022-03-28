@@ -697,7 +697,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4501278395549442109}
   m_LocalRotation: {x: -0.02987509, y: 0.2664836, z: 0.030874113, w: 0.9628815}
-  m_LocalPosition: {x: 1.11758706e-10, y: 0.0029064226, z: 1.4901161e-10}
+  m_LocalPosition: {x: 0, y: 0.0029064226, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1626,7 +1626,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1426370420010457646}
         m_TargetAssemblyTypeName: PlayerInputAttack, Assembly-CSharp
-        m_MethodName: AttackRight
+        m_MethodName: AttackMelee
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1638,22 +1638,6 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: a931c677-78f5-4367-aec9-afc5a23af82f
     m_ActionName: Player/AttackPunchRight[/Mouse/leftButton]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1426370420010457646}
-        m_TargetAssemblyTypeName: PlayerInputAttack, Assembly-CSharp
-        m_MethodName: AttackLeft
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: f310d3a5-296c-471d-b3d6-643f75a9d99a
-    m_ActionName: Player/AttackPunchLeft[/Mouse/rightButton]
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1426370420010457646}
@@ -1779,8 +1763,16 @@ MonoBehaviour:
   isAttacking: 0
   AttackRightCooldown: 0.1
   AttackRightAnimationSpeed: 1
+  UpperArmRight: {fileID: 5106286184551973631}
+  UpperArmRightAttackScale: {x: 1, y: 1, z: 1}
+  FistRight: {fileID: 329494134705117795}
+  FistRightAttackScale: {x: 1, y: 1, z: 1}
   AttackLeftCooldown: 0.5
   AttackLeftAnimationSpeed: 1
+  UpperArmLeft: {fileID: 8053378775864873615}
+  UpperArmLeftAttackScale: {x: 1, y: 1, z: 1}
+  FistLeft: {fileID: 6669742077109006407}
+  FistLeftAttackScale: {x: 1, y: 1, z: 1}
   AttackSpinCooldown: 0.5
   AttackSpinNumber: 1
   AttackRangedCooldown: 0.5

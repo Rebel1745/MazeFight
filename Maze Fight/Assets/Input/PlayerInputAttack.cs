@@ -5,45 +5,61 @@ public class PlayerInputAttack : MonoBehaviour
 {
     [SerializeField] PlayerController playerController;
 
-    [Header("Attacks")]
-    public bool isAttacking = false;
+    [SerializeField] public bool isAttacking = false;
 
-    bool attackRightAvailable = false;
-    public float AttackRightCooldown = 1f;
+    [Header("Right Attack")]
+    [SerializeField] bool attackRightAvailable = false;
+    [SerializeField] public float AttackRightCooldown = 1f;
     float attackRightCooldown = 0f;
-    public float AttackRightAnimationSpeed = 1f;
+    [SerializeField] public float AttackRightAnimationSpeed = 1f;
     float lastAttackRightAnimationSpeed;
 
-    bool attackLeftAvailable = false;
-    public float AttackLeftCooldown = 1f;
+    [Header("Left Attack")]
+    [SerializeField] bool attackLeftAvailable = false;
+    [SerializeField] public float AttackLeftCooldown = 1f;
     float attackLeftCooldown = 0f;
-    public float AttackLeftAnimationSpeed = 1f;
+    [SerializeField] public float AttackLeftAnimationSpeed = 1f;
     float lastAttackLeftAnimationSpeed;
 
-    bool attackSpinAvailable = false;
-    bool isSpinning = false;
-    public float AttackSpinCooldown = 1f;
+    [Header("Spin Attack")]
+    [SerializeField] bool attackSpinAvailable = false;
+    [SerializeField] bool isSpinning = false;
+    [SerializeField] public float AttackSpinCooldown = 1f;
     float attackSpinCooldown = 0f;
-    public int AttackSpinNumber = 1;
+    [SerializeField] public int AttackSpinNumber = 1;
     float maxSpinDuration;
     float currentSpinDuration;
 
-    bool attackRangedAvailable = false;
-    public float AttackRangedCooldown = 1f;
+    [Header("Ranged Attack")]
+    [SerializeField] bool attackRangedAvailable = false;
+    [SerializeField] public float AttackRangedCooldown = 1f;
     float attackRangedCooldown = 0f;
-    public float AttackRangedAnimationSpeed = 1f;
+    [SerializeField] public float AttackRangedAnimationSpeed = 1f;
     float lastAttackRangedAnimationSpeed;
-    public GameObject RangedProjectilePrefab;
-    public Transform ProjectileSpawnPoint;
-    public float ProjectileSpeed = 1f;
-    public float ProjectileSpeedMultiplier = 1f;
-    public float ProjectileLifetime = 999f;
+    [SerializeField] public GameObject RangedProjectilePrefab;
+    [SerializeField] public Transform ProjectileSpawnPoint;
+    [SerializeField] public float ProjectileSpeed = 1f;
+    [SerializeField] public float ProjectileSpeedMultiplier = 1f;
+    [SerializeField] public float ProjectileLifetime = 999f;
+
+    [Header("Appendage Scalling")]
+    [SerializeField] public Transform UpperArmRight;
+    [SerializeField] public Transform FistRight;
+    [SerializeField] public Transform UpperArmLeft;
+    [SerializeField] public Transform FistLeft;
+    Vector3 upperArmRightInitialScale;
+    Vector3 upperArmLeftInitialScale;
+    Vector3 fistRightInitialScale;
+    Vector3 fistLeftInitialScale;
+    [SerializeField] public Vector3 UpperArmAttackScale = new Vector3(1f, 1f, 1f);
+    [SerializeField] public Vector3 FistAttackScale = new Vector3(1f, 1f, 1f);
 
     float attackRightAnimationDuration, attackLeftAnimationDuration, attackRangedAnimationDuration, attackSpinAnimationDuration;
 
     private void Start()
     {
         SetAnimClipTimes();
+        SetInitialScales();
     }
 
     void Update()
@@ -51,6 +67,42 @@ public class PlayerInputAttack : MonoBehaviour
         UpdateAttackCountdowns();
         CheckAnimationSpeedChanges();
         CheckSpinning();
+    }
+
+    void SetInitialScales()
+    {
+        upperArmLeftInitialScale = UpperArmLeft.localScale;
+        upperArmRightInitialScale = UpperArmRight.localScale;
+
+        fistLeftInitialScale = FistLeft.localScale;
+        fistRightInitialScale = FistRight.localScale;
+    }
+
+    public void UpdateAppendageScale(string appendage)
+    {
+        switch (appendage)
+        {
+            case "FistLeft":
+                FistLeft.localScale = FistAttackScale;
+                break;
+            case "FistRight":
+                FistRight.localScale = FistAttackScale;
+                break;
+            case "UpperArmLeft":
+                UpperArmLeft.localScale = UpperArmAttackScale;
+                break;
+            case "UpperArmRight":
+                UpperArmRight.localScale = UpperArmAttackScale;
+                break;
+        }
+    }
+
+    void ResetAppendageScales()
+    {
+        UpperArmLeft.localScale = upperArmLeftInitialScale;
+        UpperArmRight.localScale = upperArmRightInitialScale;
+        FistLeft.localScale = fistLeftInitialScale;
+        FistRight.localScale = fistRightInitialScale;
     }
 
     void CheckAnimationSpeedChanges()
@@ -98,28 +150,44 @@ public class PlayerInputAttack : MonoBehaviour
             attackSpinAvailable = true;
     }
 
-    public void AttackLeft(InputAction.CallbackContext context)
+    public void AttackMelee(InputAction.CallbackContext context)
     {
-        if (context.performed && attackLeftAvailable && playerController.playerInputMove.isBodyStandard && !isAttacking)
+        if (!context.performed || (!attackLeftAvailable && !attackRightAvailable) || !playerController.playerInputMove.isBodyStandard || isAttacking)
+            return;
+
+        // if both left and right attack are available, pick one, otherwise pick the side that is available
+        if (attackLeftAvailable && attackRightAvailable)
         {
-            playerController.ChangeAnimationState(playerController.PLAYER_ATTACK_PUNCH_LEFT, AttackLeftAnimationSpeed);
-            isAttacking = true;
-            attackLeftAvailable = false;
-            attackLeftCooldown = AttackLeftCooldown / AttackLeftAnimationSpeed;
-            CancelAttackAfterAnimation(attackLeftAnimationDuration);
+            int rand = Random.Range(0, 2);
+            if (rand == 0)
+                AttackLeft();
+            else
+                AttackRight();
         }
+        else if (attackLeftAvailable)
+            AttackLeft();
+        else if (attackRightAvailable)
+            AttackRight();
+        else
+            Debug.LogError("We should not be here, why are we attacking?");
     }
 
-    public void AttackRight(InputAction.CallbackContext context)
+    void AttackLeft()
     {
-        if (context.performed && attackRightAvailable && playerController.playerInputMove.isBodyStandard && !isAttacking)
-        {
-            playerController.ChangeAnimationState(playerController.PLAYER_ATTACK_PUNCH_RIGHT, AttackRightAnimationSpeed);
-            isAttacking = true;
-            attackRightAvailable = false;
-            attackRightCooldown = AttackRightCooldown / AttackRightAnimationSpeed;
-            CancelAttackAfterAnimation(attackRightAnimationDuration);
-        }
+        playerController.ChangeAnimationState(playerController.PLAYER_ATTACK_PUNCH_LEFT, AttackLeftAnimationSpeed);
+        isAttacking = true;
+        attackLeftAvailable = false;
+        attackLeftCooldown = AttackLeftCooldown / AttackLeftAnimationSpeed;
+        CancelAttackAfterAnimation(attackLeftAnimationDuration);
+    }
+
+    void AttackRight()
+    {
+        playerController.ChangeAnimationState(playerController.PLAYER_ATTACK_PUNCH_RIGHT, AttackRightAnimationSpeed);
+        isAttacking = true;
+        attackRightAvailable = false;
+        attackRightCooldown = AttackRightCooldown / AttackRightAnimationSpeed;
+        CancelAttackAfterAnimation(attackRightAnimationDuration);
     }
 
     public void AttackSpin(InputAction.CallbackContext context)
@@ -194,6 +262,7 @@ public class PlayerInputAttack : MonoBehaviour
     void StopAttacking()
     {
         isAttacking = false;
+        ResetAppendageScales();
         playerController.ChangeAnimationState(playerController.PLAYER_IDLE);
     }
 

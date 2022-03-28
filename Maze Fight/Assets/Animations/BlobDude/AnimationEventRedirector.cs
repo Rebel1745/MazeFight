@@ -29,4 +29,16 @@ public class AnimationEventRedirector : MonoBehaviour
     {
         pm.FinishTranstionFromBall();
     }
+
+    public void ScaleLeftArm()
+    {
+        pa.UpdateAppendageScale("UpperArmLeft");
+        pa.UpdateAppendageScale("FistLeft");
+    }
+
+    public void ScaleRightArm()
+    {
+        pa.UpdateAppendageScale("UpperArmRight");
+        pa.UpdateAppendageScale("FistRight");
+    }
 }
