@@ -7,19 +7,12 @@ public class PlayerInputAttack : MonoBehaviour
 
     [SerializeField] public bool isAttacking = false;
 
-    [Header("Right Attack")]
-    [SerializeField] bool attackRightAvailable = false;
-    [SerializeField] public float AttackRightCooldown = 1f;
-    float attackRightCooldown = 0f;
-    [SerializeField] public float AttackRightAnimationSpeed = 1f;
-    float lastAttackRightAnimationSpeed;
-
-    [Header("Left Attack")]
-    [SerializeField] bool attackLeftAvailable = false;
-    [SerializeField] public float AttackLeftCooldown = 1f;
-    float attackLeftCooldown = 0f;
-    [SerializeField] public float AttackLeftAnimationSpeed = 1f;
-    float lastAttackLeftAnimationSpeed;
+    [Header("Melee Attack")]
+    [SerializeField] bool meleeAttackAvailable = false;
+    [SerializeField] public float MeleeAttackCooldown = 1f;
+    float lastMeleeAttackCooldown;
+    float meleeAttackCooldown = 0f;
+    float meleeAttackAnimationSpeed = 1f;
 
     [Header("Spin Attack")]
     [SerializeField] bool attackSpinAvailable = false;
@@ -29,13 +22,13 @@ public class PlayerInputAttack : MonoBehaviour
     [SerializeField] public int AttackSpinNumber = 1;
     float maxSpinDuration;
     float currentSpinDuration;
+    [SerializeField] public float AttackSpinAnimationSpeed = 0.5f;
 
     [Header("Ranged Attack")]
     [SerializeField] bool attackRangedAvailable = false;
     [SerializeField] public float AttackRangedCooldown = 1f;
     float attackRangedCooldown = 0f;
     [SerializeField] public float AttackRangedAnimationSpeed = 1f;
-    float lastAttackRangedAnimationSpeed;
     [SerializeField] public GameObject RangedProjectilePrefab;
     [SerializeField] public Transform ProjectileSpawnPoint;
     [SerializeField] public float ProjectileSpeed = 1f;
@@ -47,18 +40,23 @@ public class PlayerInputAttack : MonoBehaviour
     [SerializeField] public Transform FistRight;
     [SerializeField] public Transform UpperArmLeft;
     [SerializeField] public Transform FistLeft;
+    [SerializeField] public Vector3 UpperArmPunchScale = new Vector3(1f, 1f, 1f);
+    [SerializeField] public Vector3 FistPunchScale = new Vector3(1f, 1f, 1f);
+    [SerializeField] public Vector3 UpperArmSpinScale = new Vector3(1f, 1f, 1f);
+    [SerializeField] public Vector3 FistSpinScale = new Vector3(1f, 1f, 1f);
     Vector3 upperArmRightInitialScale;
     Vector3 upperArmLeftInitialScale;
     Vector3 fistRightInitialScale;
     Vector3 fistLeftInitialScale;
-    [SerializeField] public Vector3 UpperArmAttackScale = new Vector3(1f, 1f, 1f);
-    [SerializeField] public Vector3 FistAttackScale = new Vector3(1f, 1f, 1f);
 
-    float attackRightAnimationDuration, attackLeftAnimationDuration, attackRangedAnimationDuration, attackSpinAnimationDuration;
+    float meleeAttackAnimationDuration;
+    float attackRangedAnimationDuration;
+    float attackSpinAnimationDuration;
 
     private void Start()
     {
         SetAnimClipTimes();
+        SetMeleeCooldownTime();
         SetInitialScales();
     }
 
@@ -69,6 +67,7 @@ public class PlayerInputAttack : MonoBehaviour
         CheckSpinning();
     }
 
+    #region Appendage Scales
     void SetInitialScales()
     {
         upperArmLeftInitialScale = UpperArmLeft.localScale;
@@ -82,17 +81,23 @@ public class PlayerInputAttack : MonoBehaviour
     {
         switch (appendage)
         {
-            case "FistLeft":
-                FistLeft.localScale = FistAttackScale;
+            case "FistLeftPunch":
+                FistLeft.localScale = FistPunchScale;
                 break;
-            case "FistRight":
-                FistRight.localScale = FistAttackScale;
+            case "FistRightPunch":
+                FistRight.localScale = FistPunchScale;
                 break;
-            case "UpperArmLeft":
-                UpperArmLeft.localScale = UpperArmAttackScale;
+            case "UpperArmLeftPunch":
+                UpperArmLeft.localScale = UpperArmPunchScale;
                 break;
-            case "UpperArmRight":
-                UpperArmRight.localScale = UpperArmAttackScale;
+            case "UpperArmRightPunch":
+                UpperArmRight.localScale = UpperArmPunchScale;
+                break;
+            case "Spin":
+                FistLeft.localScale = FistSpinScale;
+                FistRight.localScale = FistSpinScale;
+                UpperArmLeft.localScale = UpperArmSpinScale;
+                UpperArmRight.localScale = UpperArmSpinScale;
                 break;
         }
     }
@@ -104,38 +109,41 @@ public class PlayerInputAttack : MonoBehaviour
         FistLeft.localScale = fistLeftInitialScale;
         FistRight.localScale = fistRightInitialScale;
     }
+    #endregion
+
+    void SetMeleeCooldownTime()
+    {
+        // if the cooldown time of the melee attack is less than the duration of the animation then change the animation speed
+        if(MeleeAttackCooldown < meleeAttackAnimationDuration)
+        {
+            meleeAttackAnimationSpeed = meleeAttackAnimationDuration / MeleeAttackCooldown;
+        }
+        else
+        {
+            meleeAttackAnimationSpeed = 1f;
+        }
+    }
 
     void CheckAnimationSpeedChanges()
     {
-        // if the animation speed for any of the attacks has changed, recalculate the durations
-        if (
-            AttackRightAnimationSpeed != lastAttackRightAnimationSpeed ||
-            AttackLeftAnimationSpeed != lastAttackLeftAnimationSpeed ||
-            AttackRangedAnimationSpeed != lastAttackRangedAnimationSpeed
-            )
-        {
-            SetAnimClipTimes();
 
-            lastAttackRightAnimationSpeed = AttackRightAnimationSpeed;
-            lastAttackLeftAnimationSpeed = AttackLeftAnimationSpeed;
-            lastAttackRangedAnimationSpeed = AttackRangedAnimationSpeed;
+        // if the melee attack cooldown has changed, recalculate the animation speed
+        if(MeleeAttackCooldown != lastMeleeAttackCooldown)
+        {
+            SetMeleeCooldownTime();
+
+            lastMeleeAttackCooldown = MeleeAttackCooldown;
         }
     }
 
     #region Attacking
     void UpdateAttackCountdowns()
     {
-        if (!attackRightAvailable)
-            attackRightCooldown -= Time.deltaTime;
+        if (!meleeAttackAvailable)
+            meleeAttackCooldown -= Time.deltaTime;
 
-        if (attackRightCooldown <= 0f)
-            attackRightAvailable = true;
-
-        if (!attackLeftAvailable)
-            attackLeftCooldown -= Time.deltaTime;
-
-        if (attackLeftCooldown <= 0f)
-            attackLeftAvailable = true;
+        if (meleeAttackCooldown <= 0f)
+            meleeAttackAvailable = true;
 
         if (!attackRangedAvailable)
             attackRangedCooldown -= Time.deltaTime;
@@ -143,7 +151,7 @@ public class PlayerInputAttack : MonoBehaviour
         if (attackRangedCooldown <= 0f)
             attackRangedAvailable = true;
 
-        if (!attackSpinAvailable)
+        if (!attackSpinAvailable && !isSpinning)
             attackSpinCooldown -= Time.deltaTime;
 
         if (attackSpinCooldown <= 0f)
@@ -152,44 +160,23 @@ public class PlayerInputAttack : MonoBehaviour
 
     public void AttackMelee(InputAction.CallbackContext context)
     {
-        if (!context.performed || (!attackLeftAvailable && !attackRightAvailable) || !playerController.playerInputMove.isBodyStandard || isAttacking)
+        if (!context.performed || !meleeAttackAvailable || !playerController.playerInputMove.isBodyStandard || isAttacking)
             return;
 
-        // if both left and right attack are available, pick one, otherwise pick the side that is available
-        if (attackLeftAvailable && attackRightAvailable)
-        {
-            int rand = Random.Range(0, 2);
-            if (rand == 0)
-                AttackLeft();
-            else
-                AttackRight();
-        }
-        else if (attackLeftAvailable)
-            AttackLeft();
-        else if (attackRightAvailable)
-            AttackRight();
+        // pick a side and attack with it
+        int rand = Random.Range(0, 2);
+        if (rand == 0)
+            playerController.ChangeAnimationState(playerController.PLAYER_ATTACK_PUNCH_LEFT, meleeAttackAnimationSpeed);
         else
-            Debug.LogError("We should not be here, why are we attacking?");
-    }
+            playerController.ChangeAnimationState(playerController.PLAYER_ATTACK_PUNCH_RIGHT, meleeAttackAnimationSpeed);
 
-    void AttackLeft()
-    {
-        playerController.ChangeAnimationState(playerController.PLAYER_ATTACK_PUNCH_LEFT, AttackLeftAnimationSpeed);
         isAttacking = true;
-        attackLeftAvailable = false;
-        attackLeftCooldown = AttackLeftCooldown / AttackLeftAnimationSpeed;
-        CancelAttackAfterAnimation(attackLeftAnimationDuration);
+        meleeAttackAvailable = false;
+        meleeAttackCooldown = MeleeAttackCooldown;
+        CancelAttackAfterAnimation(meleeAttackAnimationDuration / meleeAttackAnimationSpeed);
     }
 
-    void AttackRight()
-    {
-        playerController.ChangeAnimationState(playerController.PLAYER_ATTACK_PUNCH_RIGHT, AttackRightAnimationSpeed);
-        isAttacking = true;
-        attackRightAvailable = false;
-        attackRightCooldown = AttackRightCooldown / AttackRightAnimationSpeed;
-        CancelAttackAfterAnimation(attackRightAnimationDuration);
-    }
-
+    #region Spinning
     public void AttackSpin(InputAction.CallbackContext context)
     {
         if (context.performed && attackSpinAvailable && playerController.playerInputMove.isBodyStandard && !isAttacking)
@@ -198,25 +185,26 @@ public class PlayerInputAttack : MonoBehaviour
         }
         else if (context.canceled && isSpinning)
         {
-            float spinTimeRemaining = (maxSpinDuration - currentSpinDuration) % attackSpinAnimationDuration;
+            float spinTimeRemaining = (maxSpinDuration - currentSpinDuration) % (attackSpinAnimationDuration / AttackSpinAnimationSpeed);
             Invoke("StopSpinning", spinTimeRemaining);
         }
     }
 
     void StartSpinning()
     {
-        playerController.ChangeAnimationState(playerController.PLAYER_ATTACK_SPIN_FISTS);
-        maxSpinDuration = attackSpinAnimationDuration * AttackSpinNumber;
+        playerController.ChangeAnimationState(playerController.PLAYER_ATTACK_SPIN_FISTS, AttackSpinAnimationSpeed);
+        UpdateAppendageScale("Spin");
+        maxSpinDuration = (attackSpinAnimationDuration / AttackSpinAnimationSpeed) * AttackSpinNumber;
         isAttacking = true;
         isSpinning = true;
         currentSpinDuration = 0f;
         attackSpinAvailable = false;
+        attackSpinCooldown = AttackSpinCooldown;
     }
 
     void StopSpinning()
     {
         isSpinning = false;
-        attackSpinCooldown = AttackSpinCooldown;
         StopAttacking();
     }
 
@@ -230,7 +218,9 @@ public class PlayerInputAttack : MonoBehaviour
         if (currentSpinDuration > maxSpinDuration)
             StopSpinning();
     }
+    #endregion
 
+    #region Ranged
     public void AttackRanged(InputAction.CallbackContext context)
     {
         if (context.performed && attackRangedAvailable && playerController.playerInputMove.isBodyStandard && !isAttacking)
@@ -253,6 +243,7 @@ public class PlayerInputAttack : MonoBehaviour
         hp.CanBounce = false;
         hp.MaxBounces = 0;
     }
+    #endregion
 
     void CancelAttackAfterAnimation(float t)
     {
@@ -274,25 +265,15 @@ public class PlayerInputAttack : MonoBehaviour
         {
             switch (clip.name)
             {
+                // just look at AttackPunchRight not left, they are both the same
                 case "AttackPunchRight":
-                    attackRightAnimationDuration = clip.length / AttackRightAnimationSpeed;
-                    if (AttackRightCooldown < attackRightAnimationDuration)
-                        AttackRightCooldown = attackRightAnimationDuration;
-                    break;
-                case "AttackPunchLeft":
-                    attackLeftAnimationDuration = clip.length / AttackLeftAnimationSpeed;
-                    if (AttackLeftCooldown < attackLeftAnimationDuration)
-                        AttackLeftCooldown = attackLeftAnimationDuration;
+                    meleeAttackAnimationDuration = clip.length;
                     break;
                 case "AttackRanged":
-                    attackRangedAnimationDuration = clip.length / AttackRangedAnimationSpeed;
-                    if (AttackRangedCooldown < attackRangedAnimationDuration)
-                        AttackRangedCooldown = attackRangedAnimationDuration;
+                    attackRangedAnimationDuration = clip.length;
                     break;
                 case "SpinFists":
                     attackSpinAnimationDuration = clip.length;
-                    if (AttackSpinCooldown < attackSpinAnimationDuration)
-                        AttackSpinCooldown = attackSpinAnimationDuration;
                     break;
             }
         }

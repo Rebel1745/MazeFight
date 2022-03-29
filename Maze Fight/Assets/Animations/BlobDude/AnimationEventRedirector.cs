@@ -30,15 +30,22 @@ public class AnimationEventRedirector : MonoBehaviour
         pm.FinishTranstionFromBall();
     }
 
-    public void ScaleLeftArm()
+    public void ScaleLeftArmPunch()
     {
-        pa.UpdateAppendageScale("UpperArmLeft");
-        pa.UpdateAppendageScale("FistLeft");
+        pa.UpdateAppendageScale("UpperArmLeftPunch");
+        pa.UpdateAppendageScale("FistLeftPunch");
     }
 
-    public void ScaleRightArm()
+    public void ScaleRightArmPunch()
     {
-        pa.UpdateAppendageScale("UpperArmRight");
-        pa.UpdateAppendageScale("FistRight");
+        pa.UpdateAppendageScale("UpperArmRightPunch");
+        pa.UpdateAppendageScale("FistRightPunch");
     }
+
+    /*
+     * Not needed as sizing is called directly from spin function as there is no need to schedule it during animation
+     * public void ScaleArmsSpin()
+    {
+        pa.UpdateAppendageScale("Spin");
+    }*/
 }

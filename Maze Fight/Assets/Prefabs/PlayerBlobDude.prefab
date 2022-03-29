@@ -1761,27 +1761,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerController: {fileID: 4393225039927298353}
   isAttacking: 0
-  AttackRightCooldown: 0.1
-  AttackRightAnimationSpeed: 1
-  UpperArmRight: {fileID: 5106286184551973631}
-  UpperArmRightAttackScale: {x: 1, y: 1, z: 1}
-  FistRight: {fileID: 329494134705117795}
-  FistRightAttackScale: {x: 1, y: 1, z: 1}
-  AttackLeftCooldown: 0.5
-  AttackLeftAnimationSpeed: 1
-  UpperArmLeft: {fileID: 8053378775864873615}
-  UpperArmLeftAttackScale: {x: 1, y: 1, z: 1}
-  FistLeft: {fileID: 6669742077109006407}
-  FistLeftAttackScale: {x: 1, y: 1, z: 1}
-  AttackSpinCooldown: 0.5
+  meleeAttackAvailable: 0
+  MeleeAttackCooldown: 2
+  attackSpinAvailable: 0
+  isSpinning: 0
+  AttackSpinCooldown: 2
   AttackSpinNumber: 1
-  AttackRangedCooldown: 0.5
+  AttackSpinAnimationSpeed: 1
+  attackRangedAvailable: 0
+  AttackRangedCooldown: 2
   AttackRangedAnimationSpeed: 1
   RangedProjectilePrefab: {fileID: 1254802954257865886, guid: cd6373f52bdf0734ebb0048a0b120f02, type: 3}
   ProjectileSpawnPoint: {fileID: 1064771857688485755}
   ProjectileSpeed: 1
   ProjectileSpeedMultiplier: 1
   ProjectileLifetime: 60
+  UpperArmRight: {fileID: 5106286184551973631}
+  FistRight: {fileID: 329494134705117795}
+  UpperArmLeft: {fileID: 8053378775864873615}
+  FistLeft: {fileID: 6669742077109006407}
+  UpperArmPunchScale: {x: 1, y: 1, z: 1}
+  FistPunchScale: {x: 1, y: 1, z: 1}
+  UpperArmSpinScale: {x: 1, y: 1, z: 1}
+  FistSpinScale: {x: 1, y: 1, z: 1}
 --- !u!1 &7154442487531051998
 GameObject:
   m_ObjectHideFlags: 0
