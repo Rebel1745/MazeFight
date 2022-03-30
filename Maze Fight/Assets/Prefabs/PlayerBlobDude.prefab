@@ -1508,6 +1508,7 @@ GameObject:
   - component: {fileID: 4846113487097133437}
   - component: {fileID: 4393225039927298353}
   - component: {fileID: 1426370420010457646}
+  - component: {fileID: 3971769968481765440}
   m_Layer: 0
   m_Name: PlayerBlobDude
   m_TagString: Player
@@ -1689,8 +1690,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gm: {fileID: 0}
   playerController: {fileID: 4393225039927298353}
+  source: {fileID: 3971769968481765440}
   WalkSpeed: 3
-  RollSpeed: 9
+  WalkClip: {fileID: 8300000, guid: d1d0d76bf0e079649b0ea0ab0d6df117, type: 3}
+  RollSpeed: 20
+  RollClip: {fileID: 8300000, guid: 88115d150546905408e9c1d2e86ca3b5, type: 3}
   MoveInput: {x: 0, y: 0}
   rb: {fileID: 7076842604959875427}
   RotationSpeed: 500
@@ -1761,13 +1765,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerController: {fileID: 4393225039927298353}
   isAttacking: 0
+  source: {fileID: 3971769968481765440}
   meleeAttackAvailable: 0
   MeleeAttackCooldown: 2
+  MeleeWhoosh: {fileID: 8300000, guid: 7764c1d48f4322f46a8e166c025d92b1, type: 3}
   attackSpinAvailable: 0
   isSpinning: 0
   AttackSpinCooldown: 2
   AttackSpinNumber: 1
   AttackSpinAnimationSpeed: 1
+  SpinWhoosh: {fileID: 8300000, guid: 7764c1d48f4322f46a8e166c025d92b1, type: 3}
   attackRangedAvailable: 0
   AttackRangedCooldown: 2
   AttackRangedAnimationSpeed: 1
@@ -1784,6 +1791,102 @@ MonoBehaviour:
   FistPunchScale: {x: 1, y: 1, z: 1}
   UpperArmSpinScale: {x: 1, y: 1, z: 1}
   FistSpinScale: {x: 1, y: 1, z: 1}
+--- !u!82 &3971769968481765440
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7076842604959875438}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &7154442487531051998
 GameObject:
   m_ObjectHideFlags: 0

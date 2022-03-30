@@ -316,7 +316,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FollowTarget: {fileID: 1273461459}
   SmoothSpeedWalk: 0.1
-  SmoothSpeedRoll: 0.2
+  SmoothSpeedRoll: 0.5
   SnapThreshold: 0.1
   Offset: {x: 0, y: 4.5, z: -3.5}
   pm: {fileID: 0}

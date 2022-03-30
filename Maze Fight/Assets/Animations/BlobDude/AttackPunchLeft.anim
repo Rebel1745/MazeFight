@@ -22556,7 +22556,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.25
-    functionName: ScaleLeftArm
+    functionName: ScaleLeftArmPunch
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

@@ -42,10 +42,13 @@ public class AnimationEventRedirector : MonoBehaviour
         pa.UpdateAppendageScale("FistRightPunch");
     }
 
-    /*
-     * Not needed as sizing is called directly from spin function as there is no need to schedule it during animation
-     * public void ScaleArmsSpin()
+    public void PlaySpinSound()
     {
-        pa.UpdateAppendageScale("Spin");
-    }*/
+        pa.PlaySpinSound();
+    }
+
+    public void PlayFootstep()
+    {
+        pm.PlayFootstep();
+    }
 }

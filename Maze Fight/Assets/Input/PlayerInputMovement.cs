@@ -6,11 +6,14 @@ public class PlayerInputMovement : MonoBehaviour
 {
     public GameManager gm;
     [SerializeField] PlayerController playerController;
+    [SerializeField] AudioSource source;
 
     [Header("Movement")]
     private bool canMove = true;
     public float WalkSpeed = 3f;
+    public AudioClip WalkClip;
     public float RollSpeed = 5f;
+    public AudioClip RollClip;
     public Vector2 MoveInput;
     Vector3 lookDirection;
     public Rigidbody rb;
@@ -38,8 +41,8 @@ public class PlayerInputMovement : MonoBehaviour
         BodySphere.gameObject.SetActive(false);
         isTransforming = false;
     }
-// maybe fixed update
-    private void Update()
+
+    private void FixedUpdate()
     {
         DoMovement();
     }
@@ -102,6 +105,8 @@ public class PlayerInputMovement : MonoBehaviour
             Quaternion toRotation = Quaternion.LookRotation(lookDirection, Vector3.up);
 
             transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, RotationSpeed * Time.deltaTime);
+
+            source.Play();
         }
     }
 
@@ -148,9 +153,13 @@ public class PlayerInputMovement : MonoBehaviour
             isBodyStandard = false;
             BodyStandard.gameObject.SetActive(false);
             BodySphere.gameObject.SetActive(true);
+            source.clip = RollClip;
+            source.pitch = 1f;
         }
         else
         {
+            source.Pause();
+            source.clip = null;
             isBodyStandard = true;
             BodyStandard.gameObject.SetActive(true);
             BodySphere.gameObject.SetActive(false);
@@ -161,5 +170,11 @@ public class PlayerInputMovement : MonoBehaviour
     public void FinishTranstionFromBall()
     {
         isTransforming = false;
+    }
+
+    public void PlayFootstep()
+    {
+        source.pitch = Random.Range(0.9f, 1.1f);
+        source.PlayOneShot(WalkClip);
     }
 }

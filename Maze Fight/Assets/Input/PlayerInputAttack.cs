@@ -6,6 +6,7 @@ public class PlayerInputAttack : MonoBehaviour
     [SerializeField] PlayerController playerController;
 
     [SerializeField] public bool isAttacking = false;
+    [SerializeField] AudioSource source;
 
     [Header("Melee Attack")]
     [SerializeField] bool meleeAttackAvailable = false;
@@ -13,6 +14,7 @@ public class PlayerInputAttack : MonoBehaviour
     float lastMeleeAttackCooldown;
     float meleeAttackCooldown = 0f;
     float meleeAttackAnimationSpeed = 1f;
+    [SerializeField] public AudioClip MeleeWhoosh;
 
     [Header("Spin Attack")]
     [SerializeField] bool attackSpinAvailable = false;
@@ -23,6 +25,7 @@ public class PlayerInputAttack : MonoBehaviour
     float maxSpinDuration;
     float currentSpinDuration;
     [SerializeField] public float AttackSpinAnimationSpeed = 0.5f;
+    [SerializeField] public AudioClip SpinWhoosh;
 
     [Header("Ranged Attack")]
     [SerializeField] bool attackRangedAvailable = false;
@@ -170,6 +173,9 @@ public class PlayerInputAttack : MonoBehaviour
         else
             playerController.ChangeAnimationState(playerController.PLAYER_ATTACK_PUNCH_RIGHT, meleeAttackAnimationSpeed);
 
+        source.pitch = Random.Range(0.8f, 1.2f);
+        source.PlayOneShot(MeleeWhoosh);
+
         isAttacking = true;
         meleeAttackAvailable = false;
         meleeAttackCooldown = MeleeAttackCooldown;
@@ -217,6 +223,12 @@ public class PlayerInputAttack : MonoBehaviour
 
         if (currentSpinDuration > maxSpinDuration)
             StopSpinning();
+    }
+
+    public void PlaySpinSound()
+    {
+        source.pitch = 1f;
+        source.PlayOneShot(SpinWhoosh);
     }
     #endregion
 
