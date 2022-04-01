@@ -1780,7 +1780,7 @@ MonoBehaviour:
   AttackRangedAnimationSpeed: 1
   RangedProjectilePrefab: {fileID: 1254802954257865886, guid: cd6373f52bdf0734ebb0048a0b120f02, type: 3}
   ProjectileSpawnPoint: {fileID: 1064771857688485755}
-  ProjectileSpeed: 1
+  ProjectileSpeed: 4
   ProjectileSpeedMultiplier: 1
   ProjectileLifetime: 60
   UpperArmRight: {fileID: 5106286184551973631}

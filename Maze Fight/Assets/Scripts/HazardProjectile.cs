@@ -4,28 +4,62 @@ using UnityEngine;
 
 public class HazardProjectile : MonoBehaviour
 {
+    Rigidbody rb;
+
     public GameObject ProjectileDestroyEffect;
+
+    public bool IsPlayerProjectile = false;
+
+    public float ProjectileSpeed = 5f;
+    Vector3 lastVelocity;
     public float ProjectileLifetime = 999f;
-    float currentDuration = 0f;
+    float currentLifetime = 0f;
+    
     public bool CanBounce = false;
     public int MaxBounces = 0;
     int currentBounces = 0;
+    Vector3 normal;
 
-    void Start()
+    public bool CanReturn = false;
+    public float ReturnTime = 0f;
+    bool dontDestroyOnContact = false;
+
+    // TODO: make the whole sound play even if the projectile is destroy quickly
+
+    void Awake()
     {
+        rb = GetComponent<Rigidbody>();
+    }
 
+    public void SetVelocity(Vector3 vel)
+    {
+        rb.velocity = vel * ProjectileSpeed;
     }
 
     void Update()
     {
         CheckProjectileLifetime();
+        lastVelocity = rb.velocity;
+
+        if (CanReturn)
+            CheckReturn();
+    }
+
+    void CheckReturn()
+    {
+        if(currentLifetime > ReturnTime)
+        {
+            CanReturn = false;
+            dontDestroyOnContact = true;
+            rb.velocity = -rb.velocity;
+        }
     }
 
     void CheckProjectileLifetime()
     {
-        currentDuration += Time.deltaTime;
+        currentLifetime += Time.deltaTime;
 
-        if (currentDuration >= ProjectileLifetime)
+        if (currentLifetime >= ProjectileLifetime)
         {
             DestroyProjectile();
         }
@@ -43,18 +77,37 @@ public class HazardProjectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.tag);
-        /*if (!other.CompareTag("Player") && (!CanBounce || currentBounces > MaxBounces) && !other.CompareTag("Enemy"))
+        // do nothing if it hits the player and they shot it
+        if (IsPlayerProjectile && other.CompareTag("Player"))
+            return;
+        // do nothing if it hits an enemy and they shot it
+        if (!IsPlayerProjectile && other.CompareTag("Enemy"))
+            return;
+
+        if (CanBounce && currentBounces < MaxBounces)
         {
-            DestroyProjectile();
-        }*/
+            normal = -other.transform.forward;
+            Bounce(normal);
+        }
+        else if (!other.CompareTag("Projectile"))
+        {
+            // TODO: code to hit either player or enemy
+
+            // if it can return, dont destry on contact
+            if (!dontDestroyOnContact && !CanReturn)
+            {
+                DestroyProjectile();
+            }
+                
+        }
     }
 
-    private void OnTriggerExit(Collider other)
+    void Bounce(Vector3 collisionNormal)
     {
-        if (other.CompareTag("Wall"))
-        {
-            currentBounces++;
-        }
+        currentBounces++;
+        float speed = lastVelocity.magnitude;
+        Vector3 direction = Vector3.Reflect(lastVelocity.normalized, collisionNormal);
+
+        rb.velocity = direction * Mathf.Max(speed, ProjectileSpeed);
     }
 }

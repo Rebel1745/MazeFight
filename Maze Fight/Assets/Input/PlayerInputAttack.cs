@@ -34,9 +34,7 @@ public class PlayerInputAttack : MonoBehaviour
     [SerializeField] public float AttackRangedAnimationSpeed = 1f;
     [SerializeField] public GameObject RangedProjectilePrefab;
     [SerializeField] public Transform ProjectileSpawnPoint;
-    [SerializeField] public float ProjectileSpeed = 1f;
     [SerializeField] public float ProjectileSpeedMultiplier = 1f;
-    [SerializeField] public float ProjectileLifetime = 999f;
 
     [Header("Appendage Scalling")]
     [SerializeField] public Transform UpperArmRight;
@@ -249,11 +247,8 @@ public class PlayerInputAttack : MonoBehaviour
     {
         // instantiate the prjectile and set it flying
         GameObject projectile = Instantiate(RangedProjectilePrefab, ProjectileSpawnPoint.position, Quaternion.identity);
-        projectile.GetComponent<Rigidbody>().velocity = ProjectileSpawnPoint.forward * ProjectileSpeed * ProjectileSpeedMultiplier;
         HazardProjectile hp = projectile.GetComponent<HazardProjectile>();
-        hp.ProjectileLifetime = ProjectileLifetime;
-        hp.CanBounce = false;
-        hp.MaxBounces = 0;
+        hp.SetVelocity(ProjectileSpawnPoint.forward * ProjectileSpeedMultiplier);
     }
     #endregion
 
