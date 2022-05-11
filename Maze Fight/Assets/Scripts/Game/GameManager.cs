@@ -31,6 +31,6 @@ public class GameManager : MonoBehaviour
         // enemy spawn
         Vector3 enemySpawnPos = new Vector3(mg.MazeCells[2, 0].Floor.transform.position.x, mg.MazeCells[2, 0].Floor.transform.position.y, mg.MazeCells[2, 0].Floor.transform.position.z);
         GameObject testEnemy = Instantiate(EnemyPrefab, enemySpawnPos, Quaternion.identity);
-        testEnemy.GetComponent<EnemyAI>().player = player.transform;
+        testEnemy.GetComponent<EnemyAI>().Player = player.transform;
     }
 }

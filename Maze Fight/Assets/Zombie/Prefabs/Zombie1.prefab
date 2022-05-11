@@ -1791,17 +1791,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8aa5ed484341c94aaa596c883536d72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  whatIsPlayer:
+  Player: {fileID: 0}
+  WhatIsPlayer:
     serializedVersion: 2
     m_Bits: 512
-  MoveSpeed: 0.01
-  timeBetweenAttacks: 2
-  sightRange: 10
-  attackRange: 2
+  MoveSpeed: 1
+  TimeBetweenAttacks: 1
+  SightRange: 10
+  AttackRange: 0.3
   playerInSightRange: 0
   playerInAttackRange: 0
-  anim: {fileID: 7389507112651452681}
+  Anim: {fileID: 7389507112651452681}
   animState: 
 --- !u!1 &4710940672626480558
 GameObject:
