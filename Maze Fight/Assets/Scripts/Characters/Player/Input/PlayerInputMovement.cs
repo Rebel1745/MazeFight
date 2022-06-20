@@ -30,6 +30,14 @@ public class PlayerInputMovement : MonoBehaviour
     public MazeCell CurrentCell;
     int currentRoom;
 
+    #region LockOn
+    Transform lockOnTarget = null;
+    public float LockOnRange = 1f;
+    public float LockOnCastWidthMax = 3f;
+    public float LockOnCastWidthMin = 0.5f;
+    public LayerMask WhatIsEnemy;
+    #endregion
+
     private void Awake()
     {
         gm = FindObjectOfType<GameManager>();
@@ -41,11 +49,75 @@ public class PlayerInputMovement : MonoBehaviour
         BodyStandard.gameObject.SetActive(true);
         BodySphere.gameObject.SetActive(false);
         isTransforming = false;
+        lockOnTarget = null;
     }
 
     private void FixedUpdate()
     {
         DoMovement();
+    }
+
+    public void LockOn(InputAction.CallbackContext context)
+    {
+        // if we are rolling, we can't lock on
+        if (!isBodyStandard)
+            return;
+
+        // Cancel lock on if button is released
+        if (context.canceled)
+        {
+            CancelLockOn();
+            return;
+        }
+
+        if (!lockOnTarget)
+        {
+            LockOnToTarget();
+        }
+    }
+
+    Transform FindTargetToLockOn()
+    {
+        Transform newTarget;
+
+        // fire a raycast from the player in LastLookDirection, if it hits an enemy, lock on, if not, return null
+        RaycastHit hit;
+        if (Physics.SphereCast(transform.position, LockOnCastWidthMax, LastLookDirection, out hit, LockOnRange, WhatIsEnemy))
+        {
+            Debug.Log("Hit " + hit.transform.name);
+            newTarget = hit.transform;
+        }
+        else
+        {
+            Debug.Log("Checking SphereCastAll");
+            // if the target is closer than LockOnCastWidth then it won't be detected so run a SphereCastAll to check for a hit
+            RaycastHit[] hits = Physics.SphereCastAll(transform.position, LockOnCastWidthMin, LastLookDirection, LockOnRange, WhatIsEnemy);
+
+            if (hits.Length > 0)
+            {
+                Debug.Log("Hit " + hits[0].transform.name);
+                newTarget = hits[0].transform;
+            }
+            else
+            {
+                Debug.Log("Miss");
+                newTarget = null;
+            }
+        }
+
+        return newTarget;
+    }
+
+    void LockOnToTarget()
+    {
+        // find new target
+        lockOnTarget = FindTargetToLockOn();
+    }
+
+    void CancelLockOn()
+    {
+        Debug.Log("Cancel Lock On");
+        lockOnTarget = null;
     }
 
     public void UpdateFloor(Transform floor, int cellNo)
@@ -75,7 +147,15 @@ public class PlayerInputMovement : MonoBehaviour
         if (!canMove)
             return;
 
-        lookDirection = new Vector3(MoveInput.x, 0f, MoveInput.y);
+        // if we have a target then look at it, otherwise look in the direction we are moving
+        if (lockOnTarget)
+        {
+            lookDirection = lockOnTarget.position - transform.position;
+        }
+        else
+        {
+            lookDirection = new Vector3(MoveInput.x, 0f, MoveInput.y);
+        }            
 
         // if the player is in the default state, move them slowly
         if (isBodyStandard)
@@ -106,9 +186,10 @@ public class PlayerInputMovement : MonoBehaviour
             // removed to make turning instantaneous
             Quaternion toRotation = Quaternion.LookRotation(lookDirection, Vector3.up);
 
+            // removed so that turning is instantaneous rather than gradual
             /*transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, RotationSpeed * Time.deltaTime);*/
 
-            transform.rotation = toRotation;
+            transform.rotation = toRotation;            
             source.Play();
 
             // set this when moveinput is non-zero so we know which direction we are facing for knockback purposes
@@ -161,6 +242,7 @@ public class PlayerInputMovement : MonoBehaviour
             BodySphere.gameObject.SetActive(true);
             source.clip = RollClip;
             source.pitch = 1f;
+            CancelLockOn();
         }
         else
         {
@@ -182,5 +264,13 @@ public class PlayerInputMovement : MonoBehaviour
     {
         source.pitch = Random.Range(0.9f, 1.1f);
         source.PlayOneShot(WalkClip);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, LockOnCastWidthMin);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, LockOnCastWidthMax);
     }
 }

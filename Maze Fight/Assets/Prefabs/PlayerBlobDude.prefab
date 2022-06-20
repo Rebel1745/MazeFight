@@ -1672,6 +1672,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 198ae6a3-956d-4216-a777-e9f04bf4be1d
     m_ActionName: Player/AttackSpin[/Mouse/backButton]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7076842604959875437}
+        m_TargetAssemblyTypeName: PlayerInputMovement, Assembly-CSharp
+        m_MethodName: LockOn
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 716e9651-4624-4c30-a05b-ad04c6a79c66
+    m_ActionName: Player/LockOn[/Mouse/rightButton]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -1697,6 +1713,7 @@ MonoBehaviour:
   RollSpeed: 20
   RollClip: {fileID: 8300000, guid: 88115d150546905408e9c1d2e86ca3b5, type: 3}
   MoveInput: {x: 0, y: 0}
+  LastLookDirection: {x: 0, y: 0, z: 0}
   rb: {fileID: 7076842604959875427}
   RotationSpeed: 500
   isBodyStandard: 1
@@ -1722,6 +1739,12 @@ MonoBehaviour:
     EastWestRoom: 0
     NorthSouthRoom: 0
     SingleCellRoom: 0
+  LockOnRange: 5
+  LockOnCastWidthMax: 0.5
+  LockOnCastWidthMin: 0.1
+  WhatIsEnemy:
+    serializedVersion: 2
+    m_Bits: 1024
 --- !u!114 &4846113487097133437
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1805,6 +1828,7 @@ MonoBehaviour:
   rb: {fileID: 7076842604959875427}
   KnockbackMultiplier: 1
   KnockbackDuration: 0.1
+  KnockbackSpeed: 50
 --- !u!82 &3971769968481765440
 AudioSource:
   m_ObjectHideFlags: 0
