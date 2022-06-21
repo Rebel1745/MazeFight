@@ -6,6 +6,7 @@ public class PlayerInputAttack : MonoBehaviour
     [SerializeField] PlayerController playerController;
 
     [SerializeField] public bool isAttacking = false;
+    [SerializeField] public LayerMask WhatIsEnemy;
     [SerializeField] AudioSource source;
 
     [Header("Melee Attack")]
@@ -37,6 +38,9 @@ public class PlayerInputAttack : MonoBehaviour
     [SerializeField] public float ProjectileSpeedMultiplier = 1f;
 
     [Header("Appendage Scalling")]
+    [SerializeField] public float DefaultAttackRange;
+    float currentAttackRange;
+    [SerializeField] public float AttackWidth = 0.001f;
     [SerializeField] public Transform UpperArmRight;
     [SerializeField] public Transform FistRight;
     [SerializeField] public Transform UpperArmLeft;
@@ -178,6 +182,23 @@ public class PlayerInputAttack : MonoBehaviour
         meleeAttackAvailable = false;
         meleeAttackCooldown = MeleeAttackCooldown;
         CancelAttackAfterAnimation(meleeAttackAnimationDuration / meleeAttackAnimationSpeed);
+
+        CheckForMeleeHit();
+    }
+
+    void CheckForMeleeHit()
+    {
+        currentAttackRange = DefaultAttackRange;
+        // fire out a SphereCast corresponding to currentAttackRange, if it hits the enemy, hit it
+        RaycastHit hit;
+        if (Physics.SphereCast(transform.position, AttackWidth, playerController.playerInputMove.LastLookDirection, out hit, currentAttackRange, WhatIsEnemy))
+        {
+            Debug.Log("Hit " + hit.transform.name);
+        }
+        else
+        {
+            Debug.Log("Miss");
+        }
     }
 
     #region Spinning

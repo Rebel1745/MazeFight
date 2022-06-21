@@ -84,23 +84,23 @@ public class PlayerInputMovement : MonoBehaviour
         RaycastHit hit;
         if (Physics.SphereCast(transform.position, LockOnCastWidthMax, LastLookDirection, out hit, LockOnRange, WhatIsEnemy))
         {
-            Debug.Log("Hit " + hit.transform.name);
+            //Debug.Log("Hit " + hit.transform.name);
             newTarget = hit.transform;
         }
         else
         {
-            Debug.Log("Checking SphereCastAll");
+            //Debug.Log("Checking SphereCastAll");
             // if the target is closer than LockOnCastWidth then it won't be detected so run a SphereCastAll to check for a hit
             RaycastHit[] hits = Physics.SphereCastAll(transform.position, LockOnCastWidthMin, LastLookDirection, LockOnRange, WhatIsEnemy);
 
             if (hits.Length > 0)
             {
-                Debug.Log("Hit " + hits[0].transform.name);
+                //Debug.Log("Hit " + hits[0].transform.name);
                 newTarget = hits[0].transform;
             }
             else
             {
-                Debug.Log("Miss");
+                //Debug.Log("Miss");
                 newTarget = null;
             }
         }
@@ -116,7 +116,7 @@ public class PlayerInputMovement : MonoBehaviour
 
     void CancelLockOn()
     {
-        Debug.Log("Cancel Lock On");
+        //Debug.Log("Cancel Lock On");
         lockOnTarget = null;
     }
 
