@@ -16,6 +16,7 @@ public class PlayerInputAttack : MonoBehaviour
     float meleeAttackCooldown = 0f;
     float meleeAttackAnimationSpeed = 1f;
     [SerializeField] public AudioClip MeleeWhoosh;
+    [SerializeField] public float MeleeAttackDamage = 1;
 
     [Header("Spin Attack")]
     [SerializeField] bool attackSpinAvailable = false;
@@ -194,6 +195,8 @@ public class PlayerInputAttack : MonoBehaviour
         if (Physics.SphereCast(transform.position, AttackWidth, playerController.playerInputMove.LastLookDirection, out hit, currentAttackRange, WhatIsEnemy))
         {
             Debug.Log("Hit " + hit.transform.name);
+            // Deal some damage
+            hit.transform.gameObject.GetComponent<HealthAndDamage>().TakeDamage(MeleeAttackDamage);
         }
         else
         {
