@@ -16,7 +16,12 @@ public class PlayerInputAttack : MonoBehaviour
     float meleeAttackCooldown = 0f;
     float meleeAttackAnimationSpeed = 1f;
     [SerializeField] public AudioClip MeleeWhoosh;
-    [SerializeField] public float MeleeAttackDamage = 1;
+    [SerializeField] public float MeleeAttackDamage = 1f;
+    [SerializeField] public float DefaultMeleeAttackRange;
+    float currentMeleeAttackRange;
+    [SerializeField] public float UpperArmRangeMultiplier = 1f;
+    [SerializeField] public float FistRangeMultiplier = 1f;
+    [SerializeField] public float AttackWidth = 0.001f;
 
     [Header("Spin Attack")]
     [SerializeField] bool attackSpinAvailable = false;
@@ -39,15 +44,12 @@ public class PlayerInputAttack : MonoBehaviour
     [SerializeField] public float ProjectileSpeedMultiplier = 1f;
 
     [Header("Appendage Scalling")]
-    [SerializeField] public float DefaultAttackRange;
-    float currentAttackRange;
-    [SerializeField] public float AttackWidth = 0.001f;
     [SerializeField] public Transform UpperArmRight;
     [SerializeField] public Transform FistRight;
     [SerializeField] public Transform UpperArmLeft;
     [SerializeField] public Transform FistLeft;
-    [SerializeField] public Vector3 UpperArmPunchScale = new Vector3(1f, 1f, 1f);
-    [SerializeField] public Vector3 FistPunchScale = new Vector3(1f, 1f, 1f);
+    [SerializeField] public Vector3 UpperArmMeleeScale = new Vector3(1f, 1f, 1f);
+    [SerializeField] public Vector3 FistMeleeScale = new Vector3(1f, 1f, 1f);
     [SerializeField] public Vector3 UpperArmSpinScale = new Vector3(1f, 1f, 1f);
     [SerializeField] public Vector3 FistSpinScale = new Vector3(1f, 1f, 1f);
     Vector3 upperArmRightInitialScale;
@@ -88,16 +90,16 @@ public class PlayerInputAttack : MonoBehaviour
         switch (appendage)
         {
             case "FistLeftPunch":
-                FistLeft.localScale = FistPunchScale;
+                FistLeft.localScale = FistMeleeScale;
                 break;
             case "FistRightPunch":
-                FistRight.localScale = FistPunchScale;
+                FistRight.localScale = FistMeleeScale;
                 break;
             case "UpperArmLeftPunch":
-                UpperArmLeft.localScale = UpperArmPunchScale;
+                UpperArmLeft.localScale = UpperArmMeleeScale;
                 break;
             case "UpperArmRightPunch":
-                UpperArmRight.localScale = UpperArmPunchScale;
+                UpperArmRight.localScale = UpperArmMeleeScale;
                 break;
             case "Spin":
                 FistLeft.localScale = FistSpinScale;
@@ -189,18 +191,18 @@ public class PlayerInputAttack : MonoBehaviour
 
     void CheckForMeleeHit()
     {
-        currentAttackRange = DefaultAttackRange;
+        currentMeleeAttackRange = DefaultMeleeAttackRange + (UpperArmRangeMultiplier * UpperArmMeleeScale.y) + ( FistRangeMultiplier * FistMeleeScale.y);
         // fire out a SphereCast corresponding to currentAttackRange, if it hits the enemy, hit it
         RaycastHit hit;
-        if (Physics.SphereCast(transform.position, AttackWidth, playerController.playerInputMove.LastLookDirection, out hit, currentAttackRange, WhatIsEnemy))
+        if (Physics.SphereCast(transform.position, AttackWidth, playerController.playerInputMove.LastLookDirection, out hit, currentMeleeAttackRange, WhatIsEnemy))
         {
-            Debug.Log("Hit " + hit.transform.name);
+            //Debug.Log("Hit " + hit.transform.name);
             // Deal some damage
             hit.transform.gameObject.GetComponent<HealthAndDamage>().TakeDamage(MeleeAttackDamage);
         }
         else
         {
-            Debug.Log("Miss");
+            //Debug.Log("Miss");
         }
     }
 
@@ -311,4 +313,9 @@ public class PlayerInputAttack : MonoBehaviour
     }
 
     #endregion
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(transform.position, currentMeleeAttackRange);
+    }
 }

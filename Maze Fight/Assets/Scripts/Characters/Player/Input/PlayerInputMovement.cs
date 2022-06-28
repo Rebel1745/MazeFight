@@ -112,11 +112,15 @@ public class PlayerInputMovement : MonoBehaviour
     {
         // find new target
         lockOnTarget = FindTargetToLockOn();
+        if(lockOnTarget)
+            lockOnTarget.GetComponent<EnemyTargeted>().MarkAsTargeted();
     }
 
     void CancelLockOn()
     {
         //Debug.Log("Cancel Lock On");
+        if(lockOnTarget)
+            lockOnTarget.GetComponent<EnemyTargeted>().RemoveTarget();
         lockOnTarget = null;
     }
 
@@ -266,11 +270,11 @@ public class PlayerInputMovement : MonoBehaviour
         source.PlayOneShot(WalkClip);
     }
 
-    private void OnDrawGizmos()
+    /*private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, LockOnCastWidthMin);
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, LockOnCastWidthMax);
-    }
+    }*/
 }
