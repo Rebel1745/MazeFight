@@ -5,11 +5,12 @@ using UnityEngine;
 public class EnemyMovement : MonoBehaviour
 {
     public Animator Anim;
+    public CharacterMovement characterMovement;
 
     public string animState;
 
     internal string IDLE = "Z_Idle";
-    internal string WALK = "Z_Walk";
+    internal string WALK = "Z_Walk_InPlace";
     internal string ATTACK = "Z_Attack";
 
     float AttackAnimDuration;
@@ -22,7 +23,6 @@ public class EnemyMovement : MonoBehaviour
 
     // Moving
     public float MoveSpeed = 1f;
-    bool canMove = true;
 
     public float AttackDistance = 1f;
     public float ChasePlayerAfterAttack = 1f;
@@ -42,6 +42,9 @@ public class EnemyMovement : MonoBehaviour
 
     private void Update()
     {
+        if (!characterMovement.CanMove)
+            return;
+
         FollowPlayer();
         AttackPlayer();
     }
@@ -54,6 +57,7 @@ public class EnemyMovement : MonoBehaviour
         if(Vector3.Distance(transform.position, Player.position) > AttackDistance)
         {
             transform.LookAt(Player);
+            characterMovement.LastLookDirection = Player.position - transform.position;
 
             // Below doesn't want to work
             //rb.velocity = Vector3.right * MoveSpeed;
@@ -107,23 +111,6 @@ public class EnemyMovement : MonoBehaviour
         Anim.Play(newState);
 
         animState = newState;
-    }
-
-    public IEnumerator DisableMovementForTime(float time)
-    {
-        DisableMovement();
-        yield return new WaitForSeconds(time);
-        EnableMovement();
-    }
-
-    public void DisableMovement()
-    {
-        canMove = false;
-    }
-
-    public void EnableMovement()
-    {
-        canMove = true;
     }
 
     public void SetAnimClipTimes()

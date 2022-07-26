@@ -33,6 +33,7 @@ public class PlayerInputAttack : MonoBehaviour
     float currentSpinDuration;
     [SerializeField] public float AttackSpinAnimationSpeed = 0.5f;
     [SerializeField] public AudioClip SpinWhoosh;
+    [SerializeField] public float SpinRadius = 1f;
 
     [Header("Ranged Attack")]
     [SerializeField] bool attackRangedAvailable = false;
@@ -194,7 +195,7 @@ public class PlayerInputAttack : MonoBehaviour
         currentMeleeAttackRange = DefaultMeleeAttackRange + (UpperArmRangeMultiplier * UpperArmMeleeScale.y) + ( FistRangeMultiplier * FistMeleeScale.y);
         // fire out a SphereCast corresponding to currentAttackRange, if it hits the enemy, hit it
         RaycastHit hit;
-        if (Physics.SphereCast(transform.position, AttackWidth, playerController.playerInputMove.LastLookDirection, out hit, currentMeleeAttackRange, WhatIsEnemy))
+        if (Physics.SphereCast(transform.position, AttackWidth, playerController.characterMovement.LastLookDirection, out hit, currentMeleeAttackRange, WhatIsEnemy))
         {
             //Debug.Log("Hit " + hit.transform.name);
             // Deal some damage
@@ -247,6 +248,20 @@ public class PlayerInputAttack : MonoBehaviour
 
         if (currentSpinDuration > maxSpinDuration)
             StopSpinning();
+
+        CheckSpinHit();
+    }
+
+    void CheckSpinHit()
+    {
+        // when we are spinning, check if any enemies are in our spin radius, and knock them back
+        Collider[] cols = Physics.OverlapSphere(transform.position, SpinRadius, WhatIsEnemy);
+        
+        foreach(Collider c in cols)
+        {
+            //c.GetComponent<Knockback>().KnockbackObject(playerController.playerInputMove.LastLookDirection);
+            c.GetComponent<Knockback>().KnockbackObject(-c.transform.forward);
+        }
     }
 
     public void PlaySpinSound()
@@ -316,6 +331,7 @@ public class PlayerInputAttack : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(transform.position, currentMeleeAttackRange);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, SpinRadius);
     }
 }

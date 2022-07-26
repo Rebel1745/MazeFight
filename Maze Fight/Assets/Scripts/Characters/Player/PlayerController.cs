@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] internal PlayerInputMovement playerInputMove;
     [SerializeField] internal PlayerInputAttack playerInputAttack;
+    [SerializeField] internal CharacterMovement characterMovement;
 
     public string animState;
 

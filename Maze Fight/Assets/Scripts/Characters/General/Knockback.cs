@@ -5,15 +5,18 @@ using UnityEngine;
 public class Knockback : MonoBehaviour
 {
     public Rigidbody rb;
+    public CharacterMovement characterMovement;
 
     public float KnockbackMultiplier = 1f;
     public float KnockbackDuration = 0.1f;
     public float KnockbackSpeed = 50f;
-
+    
     public void KnockbackObject(Vector3 dir)
     {
-        GetComponent<PlayerInputMovement>().DisableMovement();
-        rb.velocity = dir * KnockbackSpeed * KnockbackMultiplier;
+        // remove the param from the function if the lookdirection works
+        Debug.Log("Knockback");
+        characterMovement.DisableMovement();
+        rb.velocity = -characterMovement.LastLookDirection * KnockbackSpeed * KnockbackMultiplier;
 
         Invoke("StopKnockback", KnockbackDuration);
     }
@@ -22,6 +25,6 @@ public class Knockback : MonoBehaviour
     {
         //stops the enemy, set to movement speed when enemies are able to move
         rb.velocity = Vector3.zero;
-        GetComponent<PlayerInputMovement>().EnableMovement();
+        characterMovement.EnableMovement();
     }
 }

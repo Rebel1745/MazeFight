@@ -5,18 +5,17 @@ using UnityEngine.InputSystem;
 public class PlayerInputMovement : MonoBehaviour
 {
     public GameManager gm;
+    [SerializeField] CharacterMovement characterMovement;
     [SerializeField] PlayerController playerController;
     [SerializeField] AudioSource source;
 
     [Header("Movement")]
-    private bool canMove = true;
     public float WalkSpeed = 3f;
     public AudioClip WalkClip;
     public float RollSpeed = 5f;
     public AudioClip RollClip;
     public Vector2 MoveInput;
     Vector3 lookDirection;
-    public Vector3 LastLookDirection;
     public Rigidbody rb;
     public float RotationSpeed = 500f;
 
@@ -82,7 +81,7 @@ public class PlayerInputMovement : MonoBehaviour
 
         // fire a raycast from the player in LastLookDirection, if it hits an enemy, lock on, if not, return null
         RaycastHit hit;
-        if (Physics.SphereCast(transform.position, LockOnCastWidthMax, LastLookDirection, out hit, LockOnRange, WhatIsEnemy))
+        if (Physics.SphereCast(transform.position, LockOnCastWidthMax, characterMovement.LastLookDirection, out hit, LockOnRange, WhatIsEnemy))
         {
             //Debug.Log("Hit " + hit.transform.name);
             newTarget = hit.transform;
@@ -91,7 +90,7 @@ public class PlayerInputMovement : MonoBehaviour
         {
             //Debug.Log("Checking SphereCastAll");
             // if the target is closer than LockOnCastWidth then it won't be detected so run a SphereCastAll to check for a hit
-            RaycastHit[] hits = Physics.SphereCastAll(transform.position, LockOnCastWidthMin, LastLookDirection, LockOnRange, WhatIsEnemy);
+            RaycastHit[] hits = Physics.SphereCastAll(transform.position, LockOnCastWidthMin, characterMovement.LastLookDirection, LockOnRange, WhatIsEnemy);
 
             if (hits.Length > 0)
             {
@@ -148,7 +147,7 @@ public class PlayerInputMovement : MonoBehaviour
 
     void DoMovement()
     {
-        if (!canMove)
+        if (!characterMovement.CanMove)
             return;
 
         // if we have a target then look at it, otherwise look in the direction we are moving
@@ -197,25 +196,8 @@ public class PlayerInputMovement : MonoBehaviour
             source.Play();
 
             // set this when moveinput is non-zero so we know which direction we are facing for knockback purposes
-            LastLookDirection = lookDirection;
+            characterMovement.LastLookDirection = lookDirection;
         }
-    }
-
-    public IEnumerator DisableMovementForTime(float time)
-    {
-        DisableMovement();
-        yield return new WaitForSeconds(time);
-        EnableMovement();
-    }
-
-    public void DisableMovement()
-    {
-        canMove = false;
-    }
-
-    public void EnableMovement()
-    {
-        canMove = true;
     }
 
     public void ChangeStance(InputAction.CallbackContext context)
