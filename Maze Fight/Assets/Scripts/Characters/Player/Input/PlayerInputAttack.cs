@@ -259,8 +259,10 @@ public class PlayerInputAttack : MonoBehaviour
         
         foreach(Collider c in cols)
         {
-            //c.GetComponent<Knockback>().KnockbackObject(playerController.playerInputMove.LastLookDirection);
-            c.GetComponent<Knockback>().KnockbackObject(-c.transform.forward);
+            // find the direction between the colliding objects
+            Vector3 dir = c.transform.position - transform.position;
+            // the collider is on the GFX model, the code is on the top parent
+            c.GetComponentInParent<Knockback>().KnockbackObject(dir);
         }
     }
 

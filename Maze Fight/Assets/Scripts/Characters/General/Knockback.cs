@@ -13,10 +13,8 @@ public class Knockback : MonoBehaviour
     
     public void KnockbackObject(Vector3 dir)
     {
-        // remove the param from the function if the lookdirection works
-        Debug.Log("Knockback");
         characterMovement.DisableMovement();
-        rb.velocity = -characterMovement.LastLookDirection * KnockbackSpeed * KnockbackMultiplier;
+        rb.velocity = dir * KnockbackSpeed * KnockbackMultiplier;
 
         Invoke("StopKnockback", KnockbackDuration);
     }

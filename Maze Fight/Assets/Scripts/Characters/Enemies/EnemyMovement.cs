@@ -9,9 +9,10 @@ public class EnemyMovement : MonoBehaviour
 
     public string animState;
 
-    internal string IDLE = "Z_Idle";
-    internal string WALK = "Z_Walk_InPlace";
-    internal string ATTACK = "Z_Attack";
+    public string IDLE = "EnemyIdle";
+    public string WALK = "EnemyWalk";
+    public string RANGEDATTACK = "EnemyAttackRanged";
+    public string MELEEATTACK = "EnemyAttackPunchRight";
 
     float AttackAnimDuration;
 
@@ -85,7 +86,7 @@ public class EnemyMovement : MonoBehaviour
 
         if(currentAttackTime > DefaultAttackTime)
         {
-            ChangeAnimationState(ATTACK);
+            ChangeAnimationState(MELEEATTACK);
             Invoke(nameof(ResetAttack), AttackAnimDuration);
         }
 
@@ -106,7 +107,7 @@ public class EnemyMovement : MonoBehaviour
     {
         if (animState == newState)
             return;
-
+        
         Anim.StopPlayback();
         Anim.Play(newState);
 
@@ -121,8 +122,7 @@ public class EnemyMovement : MonoBehaviour
         {
             switch (clip.name)
             {
-                // just look at AttackPunchRight not left, they are both the same
-                case "Z_Attack":
+                case "EnemyAttackPunchRight":
                     AttackAnimDuration = clip.length;
                     break;
             }
