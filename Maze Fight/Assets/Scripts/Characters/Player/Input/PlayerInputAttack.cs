@@ -200,6 +200,9 @@ public class PlayerInputAttack : MonoBehaviour
             //Debug.Log("Hit " + hit.transform.name);
             // Deal some damage
             hit.transform.gameObject.GetComponent<HealthAndDamage>().TakeDamage(MeleeAttackDamage);
+            // find the direction between the colliding objects
+            Vector3 dir = hit.transform.position - transform.position;
+            hit.transform.gameObject.GetComponent<Knockback>().KnockbackObject(dir, 0.1f);
         }
         else
         {

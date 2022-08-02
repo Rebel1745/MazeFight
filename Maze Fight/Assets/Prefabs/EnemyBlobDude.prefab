@@ -1510,7 +1510,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   MoveSpeed: 1
-  AttackDistance: 1
+  IsMeleeAttacker: 0
+  MeleeAttackDistance: 0.5
+  IsRangedAttacker: 1
+  RangedAttackDistance: 1.5
   ChasePlayerAfterAttack: 1
   DefaultAttackTime: 2
 --- !u!114 &8563545764620429245
@@ -1555,7 +1558,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 189b9171c67d08b459419d3c6f5672cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartingHealth: 2
+  StartingHealth: 5
 --- !u!1 &7154442487531051998
 GameObject:
   m_ObjectHideFlags: 0

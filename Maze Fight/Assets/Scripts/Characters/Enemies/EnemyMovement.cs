@@ -14,8 +14,6 @@ public class EnemyMovement : MonoBehaviour
     public string RANGEDATTACK = "EnemyAttackRanged";
     public string MELEEATTACK = "EnemyAttackPunchRight";
 
-    float AttackAnimDuration;
-
     public Rigidbody rb;
 
     public Transform Player;
@@ -25,7 +23,17 @@ public class EnemyMovement : MonoBehaviour
     // Moving
     public float MoveSpeed = 1f;
 
-    public float AttackDistance = 1f;
+    // Attacks
+    public bool IsMeleeAttacker = false;
+    public float MeleeAttackDistance = 0.5f;
+    float MeleeAttackAnimDuration;
+    public bool IsRangedAttacker = false;
+    public float RangedAttackDistance = 1.5f;
+    float RangedAttackAnimDuration;
+    float attackDistance;
+    string attackType;
+    float attackAnimDuration;
+
     public float ChasePlayerAfterAttack = 1f;
 
     float currentAttackTime;
@@ -39,6 +47,13 @@ public class EnemyMovement : MonoBehaviour
         followPlayer = true;
         currentAttackTime = DefaultAttackTime;
         ChangeAnimationState(IDLE);
+
+        // check to see if we can do both melee and ranged but we haven;t set the both flag
+        // TODO: Change this to an Enum?
+        /*if (IsMeleeAttacker && IsRangedAttacker && !IsMeleeAndRanged)
+            IsMeleeAndRanged = true;*/
+
+        SetAttackParams();
     }
 
     private void Update()
@@ -50,12 +65,31 @@ public class EnemyMovement : MonoBehaviour
         AttackPlayer();
     }
 
+    void SetAttackParams()
+    {
+        // TODO: optimise and add an option for both that checks for the correct attack to use
+        // i.e. starting as a ranged character but if the player gets too close change to melee
+        attackDistance = 0f;
+        if (IsMeleeAttacker)
+        {
+            attackDistance = MeleeAttackDistance;
+            attackType = MELEEATTACK;
+            attackAnimDuration = MeleeAttackAnimDuration;
+        }
+        else
+        {
+            attackDistance = RangedAttackDistance;
+            attackType = RANGEDATTACK;
+            attackAnimDuration = RangedAttackAnimDuration;
+        }            
+    }
+
     void FollowPlayer()
     {
         if (!followPlayer)
             return;
 
-        if(Vector3.Distance(transform.position, Player.position) > AttackDistance)
+        if(Vector3.Distance(transform.position, Player.position) > attackDistance)
         {
             transform.LookAt(Player);
             characterMovement.LastLookDirection = Player.position - transform.position;
@@ -68,7 +102,7 @@ public class EnemyMovement : MonoBehaviour
 
             ChangeAnimationState(WALK);
         }
-        else if(Vector3.Distance(transform.position, Player.position) <= AttackDistance)
+        else if(Vector3.Distance(transform.position, Player.position) <= attackDistance)
         {
             //rb.velocity = Vector3.zero;
             ChangeAnimationState(IDLE);
@@ -86,11 +120,11 @@ public class EnemyMovement : MonoBehaviour
 
         if(currentAttackTime > DefaultAttackTime)
         {
-            ChangeAnimationState(MELEEATTACK);
-            Invoke(nameof(ResetAttack), AttackAnimDuration);
+            ChangeAnimationState(attackType);
+            Invoke(nameof(ResetAttack), attackAnimDuration);
         }
 
-        if(Vector3.Distance(transform.position, Player.position) > AttackDistance + ChasePlayerAfterAttack)
+        if(Vector3.Distance(transform.position, Player.position) > attackDistance + ChasePlayerAfterAttack)
         {
             attackPlayer = false;
             followPlayer = true;
@@ -123,7 +157,10 @@ public class EnemyMovement : MonoBehaviour
             switch (clip.name)
             {
                 case "EnemyAttackPunchRight":
-                    AttackAnimDuration = clip.length;
+                    MeleeAttackAnimDuration = clip.length;
+                    break;
+                case "EnemyAttackRanged":
+                    RangedAttackAnimDuration = clip.length;
                     break;
             }
         }
