@@ -43,6 +43,7 @@ public class PlayerInputAttack : MonoBehaviour
     [SerializeField] public GameObject RangedProjectilePrefab;
     [SerializeField] public Transform ProjectileSpawnPoint;
     [SerializeField] public float ProjectileSpeedMultiplier = 1f;
+    [SerializeField] public float ProjectileDamage = 1f;
 
     [Header("Appendage Scalling")]
     [SerializeField] public Transform UpperArmRight;
@@ -294,6 +295,8 @@ public class PlayerInputAttack : MonoBehaviour
         // instantiate the prjectile and set it flying
         GameObject projectile = Instantiate(RangedProjectilePrefab, ProjectileSpawnPoint.position, Quaternion.identity);
         HazardProjectile hp = projectile.GetComponent<HazardProjectile>();
+        hp.Damage = ProjectileDamage;
+        hp.IsPlayerProjectile = true;
         hp.SetVelocity(ProjectileSpawnPoint.forward * ProjectileSpeedMultiplier);
     }
     #endregion

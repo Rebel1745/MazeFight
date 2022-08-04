@@ -1511,6 +1511,7 @@ GameObject:
   - component: {fileID: 1426370420010457646}
   - component: {fileID: 8563545764620429245}
   - component: {fileID: 3971769968481765440}
+  - component: {fileID: 222071043897766861}
   m_Layer: 9
   m_Name: PlayerBlobDude
   m_TagString: Player
@@ -1830,6 +1831,7 @@ MonoBehaviour:
   RangedProjectilePrefab: {fileID: 1254802954257865886, guid: cd6373f52bdf0734ebb0048a0b120f02, type: 3}
   ProjectileSpawnPoint: {fileID: 1064771857688485755}
   ProjectileSpeedMultiplier: 1
+  ProjectileDamage: 1
   UpperArmRight: {fileID: 5106286184551973631}
   FistRight: {fileID: 329494134705117795}
   UpperArmLeft: {fileID: 8053378775864873615}
@@ -1951,6 +1953,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &222071043897766861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7076842604959875438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 189b9171c67d08b459419d3c6f5672cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StartingHealth: 2
 --- !u!1 &7154442487531051998
 GameObject:
   m_ObjectHideFlags: 0

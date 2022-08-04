@@ -1510,10 +1510,17 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   MoveSpeed: 1
-  IsMeleeAttacker: 0
+  IsMeleeAttacker: 1
   MeleeAttackDistance: 0.5
-  IsRangedAttacker: 1
+  IsRangedAttacker: 0
   RangedAttackDistance: 1.5
+  MeleeAttackDamage: 1
+  MeleeAttackRange: 0.5
+  AttackWidth: 0.001
+  RangedProjectilePrefab: {fileID: 1254802954257865886, guid: cd6373f52bdf0734ebb0048a0b120f02, type: 3}
+  ProjectileSpawnPoint: {fileID: 1064771857688485755}
+  ProjectileSpeedMultiplier: 1
+  ProjectileDamage: 1
   ChasePlayerAfterAttack: 1
   DefaultAttackTime: 2
 --- !u!114 &8563545764620429245

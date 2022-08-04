@@ -23,7 +23,7 @@ public class EnemyMovement : MonoBehaviour
     // Moving
     public float MoveSpeed = 1f;
 
-    // Attacks
+    // Attacks (general)
     public bool IsMeleeAttacker = false;
     public float MeleeAttackDistance = 0.5f;
     float MeleeAttackAnimDuration;
@@ -34,10 +34,23 @@ public class EnemyMovement : MonoBehaviour
     string attackType;
     float attackAnimDuration;
 
+    // Melee Attack
+    [SerializeField] public float MeleeAttackDamage = 1f;
+    [SerializeField] public float MeleeAttackRange;
+    [SerializeField] public float AttackWidth = 0.001f;
+    [SerializeField] public float MeleeAttackCooldown = 1f;
+
+    // Ranged Attack
+    [SerializeField] public GameObject RangedProjectilePrefab;
+    [SerializeField] public Transform ProjectileSpawnPoint;
+    [SerializeField] public float ProjectileSpeedMultiplier = 1f;
+    [SerializeField] public float ProjectileDamage = 1f;
+    [SerializeField] public float RangedAttackCooldown = 1f;
+
     public float ChasePlayerAfterAttack = 1f;
 
     float currentAttackTime;
-    public float DefaultAttackTime = 2;
+    float currentCooldown;
 
     bool followPlayer, attackPlayer;
 
@@ -45,7 +58,6 @@ public class EnemyMovement : MonoBehaviour
     {
         SetAnimClipTimes();
         followPlayer = true;
-        currentAttackTime = DefaultAttackTime;
         ChangeAnimationState(IDLE);
 
         // check to see if we can do both melee and ranged but we haven;t set the both flag
@@ -58,11 +70,28 @@ public class EnemyMovement : MonoBehaviour
 
     private void Update()
     {
-        if (!characterMovement.CanMove)
-            return;
+        if (!Player)
+        {
+            FindPlayer();
 
-        FollowPlayer();
-        AttackPlayer();
+        }
+        else
+        {
+            if (!characterMovement.CanMove)
+                return;
+
+            FollowPlayer();
+            AttackPlayer();
+
+        }
+    }
+
+    void FindPlayer()
+    {
+        if (GameObject.FindGameObjectWithTag("Player"))
+            Player = GameObject.FindGameObjectWithTag("Player").transform;
+        else
+            Player = null;
     }
 
     void SetAttackParams()
@@ -75,12 +104,14 @@ public class EnemyMovement : MonoBehaviour
             attackDistance = MeleeAttackDistance;
             attackType = MELEEATTACK;
             attackAnimDuration = MeleeAttackAnimDuration;
+            currentCooldown = MeleeAttackCooldown;
         }
         else
         {
             attackDistance = RangedAttackDistance;
             attackType = RANGEDATTACK;
             attackAnimDuration = RangedAttackAnimDuration;
+            currentCooldown = RangedAttackCooldown;
         }            
     }
 
@@ -111,6 +142,43 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
+    // TODO: making this a trigger from animation event will allow it to be only called once
+    // removing the current issue of one attack destroying a player
+    void MeleeAttack()
+    {
+        RaycastHit hit;
+        if (Physics.SphereCast(transform.position, AttackWidth, characterMovement.LastLookDirection, out hit, MeleeAttackRange, WhatIsPlayer))
+        {
+            //Debug.Log("Hit " + hit.transform.name);
+            // Deal some damage
+            hit.transform.gameObject.GetComponent<HealthAndDamage>().TakeDamage(MeleeAttackDamage);
+            // find the direction between the colliding objects
+            Vector3 dir = hit.transform.position - transform.position;
+            hit.transform.gameObject.GetComponent<Knockback>().KnockbackObject(dir, 0.1f);
+            // TODO: SORT THIS. If attackPlayer is not made false, multiple projectiles are released.  If followPlayer is not true, the enemy just stands there idle and doesnt shoot again.
+            // if code as below, multiple projectiles are released AND an error appears.
+
+            //attackPlayer = false;
+            //followPlayer = true;
+        }
+    }
+
+    void RangedAttack()
+    {
+        // instantiate the prjectile and set it flying
+        GameObject projectile = Instantiate(RangedProjectilePrefab, ProjectileSpawnPoint.position, Quaternion.identity);
+        HazardProjectile hp = projectile.GetComponent<HazardProjectile>();
+        hp.Damage = ProjectileDamage;
+        hp.IsPlayerProjectile = false;
+        hp.SetVelocity(ProjectileSpawnPoint.forward * ProjectileSpeedMultiplier);
+        // TODO: SORT THIS. If attackPlayer is not made false, multiple projectiles are released.  If followPlayer is not true, the enemy just stands there idle and doesnt shoot again.
+        // if code as below, multiple projectiles are released AND an error appears.
+
+        //attackPlayer = false;
+        //followPlayer = true;
+    }
+
+    // TODO: Rewrite all enemy AI logic to allow for idle, following and attacking to take into account types of enemy (Melee/ranged)
     void AttackPlayer()
     {
         if (!attackPlayer)
@@ -118,9 +186,17 @@ public class EnemyMovement : MonoBehaviour
 
         currentAttackTime += Time.deltaTime;
 
-        if(currentAttackTime > DefaultAttackTime)
+        if(currentAttackTime > currentCooldown)
         {
             ChangeAnimationState(attackType);
+            if (IsMeleeAttacker)
+            {
+                MeleeAttack();
+            }
+            else { 
+                // move this next line to an AnimationEvent.  TESTING PURPOSES ONLY
+                RangedAttack();
+            }            
             Invoke(nameof(ResetAttack), attackAnimDuration);
         }
 

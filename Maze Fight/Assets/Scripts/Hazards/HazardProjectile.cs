@@ -24,6 +24,8 @@ public class HazardProjectile : MonoBehaviour
     public float ReturnTime = 0f;
     bool dontDestroyOnContact = false;
 
+    public float Damage = 1f;
+
     // TODO: make the whole sound play even if the projectile is destroy quickly
 
     void Awake()
@@ -92,6 +94,10 @@ public class HazardProjectile : MonoBehaviour
         else if (!other.CompareTag("Projectile"))
         {
             // TODO: code to hit either player or enemy
+            if(other.CompareTag("Player") || other.CompareTag("Enemy"))
+            {
+                other.GetComponentInParent<HealthAndDamage>().TakeDamage(Damage);
+            }
 
             // if it can return, dont destry on contact
             if (!dontDestroyOnContact && !CanReturn)
