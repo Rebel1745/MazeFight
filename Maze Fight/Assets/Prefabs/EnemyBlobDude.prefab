@@ -1165,6 +1165,7 @@ GameObject:
   - component: {fileID: 6618171285288285898}
   - component: {fileID: 5529761458193656858}
   - component: {fileID: 739866315567497385}
+  - component: {fileID: 1732151063310517669}
   m_Layer: 10
   m_Name: BlobDude
   m_TagString: Enemy
@@ -1223,6 +1224,18 @@ CapsuleCollider:
   m_Height: 3.1754093
   m_Direction: 1
   m_Center: {x: -0.010628581, y: 1.5730162, z: 0.058962345}
+--- !u!114 &1732151063310517669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5806168051921202288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af04324f4d77ba847bd4755d1a77c711, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6331688656540214085
 GameObject:
   m_ObjectHideFlags: 0
@@ -1510,19 +1523,20 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   MoveSpeed: 1
-  IsMeleeAttacker: 1
+  IsMeleeAttacker: 0
   MeleeAttackDistance: 0.5
-  IsRangedAttacker: 0
+  IsRangedAttacker: 1
   RangedAttackDistance: 1.5
   MeleeAttackDamage: 1
   MeleeAttackRange: 0.5
   AttackWidth: 0.001
+  MeleeAttackCooldown: 1
   RangedProjectilePrefab: {fileID: 1254802954257865886, guid: cd6373f52bdf0734ebb0048a0b120f02, type: 3}
   ProjectileSpawnPoint: {fileID: 1064771857688485755}
   ProjectileSpeedMultiplier: 1
   ProjectileDamage: 1
+  RangedAttackCooldown: 1
   ChasePlayerAfterAttack: 1
-  DefaultAttackTime: 2
 --- !u!114 &8563545764620429245
 MonoBehaviour:
   m_ObjectHideFlags: 0

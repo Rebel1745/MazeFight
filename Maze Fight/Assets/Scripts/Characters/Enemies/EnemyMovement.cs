@@ -142,9 +142,8 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
-    // TODO: making this a trigger from animation event will allow it to be only called once
-    // removing the current issue of one attack destroying a player
-    void MeleeAttack()
+    // TODO: Add a check each frame of the animation for a hit rather than just once
+    public void MeleeAttack()
     {
         RaycastHit hit;
         if (Physics.SphereCast(transform.position, AttackWidth, characterMovement.LastLookDirection, out hit, MeleeAttackRange, WhatIsPlayer))
@@ -163,7 +162,7 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
-    void RangedAttack()
+    public void RangedAttack()
     {
         // instantiate the prjectile and set it flying
         GameObject projectile = Instantiate(RangedProjectilePrefab, ProjectileSpawnPoint.position, Quaternion.identity);
@@ -189,14 +188,15 @@ public class EnemyMovement : MonoBehaviour
         if(currentAttackTime > currentCooldown)
         {
             ChangeAnimationState(attackType);
-            if (IsMeleeAttacker)
+            // removed as it is now an animation event
+            /*if (IsMeleeAttacker)
             {
-                MeleeAttack();
+                //MeleeAttack();
             }
             else { 
                 // move this next line to an AnimationEvent.  TESTING PURPOSES ONLY
                 RangedAttack();
-            }            
+            } */           
             Invoke(nameof(ResetAttack), attackAnimDuration);
         }
 
@@ -211,6 +211,8 @@ public class EnemyMovement : MonoBehaviour
     {
         currentAttackTime = 0f;
         ChangeAnimationState(IDLE);
+        attackPlayer = false;
+        followPlayer = true;
     }
 
     public void ChangeAnimationState(string newState)
