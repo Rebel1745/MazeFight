@@ -353,7 +353,7 @@ MonoBehaviour:
   MazeLoader: {fileID: 1273461459}
   mg: {fileID: 0}
   PlayerPrefab: {fileID: 7076842604959875438, guid: 2f660afd6d30b4f4aa12657b3c9ea64f, type: 3}
-  EnemyPrefab: {fileID: 7076842604959875438, guid: 81ab54fd9eb770449bbf42e249b2a344, type: 3}
+  EnemyPrefab: {fileID: 1306763225742071493, guid: 8873858713293a447ac95732d81fc75e, type: 3}
   CameraFollowTargetPrefab: {fileID: 9186673820176548536, guid: 5fe0abadaae2415418c7a6061e0b534d, type: 3}
   cf: {fileID: 0}
 --- !u!4 &1231071525
