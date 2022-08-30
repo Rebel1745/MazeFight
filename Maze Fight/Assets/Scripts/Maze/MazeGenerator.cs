@@ -4,25 +4,25 @@ using UnityEngine;
 
 public class MazeGenerator : MonoBehaviour
 {
+    public CharacterSpawner cs;
+    public HazardSpawner hs;
+
     // maze setup
     public MazeCell[,] MazeCells;
     public GameObject Wall;
     public GameObject Floor;
     public GameObject UnderFloor;
     public GameObject Door;
-    public GameObject Player;
-    public GameObject Poker;
-    public GameObject RotatingArm;
     private float wallLength = 0.0f;
     private float wallHeight = 0.0f;
     private float wallWidth = 0.0f;
-    private float floorLength = 0.0f;
+    public float floorLength = 0.0f;
     private float doorLength = 0.0f;
     private float doorHeight = 0.0f;
     public float UnderFloorHeight = -0.5f;
+    public float UnderFloorColliderOffsetY = 0.15f;
     public int MazeX = 5;
     public int MazeY = 5;
-    public int MazeSeed = 0;
     private int mazeCellCount;
     // for debugging purposes only
     public MazeCell[] Cells;
@@ -32,6 +32,7 @@ public class MazeGenerator : MonoBehaviour
     private int currentY = 0;
     private bool courseComplete = false;
     private int currentRoom = 0;
+    public int totalRooms = 0;
     private bool roomsComplete = false;
 
     //TODO: 
@@ -39,14 +40,15 @@ public class MazeGenerator : MonoBehaviour
 
     public void GenerateMaze()
     {
-        Random.InitState(MazeSeed);
         InitialiseMaze();
         CreateMaze();
         CreateRooms();
         CreateDoors();
         UpdateAdjoiningWalls();
         DeactivateRooms();
-        CreateHazards();
+        cs.CreatePlayer();
+        cs.CreateEnemies();
+        //hs.CreateHazards();
     }
 
     void DeactivateRooms()
@@ -99,72 +101,6 @@ public class MazeGenerator : MonoBehaviour
                         currentCell.WestWall.SetActive(true);
                     currentCell.Floor.SetActive(true);
                 }
-            }
-        }
-    }
-
-    void CreateHazards()
-    {
-        GameObject hazardHolder = new GameObject
-        {
-            name = "Hazards"
-        };
-        // test cell will be the second cell created
-        MazeCell currentCell;
-        GameObject currentFloor;
-
-        // used for debugging
-        /*currentCell = MazeCells[1, 0];
-        currentFloor = currentCell.Floor;*/
-
-        for (int y = 0; y < MazeY; y++)
-        {
-            for (int x = 0; x < MazeX; x++)
-            {
-                if(x != 0 || y != 0)
-                {
-                    currentCell = MazeCells[x, y];
-                    currentFloor = currentCell.Floor;
-
-                    //CreateRotationHazardCell(currentCell, currentFloor, hazardHolder);  // Used to create rotating arm traps
-                    //CreatePokerHazardCell(currentCell, currentFloor, hazardHolder);  // Used to create poker traps
-
-                }                
-            }
-        }
-
-    }
-
-    void CreateRotationHazardCell(MazeCell currentCell, GameObject currentFloor, GameObject hazardHolder)
-    {
-        GameObject tempHazard;
-        tempHazard = Instantiate(RotatingArm, currentFloor.transform.position, Quaternion.identity);
-        tempHazard.transform.parent = hazardHolder.transform;
-        tempHazard.name = "Rotating Arm (" + currentCell.CellNumber + ")";
-    }
-
-    void CreatePokerHazardCell(MazeCell curentCell, GameObject currentFloor, GameObject hazardHolder)
-    {
-        GameObject tempHazard;
-        float pokerWidth = Poker.transform.localScale.x;
-        float pokerLength = Poker.transform.localScale.z;
-        float xOffset, zOffset;
-
-        int totalXHazards = Mathf.CeilToInt(floorLength / pokerWidth);
-        int totalZHazards = Mathf.CeilToInt(floorLength / pokerLength);
-
-        float startPosX = currentFloor.transform.position.x - (floorLength / 2) + (pokerWidth / 2);
-        float startPosZ = currentFloor.transform.position.z - (floorLength / 2) + (pokerLength / 2);
-
-        for (int zHaz = 0; zHaz < totalZHazards; zHaz++)
-        {
-            for (int xHaz = 0; xHaz < totalXHazards; xHaz++)
-            {
-                xOffset = xHaz * pokerLength;
-                zOffset = zHaz * pokerWidth;
-                tempHazard = Instantiate(Poker, new Vector3(startPosX + xOffset, 0f, startPosZ + zOffset), Quaternion.identity);
-                tempHazard.transform.parent = hazardHolder.transform;
-                tempHazard.name = "Poker (" + xHaz + ", " + zHaz + ")";
             }
         }
     }
@@ -346,7 +282,10 @@ public class MazeGenerator : MonoBehaviour
         }
 
         if (nextCell == null)
+        {
             roomsComplete = true;
+            totalRooms = currentRoom;
+        }
 
         return nextCell;
     }
@@ -613,7 +552,8 @@ public class MazeGenerator : MonoBehaviour
 
         tempUnderFloor = Instantiate(UnderFloor, new Vector3(underFloorStartX, underFloorStartY, underFloorStartZ), Quaternion.identity);
         tempUnderFloor.transform.localScale = new Vector3(underfloorLength, 1f, underfloorWidth);
-        tempUnderFloor.AddComponent<BoxCollider>();
+        BoxCollider bc = tempUnderFloor.AddComponent<BoxCollider>();
+        bc.center.Set(0f, UnderFloorColliderOffsetY, 0f);
 
         for (int y = 0; y < MazeY; y++)
         {

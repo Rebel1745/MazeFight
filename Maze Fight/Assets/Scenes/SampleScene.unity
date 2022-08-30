@@ -352,10 +352,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MazeLoader: {fileID: 1273461459}
   mg: {fileID: 0}
-  PlayerPrefab: {fileID: 7076842604959875438, guid: 2f660afd6d30b4f4aa12657b3c9ea64f, type: 3}
-  EnemyPrefab: {fileID: 1306763225742071493, guid: 8873858713293a447ac95732d81fc75e, type: 3}
-  CameraFollowTargetPrefab: {fileID: 9186673820176548536, guid: 5fe0abadaae2415418c7a6061e0b534d, type: 3}
-  cf: {fileID: 0}
+  MazeSeed: 0
 --- !u!4 &1231071525
 Transform:
   m_ObjectHideFlags: 0
@@ -381,6 +378,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1273461459}
   - component: {fileID: 1273461458}
+  - component: {fileID: 1273461461}
+  - component: {fileID: 1273461460}
   m_Layer: 0
   m_Name: MazeLoader
   m_TagString: Untagged
@@ -400,18 +399,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa778e0f62da77448b113a825bc2eaf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cs: {fileID: 1273461461}
+  hs: {fileID: 1273461460}
   Wall: {fileID: 195376, guid: 5e6043ea0e6446c4b99fa86b481393a1, type: 3}
   Floor: {fileID: 140734, guid: 736acf0c96a324445a9aea0788a960c1, type: 3}
   UnderFloor: {fileID: 140734, guid: d0d6657ef0f116e43b7c8fbc91490bf1, type: 3}
   Door: {fileID: 129612843123279255, guid: 935df08b5df40ec4fa3ffff9532826be, type: 3}
-  Player: {fileID: 7076842604959875438, guid: 2f660afd6d30b4f4aa12657b3c9ea64f, type: 3}
-  Poker: {fileID: 254857078606120856, guid: 6040e30a991513e468ec65cc8224c3ed, type: 3}
-  RotatingArm: {fileID: 5093173483362830944, guid: b5a8a3ede041ff643906701f7e42748b, type: 3}
+  floorLength: 0
   UnderFloorHeight: -0.5
+  UnderFloorColliderOffsetY: 0.15
   MazeX: 10
   MazeY: 6
-  MazeSeed: 0
   Cells: []
+  totalRooms: 0
 --- !u!4 &1273461459
 Transform:
   m_ObjectHideFlags: 0
@@ -427,3 +427,39 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1273461460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1273461457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81a5fd899c5f6f5459d62e041c84a3d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mg: {fileID: 1273461458}
+  Poker: {fileID: 254857078606120856, guid: 6040e30a991513e468ec65cc8224c3ed, type: 3}
+  RotatingArm: {fileID: 5093173483362830944, guid: b5a8a3ede041ff643906701f7e42748b, type: 3}
+--- !u!114 &1273461461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1273461457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 389b12071bf8cb64ca7232fe2f5d2b45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mg: {fileID: 1273461458}
+  PlayerPrefab: {fileID: 7076842604959875438, guid: 2f660afd6d30b4f4aa12657b3c9ea64f, type: 3}
+  CameraFollowTargetPrefab: {fileID: 9186673820176548536, guid: 5fe0abadaae2415418c7a6061e0b534d, type: 3}
+  cf: {fileID: 0}
+  EnemyPrefabs:
+  - {fileID: 7076842604959875438, guid: 12458131d02032944ba07dbcc8583af5, type: 3}
+  - {fileID: 7076842604959875438, guid: 81ab54fd9eb770449bbf42e249b2a344, type: 3}
+  - {fileID: 1306763225742071493, guid: 8873858713293a447ac95732d81fc75e, type: 3}
+  EnemyNumber: 5
