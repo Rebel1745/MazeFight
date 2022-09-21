@@ -1811,7 +1811,7 @@ MonoBehaviour:
     m_Bits: 1024
   source: {fileID: 3971769968481765440}
   meleeAttackAvailable: 0
-  MeleeAttackCooldown: 2
+  MeleeAttackCooldown: 0.25
   MeleeWhoosh: {fileID: 8300000, guid: 7764c1d48f4322f46a8e166c025d92b1, type: 3}
   MeleeAttackDamage: 1
   DefaultMeleeAttackRange: 0.01
@@ -1821,12 +1821,12 @@ MonoBehaviour:
   attackSpinAvailable: 0
   isSpinning: 0
   AttackSpinCooldown: 2
-  AttackSpinNumber: 1
+  AttackSpinNumber: 10
   AttackSpinAnimationSpeed: 1
   SpinWhoosh: {fileID: 8300000, guid: 7764c1d48f4322f46a8e166c025d92b1, type: 3}
   SpinRadius: 1
   attackRangedAvailable: 0
-  AttackRangedCooldown: 2
+  AttackRangedCooldown: 0.1
   AttackRangedAnimationSpeed: 1
   RangedProjectilePrefab: {fileID: 1254802954257865886, guid: cd6373f52bdf0734ebb0048a0b120f02, type: 3}
   ProjectileSpawnPoint: {fileID: 1064771857688485755}
@@ -1836,9 +1836,9 @@ MonoBehaviour:
   FistRight: {fileID: 329494134705117795}
   UpperArmLeft: {fileID: 8053378775864873615}
   FistLeft: {fileID: 6669742077109006407}
-  UpperArmMeleeScale: {x: 1, y: 1, z: 1}
+  UpperArmMeleeScale: {x: 1, y: 2.57, z: 1}
   FistMeleeScale: {x: 1, y: 1, z: 1}
-  UpperArmSpinScale: {x: 1, y: 1, z: 1}
+  UpperArmSpinScale: {x: 1, y: 5.12, z: 1}
   FistSpinScale: {x: 1, y: 1, z: 1}
 --- !u!114 &8563545764620429245
 MonoBehaviour:

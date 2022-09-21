@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4690212962575140650}
   - component: {fileID: 1280510825483464229}
   - component: {fileID: 5027560655754650690}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: TargetedMark
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32,7 +32,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7662657366859822158}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4690212962575140650
 MeshFilter:
@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 7983245601811117607}
   - component: {fileID: 1231568036549234066}
   - component: {fileID: 1744890120156185342}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: EyeRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -209,7 +209,7 @@ GameObject:
   - component: {fileID: 4444049355002754744}
   - component: {fileID: 5229977527534884409}
   - component: {fileID: 4580197437420200057}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: EnemySlimeBouncer
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -228,8 +228,9 @@ Transform:
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5127095877467259367}
   - {fileID: 1580462257137480059}
+  - {fileID: 1799007902693628733}
+  - {fileID: 5127095877467259367}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -294,6 +295,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StartingHealth: 2
+  DestroyPopupAfterTime: 1
+  DamagePopupSpawnPoint: {fileID: 1799007902693628733}
+  DamagePopupPrefab: {fileID: 8380677813114030212, guid: 8a24fa938613fd641aee9e9176d34231, type: 3}
 --- !u!114 &5229977527534884409
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -336,7 +340,7 @@ GameObject:
   - component: {fileID: 2835898124215115811}
   - component: {fileID: 8390419905191647093}
   - component: {fileID: 8315744037222583187}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -434,7 +438,7 @@ GameObject:
   - component: {fileID: 2865466515650793333}
   - component: {fileID: 7918450464622066857}
   - component: {fileID: 7882785445139833510}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Mouth (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -519,6 +523,37 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &6004598259469439854
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1799007902693628733}
+  m_Layer: 10
+  m_Name: DamagePopupSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1799007902693628733
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6004598259469439854}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.5, z: 0}
+  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7662657366859822158}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6188125437310371659
 GameObject:
   m_ObjectHideFlags: 0
@@ -528,7 +563,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5127095877467259367}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: GFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -554,7 +589,7 @@ Transform:
   - {fileID: 1642960758918618179}
   - {fileID: 1443828941951134528}
   m_Father: {fileID: 7662657366859822158}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6280452258862364834
 GameObject:
@@ -568,7 +603,7 @@ GameObject:
   - component: {fileID: 7875341542679392011}
   - component: {fileID: 1275933974029972289}
   - component: {fileID: 6175220561143371691}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Mouth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -665,9 +700,9 @@ GameObject:
   - component: {fileID: 1145481512094482150}
   - component: {fileID: 1516653415251678682}
   - component: {fileID: 8951352930548405631}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Body
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -762,7 +797,7 @@ GameObject:
   - component: {fileID: 9211034079069006228}
   - component: {fileID: 8367130921535981813}
   - component: {fileID: 2416731010090011104}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: EyeLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
