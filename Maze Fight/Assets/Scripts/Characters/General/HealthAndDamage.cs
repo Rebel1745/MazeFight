@@ -5,16 +5,39 @@ using TMPro;
 
 public class HealthAndDamage : MonoBehaviour
 {
+    public bool isPlayer = true;
+
     public float StartingHealth = 2f;
     float currentHealth;
 
     public float DestroyPopupAfterTime = 1f;
     public Transform DamagePopupSpawnPoint;
     public GameObject DamagePopupPrefab;
+    
+    private HealthBar healthBar;
 
     void Start()
     {
         currentHealth = StartingHealth;
+
+        GameObject tmp;
+
+        if (isPlayer)
+        {
+            tmp = GameObject.Find("PlayerHealthBar");
+        }
+        else
+        {
+            tmp = GameObject.Find("EnemyHealthBar");
+        }
+
+        if(tmp)
+            healthBar = tmp.GetComponent<HealthBar>();
+
+        if (healthBar)
+        {
+            healthBar.SetMaxHealth(StartingHealth);
+        }
     }
 
     void CreateDamagePopup(float damage)
@@ -30,6 +53,9 @@ public class HealthAndDamage : MonoBehaviour
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
+
+        if(healthBar)
+            healthBar.SetHealth(currentHealth);
 
         if(DamagePopupPrefab)
             CreateDamagePopup(damage);

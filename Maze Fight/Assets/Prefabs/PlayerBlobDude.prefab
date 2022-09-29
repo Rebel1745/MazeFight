@@ -1966,6 +1966,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StartingHealth: 2
+  DestroyPopupAfterTime: 1
+  DamagePopupSpawnPoint: {fileID: 0}
+  DamagePopupPrefab: {fileID: 0}
+  HealthBarPrefab: {fileID: 4203923766284700885, guid: 08fc3bba1bc47aa448faaa4a9ccab114, type: 3}
 --- !u!1 &7154442487531051998
 GameObject:
   m_ObjectHideFlags: 0
