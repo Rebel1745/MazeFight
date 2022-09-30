@@ -15,29 +15,47 @@ public class HealthAndDamage : MonoBehaviour
     public GameObject DamagePopupPrefab;
     
     private HealthBar healthBar;
+    private GameObject healthBarGO;
+
+    public float HealthBarVisibilityTimer = 1f;
 
     void Start()
     {
         currentHealth = StartingHealth;
 
-        GameObject tmp;
-
         if (isPlayer)
         {
-            tmp = GameObject.Find("PlayerHealthBar");
+            healthBarGO = GameObject.Find("PlayerHealthBar");
         }
         else
         {
-            tmp = GameObject.Find("EnemyHealthBar");
+            healthBarGO = GameObject.Find("EnemyHealthBar");
         }
 
-        if(tmp)
-            healthBar = tmp.GetComponent<HealthBar>();
+        if (healthBarGO)
+            healthBar = healthBarGO.GetComponent<HealthBar>();
 
         if (healthBar)
         {
             healthBar.SetMaxHealth(StartingHealth);
+            if (!isPlayer)
+                healthBar.SetVisibleTimer(0);
         }
+    }
+
+    void UpdateHealthBar()
+    {
+        if (!healthBar)
+            return;
+
+        if (!isPlayer)
+        {
+            healthBarGO.SetActive(true);
+            healthBar.SetMaxHealth(StartingHealth);
+            healthBar.SetVisibleTimer(HealthBarVisibilityTimer);
+        }
+
+        healthBar.SetHealth(currentHealth);
     }
 
     void CreateDamagePopup(float damage)
@@ -54,8 +72,7 @@ public class HealthAndDamage : MonoBehaviour
     {
         currentHealth -= damage;
 
-        if(healthBar)
-            healthBar.SetHealth(currentHealth);
+        UpdateHealthBar();
 
         if(DamagePopupPrefab)
             CreateDamagePopup(damage);

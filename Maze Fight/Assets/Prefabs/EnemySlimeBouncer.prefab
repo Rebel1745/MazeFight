@@ -294,10 +294,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 189b9171c67d08b459419d3c6f5672cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPlayer: 0
   StartingHealth: 2
   DestroyPopupAfterTime: 1
   DamagePopupSpawnPoint: {fileID: 1799007902693628733}
   DamagePopupPrefab: {fileID: 8380677813114030212, guid: 8a24fa938613fd641aee9e9176d34231, type: 3}
+  HealthBarVisibilityTimer: 2
 --- !u!114 &5229977527534884409
 MonoBehaviour:
   m_ObjectHideFlags: 0
