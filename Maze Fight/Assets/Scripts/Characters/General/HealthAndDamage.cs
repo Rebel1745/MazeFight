@@ -19,6 +19,9 @@ public class HealthAndDamage : MonoBehaviour
 
     public float HealthBarVisibilityTimer = 1f;
 
+    public GameObject CollectablePrefab;
+    public int CollectableCount = 1;
+
     void Start()
     {
         currentHealth = StartingHealth;
@@ -85,6 +88,15 @@ public class HealthAndDamage : MonoBehaviour
 
     void Die()
     {
+        if(CollectablePrefab && CollectableCount > 0)
+        {
+            // spawn collectable(s)
+            for (int i = 0; i < CollectableCount; i++)
+            {
+                Instantiate(CollectablePrefab, DamagePopupSpawnPoint.position, Quaternion.identity);
+            }
+        }
+
         // code here for playing death animation
         DestroyObject();
     }
