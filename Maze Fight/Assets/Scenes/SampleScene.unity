@@ -199,7 +199,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -761,10 +761,6 @@ PrefabInstance:
     - target: {fileID: 3355048328074171166, guid: e840d8c256701eb40949a11ce61b5a41, type: 3}
       propertyPath: m_Name
       value: EnemyHealthBar
-      objectReference: {fileID: 0}
-    - target: {fileID: 3355048328074171166, guid: e840d8c256701eb40949a11ce61b5a41, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3355048328074171167, guid: e840d8c256701eb40949a11ce61b5a41, type: 3}
       propertyPath: m_Pivot.x

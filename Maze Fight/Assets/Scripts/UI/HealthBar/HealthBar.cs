@@ -2,24 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class HealthBar : MonoBehaviour
 {
     public Slider slider;
+    public TextMeshProUGUI HealthText;
 
     private bool setToHideAfterTime = false;
     private float visibleTime;
     private float currentVisibleTime = 0f;
 
+    void SetHealthText()
+    {
+        if (HealthText)
+            HealthText.text = slider.value + " / " + slider.maxValue;
+    }
+
     public void SetHealth(float health)
     {
         slider.value = health;
+        SetHealthText();
     }
 
     public void SetMaxHealth(float maxHealth)
     {
         slider.maxValue = maxHealth;
         slider.value = maxHealth;
+        SetHealthText();
     }
 
     public void SetVisibleTimer(float time)

@@ -32,17 +32,12 @@ public class Collectable : MonoBehaviour
 
         if(Vector3.Distance(player.position, transform.position) <= AttractDistance)
         {
-            col.isTrigger = true;
+            if (col)
+            {
+                col.isTrigger = true;
+            }
             Vector3 newPos = Vector3.MoveTowards(transform.position, player.position, MoveSpeed * Time.deltaTime);
             transform.position = new Vector3(newPos.x, transform.position.y, newPos.z);
-        }
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.transform.CompareTag("Player"))
-        {
-            Destroy(gameObject);
         }
     }
 }

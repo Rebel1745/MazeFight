@@ -31,7 +31,7 @@ Transform:
   - {fileID: 7076842604066791030}
   - {fileID: 7076842604758505357}
   m_Father: {fileID: 7076842604959875426}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &442418370541001492
 GameObject:
@@ -1332,6 +1332,37 @@ Transform:
   m_Father: {fileID: 3592297090714443457}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: -32.479362, z: -0}
+--- !u!1 &6770819071709343288
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6382641701898416492}
+  m_Layer: 9
+  m_Name: DamagePopoupSpawnPoint
+  m_TagString: Player
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6382641701898416492
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6770819071709343288}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 3.35, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7076842604959875426}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7076842604066791031
 GameObject:
   m_ObjectHideFlags: 0
@@ -1532,6 +1563,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 612039456003202054}
+  - {fileID: 6382641701898416492}
   - {fileID: 1064771857688485755}
   - {fileID: 925414857551968137}
   m_Father: {fileID: 0}
@@ -1966,13 +1998,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayer: 1
-  StartingHealth: 2
+  StartingHealth: 100
   DestroyPopupAfterTime: 1
-  DamagePopupSpawnPoint: {fileID: 0}
-  DamagePopupPrefab: {fileID: 0}
+  DamagePopupSpawnPoint: {fileID: 6382641701898416492}
+  DamagePopupPrefab: {fileID: 8380677813114030212, guid: 8a24fa938613fd641aee9e9176d34231, type: 3}
+  DamageColour: {r: 1, g: 0, b: 0, a: 0}
+  HealColour: {r: 0, g: 1, b: 0.12013221, a: 0}
   HealthBarVisibilityTimer: 1
-  CollectablePrefab: {fileID: 0}
-  CollectableCount: 1
+  CollectableGoldPrefab: {fileID: 0}
+  CollectableHealthPrefab: {fileID: 0}
+  CollectableCount: 0
+  HealthChancePercentage: 0
 --- !u!1 &7154442487531051998
 GameObject:
   m_ObjectHideFlags: 0
@@ -2637,5 +2673,5 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7076842604959875426}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
