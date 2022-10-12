@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CollectableGold : MonoBehaviour
 {
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.transform.CompareTag("Player"))

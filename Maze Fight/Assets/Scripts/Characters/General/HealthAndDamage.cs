@@ -98,6 +98,8 @@ public class HealthAndDamage : MonoBehaviour
         if (currentHealth > StartingHealth)
             currentHealth = StartingHealth;
 
+        UpdateHealthBar();
+
         if (DamagePopupPrefab)
             CreateDamagePopup(healAmount, HealColour);
     }

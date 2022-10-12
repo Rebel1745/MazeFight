@@ -1622,7 +1622,7 @@ MonoBehaviour:
   CollectableGoldPrefab: {fileID: 3223261486549517938, guid: fb5a1d5c2a7725941ab13ba8ac1d9036, type: 3}
   CollectableHealthPrefab: {fileID: 3223261486549517938, guid: 286da284f97db9f489443b665b1190e9, type: 3}
   CollectableCount: 1
-  HealthChancePercentage: 10
+  HealthChancePercentage: 80
 --- !u!1 &7154442487531051998
 GameObject:
   m_ObjectHideFlags: 0

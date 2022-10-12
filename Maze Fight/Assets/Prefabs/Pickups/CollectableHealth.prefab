@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5768234458739369487}
   - component: {fileID: 885585954259559138}
   - component: {fileID: 7293403154139361734}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: GFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 1.1, y: 1.1, z: 1.1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &7293403154139361734
 MonoBehaviour:
@@ -110,6 +110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7be602ea82af5c4a906323b4e13337a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HealthAmount: 5
 --- !u!1 &3223261486549517938
 GameObject:
   m_ObjectHideFlags: 0
@@ -121,7 +122,7 @@ GameObject:
   - component: {fileID: 2529685657479843994}
   - component: {fileID: 4078369930203297842}
   - component: {fileID: 3069074617964129352}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: CollectableHealth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -159,7 +160,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &3069074617964129352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,5 +176,5 @@ MonoBehaviour:
   rb: {fileID: 4078369930203297842}
   col: {fileID: 885585954259559138}
   AttractDistance: 2
-  MoveSpeed: 10
+  MoveSpeed: 20
   InitialSpeed: 100

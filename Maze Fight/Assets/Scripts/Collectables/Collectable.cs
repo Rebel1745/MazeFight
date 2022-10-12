@@ -9,6 +9,7 @@ public class Collectable : MonoBehaviour
     public float AttractDistance = 2f;
     public float MoveSpeed = 10f;
     public float InitialSpeed = 100f;
+    bool isAttracted = false;
 
     Transform player;
 
@@ -30,14 +31,14 @@ public class Collectable : MonoBehaviour
         if (!player)
             return;
 
-        if(Vector3.Distance(player.position, transform.position) <= AttractDistance)
+        if(Vector3.Distance(player.position, transform.position) <= AttractDistance || isAttracted)
         {
-            if (col)
-            {
-                col.isTrigger = true;
-            }
+            col.isTrigger = true;
+            rb.useGravity = false;
+            isAttracted = true;
             Vector3 newPos = Vector3.MoveTowards(transform.position, player.position, MoveSpeed * Time.deltaTime);
-            transform.position = new Vector3(newPos.x, transform.position.y, newPos.z);
+            transform.position = newPos;
+            //transform.position = Vector3.Lerp(transform.position, player.transform.position, MoveSpeed * Time.deltaTime);
         }
     }
 }

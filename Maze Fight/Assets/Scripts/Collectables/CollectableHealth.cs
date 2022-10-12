@@ -6,11 +6,11 @@ public class CollectableHealth : MonoBehaviour
 {
     public float HealthAmount = 5f;
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)    
     {
         if (other.transform.CompareTag("Player"))
         {
-            other.GetComponentInChildren<HealthAndDamage>().
+            other.transform.GetComponentInParent<HealthAndDamage>().Heal(HealthAmount);
 
             Destroy(transform.parent.gameObject);
         }
