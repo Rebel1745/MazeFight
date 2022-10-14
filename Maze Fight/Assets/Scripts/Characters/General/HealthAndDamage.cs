@@ -5,14 +5,13 @@ using TMPro;
 
 public class HealthAndDamage : MonoBehaviour
 {
+    public PopupNumbers pn;
+
     public bool isPlayer = true;
 
     public float StartingHealth = 2f;
     float currentHealth;
 
-    public float DestroyPopupAfterTime = 1f;
-    public Transform DamagePopupSpawnPoint;
-    public GameObject DamagePopupPrefab;
     public Color DamageColour;
     public Color HealColour;
     
@@ -21,6 +20,7 @@ public class HealthAndDamage : MonoBehaviour
 
     public float HealthBarVisibilityTimer = 1f;
 
+    public Transform CollectableSpawnPoint;
     public GameObject CollectableGoldPrefab;
     public GameObject CollectableHealthPrefab;
     public int CollectableCount = 1;
@@ -32,7 +32,7 @@ public class HealthAndDamage : MonoBehaviour
 
         if (isPlayer)
         {
-            healthBarGO = GameObject.Find("PlayerHealthBar");
+            healthBarGO = GameObject.Find("PlayerStatusBar");
         }
         else
         {
@@ -48,6 +48,9 @@ public class HealthAndDamage : MonoBehaviour
             if (!isPlayer)
                 healthBar.SetVisibleTimer(0);
         }
+
+        Debug.Log(DamageColour);
+        Debug.Log(HealColour);
     }
 
     void UpdateHealthBar()
@@ -65,25 +68,13 @@ public class HealthAndDamage : MonoBehaviour
         healthBar.SetHealth(currentHealth);
     }
 
-    void CreateDamagePopup(float damage, Color col)
-    {
-        GameObject damagePopup = Instantiate(DamagePopupPrefab, DamagePopupSpawnPoint.position, Quaternion.identity);
-        TextMeshProUGUI tmp = damagePopup.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-        tmp.faceColor = col;
-
-        tmp.text = damage.ToString();
-
-        Destroy(damagePopup, DestroyPopupAfterTime);
-    }
-
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
 
         UpdateHealthBar();
 
-        if(DamagePopupPrefab)
-            CreateDamagePopup(damage, DamageColour);
+        pn.CreatePopup(damage.ToString(), DamageColour);
 
         if(currentHealth <= 0)
         {
@@ -100,8 +91,7 @@ public class HealthAndDamage : MonoBehaviour
 
         UpdateHealthBar();
 
-        if (DamagePopupPrefab)
-            CreateDamagePopup(healAmount, HealColour);
+        pn.CreatePopup("+" + healAmount.ToString(), HealColour);
     }
 
     void Die()
@@ -111,7 +101,7 @@ public class HealthAndDamage : MonoBehaviour
             // spawn collectable(s)
             for (int i = 0; i < CollectableCount; i++)
             {
-                Instantiate(CollectableGoldPrefab, DamagePopupSpawnPoint.position, Quaternion.identity);
+                Instantiate(CollectableGoldPrefab, CollectableSpawnPoint.position, Quaternion.identity);
             }
         }
 
@@ -119,7 +109,7 @@ public class HealthAndDamage : MonoBehaviour
         if(rand <= HealthChancePercentage)
         {
             // spawn a health pickup
-            Instantiate(CollectableHealthPrefab, DamagePopupSpawnPoint.position, Quaternion.identity);
+            Instantiate(CollectableHealthPrefab, CollectableSpawnPoint.position, Quaternion.identity);
         }
 
         // code here for playing death animation

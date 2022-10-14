@@ -1474,6 +1474,7 @@ GameObject:
   - component: {fileID: 8563545764620429245}
   - component: {fileID: 8527259485024563466}
   - component: {fileID: 2037214905874817269}
+  - component: {fileID: 7030872419521007715}
   m_Layer: 10
   m_Name: EnemyBlobMelee
   m_TagString: Enemy
@@ -1611,18 +1612,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 189b9171c67d08b459419d3c6f5672cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pn: {fileID: 7030872419521007715}
   isPlayer: 0
   StartingHealth: 2
-  DestroyPopupAfterTime: 1
-  DamagePopupSpawnPoint: {fileID: 7512968174314019132}
-  DamagePopupPrefab: {fileID: 8380677813114030212, guid: 8a24fa938613fd641aee9e9176d34231, type: 3}
   DamageColour: {r: 1, g: 0, b: 0, a: 0}
   HealColour: {r: 0.0048570633, g: 1, b: 0, a: 0}
   HealthBarVisibilityTimer: 2
+  CollectableSpawnPoint: {fileID: 7512968174314019132}
   CollectableGoldPrefab: {fileID: 3223261486549517938, guid: fb5a1d5c2a7725941ab13ba8ac1d9036, type: 3}
   CollectableHealthPrefab: {fileID: 3223261486549517938, guid: 286da284f97db9f489443b665b1190e9, type: 3}
   CollectableCount: 1
   HealthChancePercentage: 80
+--- !u!114 &7030872419521007715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7076842604959875438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a1b76b39852ea649abbb33475f35148, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DestroyPopupAfterTime: 1
+  PopupSpawnPoint: {fileID: 7512968174314019132}
+  PopupPrefab: {fileID: 8380677813114030212, guid: 8a24fa938613fd641aee9e9176d34231, type: 3}
 --- !u!1 &7154442487531051998
 GameObject:
   m_ObjectHideFlags: 0

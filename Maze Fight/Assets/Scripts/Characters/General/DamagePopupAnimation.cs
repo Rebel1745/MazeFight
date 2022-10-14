@@ -15,6 +15,8 @@ public class DamagePopupAnimation : MonoBehaviour
 
     private Camera cam;
 
+    private Color col;
+
     private void Awake()
     {
         tmp = transform.GetChild(0).GetComponent<TextMeshProUGUI>();
@@ -25,7 +27,9 @@ public class DamagePopupAnimation : MonoBehaviour
 
     void Update()
     {
-        tmp.color = new Color(1, 1, 1, OpacityCurve.Evaluate(time));
+        col = tmp.color;
+
+        tmp.color = new Color(col.r, col.g, col.b, OpacityCurve.Evaluate(time));
         transform.localScale = Vector3.one * ScaleCurve.Evaluate(time);
         transform.position = origin + new Vector3(0f, HeightCurve.Evaluate(time), 0f);
         time += Time.deltaTime;

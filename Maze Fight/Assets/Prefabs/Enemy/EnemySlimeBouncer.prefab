@@ -209,6 +209,7 @@ GameObject:
   - component: {fileID: 4444049355002754744}
   - component: {fileID: 5229977527534884409}
   - component: {fileID: 4580197437420200057}
+  - component: {fileID: -6455955914981040354}
   m_Layer: 10
   m_Name: EnemySlimeBouncer
   m_TagString: Enemy
@@ -294,14 +295,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 189b9171c67d08b459419d3c6f5672cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pn: {fileID: -6455955914981040354}
   isPlayer: 0
   StartingHealth: 2
-  DestroyPopupAfterTime: 1
-  DamagePopupSpawnPoint: {fileID: 1799007902693628733}
-  DamagePopupPrefab: {fileID: 8380677813114030212, guid: 8a24fa938613fd641aee9e9176d34231, type: 3}
   DamageColour: {r: 1, g: 0, b: 0, a: 0}
   HealColour: {r: 0.0048570633, g: 1, b: 0, a: 0}
   HealthBarVisibilityTimer: 2
+  CollectableSpawnPoint: {fileID: 1799007902693628733}
   CollectableGoldPrefab: {fileID: 3223261486549517938, guid: fb5a1d5c2a7725941ab13ba8ac1d9036, type: 3}
   CollectableHealthPrefab: {fileID: 3223261486549517938, guid: 286da284f97db9f489443b665b1190e9, type: 3}
   CollectableCount: 1
@@ -336,6 +336,21 @@ MonoBehaviour:
   KnockbackMultiplier: 1
   KnockbackDuration: 0.1
   KnockbackSpeed: 50
+--- !u!114 &-6455955914981040354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1306763225742071493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a1b76b39852ea649abbb33475f35148, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DestroyPopupAfterTime: 1
+  PopupSpawnPoint: {fileID: 1799007902693628733}
+  PopupPrefab: {fileID: 8380677813114030212, guid: 8a24fa938613fd641aee9e9176d34231, type: 3}
 --- !u!1 &1884124168287265315
 GameObject:
   m_ObjectHideFlags: 0
@@ -555,7 +570,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6004598259469439854}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.5, z: 0}
+  m_LocalPosition: {x: 0, y: 1.52, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -1342,7 +1342,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6382641701898416492}
   m_Layer: 9
-  m_Name: DamagePopoupSpawnPoint
+  m_Name: NumberPopoupSpawnPoint
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1542,7 +1542,9 @@ GameObject:
   - component: {fileID: 1426370420010457646}
   - component: {fileID: 8563545764620429245}
   - component: {fileID: 3971769968481765440}
+  - component: {fileID: -6338267218688942614}
   - component: {fileID: 222071043897766861}
+  - component: {fileID: -913232684799700498}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -1985,6 +1987,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-6338267218688942614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7076842604959875438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a1b76b39852ea649abbb33475f35148, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DestroyPopupAfterTime: 1
+  PopupSpawnPoint: {fileID: 6382641701898416492}
+  PopupPrefab: {fileID: 8380677813114030212, guid: 8a24fa938613fd641aee9e9176d34231, type: 3}
 --- !u!114 &222071043897766861
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1997,18 +2014,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 189b9171c67d08b459419d3c6f5672cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pn: {fileID: -6338267218688942614}
   isPlayer: 1
   StartingHealth: 100
-  DestroyPopupAfterTime: 1
-  DamagePopupSpawnPoint: {fileID: 6382641701898416492}
-  DamagePopupPrefab: {fileID: 8380677813114030212, guid: 8a24fa938613fd641aee9e9176d34231, type: 3}
   DamageColour: {r: 1, g: 0, b: 0, a: 0}
   HealColour: {r: 0, g: 1, b: 0.12013221, a: 0}
   HealthBarVisibilityTimer: 1
-  CollectableGoldPrefab: {fileID: 0}
-  CollectableHealthPrefab: {fileID: 0}
+  CollectableSpawnPoint: {fileID: 6382641701898416492}
+  CollectableGoldPrefab: {fileID: 3223261486549517938, guid: fb5a1d5c2a7725941ab13ba8ac1d9036, type: 3}
+  CollectableHealthPrefab: {fileID: 3223261486549517938, guid: 286da284f97db9f489443b665b1190e9, type: 3}
   CollectableCount: 0
   HealthChancePercentage: 0
+--- !u!114 &-913232684799700498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7076842604959875438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efc3d9df7936a1449b4eddb286151279, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pn: {fileID: -6338267218688942614}
+  StartingGold: 0
+  GoldColor: {r: 0.8113208, g: 0.7031427, b: 0.19517621, a: 1}
+  PurchaseColor: {r: 0.8490566, g: 0.108134575, b: 0.14950342, a: 1}
 --- !u!1 &7154442487531051998
 GameObject:
   m_ObjectHideFlags: 0
