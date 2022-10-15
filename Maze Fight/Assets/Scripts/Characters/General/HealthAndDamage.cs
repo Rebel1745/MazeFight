@@ -48,9 +48,6 @@ public class HealthAndDamage : MonoBehaviour
             if (!isPlayer)
                 healthBar.SetVisibleTimer(0);
         }
-
-        Debug.Log(DamageColour);
-        Debug.Log(HealColour);
     }
 
     void UpdateHealthBar()

@@ -10,6 +10,8 @@ public class Collectable : MonoBehaviour
     public float MoveSpeed = 10f;
     public float InitialSpeed = 100f;
     bool isAttracted = false;
+    bool isAttractable = false;
+    public float TimeBeforeAttractable = 1f;
 
     Transform player;
 
@@ -23,12 +25,16 @@ public class Collectable : MonoBehaviour
         Vector3 force = transform.forward;
         force = new Vector3(force.x, 1, force.z);
         rb.AddForce(force * InitialSpeed);
+
+        Invoke("SetAsAttractable", TimeBeforeAttractable);
     }
 
     // Update is called once per frame
     void Update()
     {
         if (!player)
+            return;
+        if (!isAttractable)
             return;
 
         if(Vector3.Distance(player.position, transform.position) <= AttractDistance || isAttracted)
@@ -40,5 +46,10 @@ public class Collectable : MonoBehaviour
             transform.position = newPos;
             //transform.position = Vector3.Lerp(transform.position, player.transform.position, MoveSpeed * Time.deltaTime);
         }
+    }
+
+    void SetAsAttractable()
+    {
+        isAttractable = true;
     }
 }
