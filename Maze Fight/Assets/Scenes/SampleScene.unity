@@ -621,6 +621,7 @@ MonoBehaviour:
   mg: {fileID: 1273461458}
   Poker: {fileID: 254857078606120856, guid: 6040e30a991513e468ec65cc8224c3ed, type: 3}
   RotatingArm: {fileID: 5093173483362830944, guid: b5a8a3ede041ff643906701f7e42748b, type: 3}
+  ProjectileLauncher: {fileID: 6349848308703819442, guid: ecd4a8e175f474f4b8b5141bed0e2249, type: 3}
 --- !u!114 &1273461461
 MonoBehaviour:
   m_ObjectHideFlags: 0

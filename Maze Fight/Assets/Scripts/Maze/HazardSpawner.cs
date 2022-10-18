@@ -8,6 +8,7 @@ public class HazardSpawner : MonoBehaviour
 
     public GameObject Poker;
     public GameObject RotatingArm;
+    public GameObject ProjectileLauncher;
 
     public void CreateHazards()
     {
@@ -20,25 +21,35 @@ public class HazardSpawner : MonoBehaviour
         GameObject currentFloor;
 
         // used for debugging
-        /*currentCell = MazeCells[1, 0];
-        currentFloor = currentCell.Floor;*/
+        currentCell = mg.MazeCells[1, 0];
+        currentFloor = currentCell.Floor;
 
-        for (int y = 0; y < mg.MazeY; y++)
+        /*for (int y = 0; y < mg.MazeY; y++)
         {
             for (int x = 0; x < mg.MazeX; x++)
             {
                 if (x != 0 || y != 0)
                 {
                     currentCell = mg.MazeCells[x, y];
-                    currentFloor = currentCell.Floor;
+                    currentFloor = currentCell.Floor;*/
 
                     //CreateRotationHazardCell(currentCell, currentFloor, hazardHolder);  // Used to create rotating arm traps
                     //CreatePokerHazardCell(currentCell, currentFloor, hazardHolder);  // Used to create poker traps
-
-                }
+                    CreateProjectileLauncherCell(currentCell, currentFloor, hazardHolder);
+                /*}
             }
-        }
+        }*/
 
+    }
+
+    void CreateProjectileLauncherCell(MazeCell currentCell, GameObject currentFloor, GameObject hazardHolder)
+    {
+        GameObject tempHazard;
+        float launcherHeight = ProjectileLauncher.transform.localScale.y;
+        tempHazard = Instantiate(ProjectileLauncher, currentFloor.transform.position, Quaternion.identity);
+        tempHazard.transform.position = new Vector3(tempHazard.transform.position.x, tempHazard.transform.position.y + launcherHeight, tempHazard.transform.position.z);
+        tempHazard.transform.parent = hazardHolder.transform;
+        tempHazard.name = "Projectile Launcher (" + currentCell.CellNumber + ")";
     }
 
     void CreateRotationHazardCell(MazeCell currentCell, GameObject currentFloor, GameObject hazardHolder)

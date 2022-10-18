@@ -39,8 +39,9 @@ public class HazardLauncher : MonoBehaviour
             projectile.GetComponent<Rigidbody>().velocity = ProjectileSpawnPoint.right * ProjectileSpeed;
             HazardProjectile hp = projectile.GetComponent<HazardProjectile>();
             hp.ProjectileLifetime = ProjectileLifetime;
-            hp.CanBounce = true;
-            hp.MaxBounces = Random.Range(0, 2);
+            hp.CanBounce = false;
+            hp.MaxBounces = 0;
+            hp.IsPlayerProjectile = false;
         }
         
     }

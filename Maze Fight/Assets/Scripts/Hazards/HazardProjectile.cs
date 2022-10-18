@@ -79,11 +79,12 @@ public class HazardProjectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log(other.tag);
         // do nothing if it hits the player and they shot it
         if (IsPlayerProjectile && other.CompareTag("Player"))
             return;
         // do nothing if it hits an enemy and they shot it
-        if (!IsPlayerProjectile && other.CompareTag("Enemy"))
+        if (!IsPlayerProjectile && (other.CompareTag("Enemy") || other.CompareTag("Hazard")) )
             return;
 
         if (CanBounce && currentBounces < MaxBounces)
@@ -91,7 +92,7 @@ public class HazardProjectile : MonoBehaviour
             normal = -other.transform.forward;
             Bounce(normal);
         }
-        else if (!other.CompareTag("Projectile"))
+        else if (!other.CompareTag("Projectile") && !other.CompareTag("Hazard"))
         {
             // TODO: code to hit either player or enemy
             if(other.CompareTag("Player") || other.CompareTag("Enemy"))

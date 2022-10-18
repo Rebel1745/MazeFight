@@ -24,8 +24,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6349848307902074462}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.97, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0.69}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6349848308703819436}
   m_RootOrder: 1
@@ -40,10 +41,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6349848308703819436}
   - component: {fileID: 6349848308703819437}
-  - component: {fileID: 6349848308703819439}
   m_Layer: 0
   m_Name: HazardLauncher
-  m_TagString: Enemy
+  m_TagString: Hazard
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -56,8 +56,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6349848308703819442}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 5.12, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6349848309250537617}
   - {fileID: 6349848307902074457}
@@ -73,30 +74,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 6349848308703819442}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 528704eb6b7fef944949bf7946a246ed, type: 3}
+  m_Script: {fileID: 11500000, guid: 1a1b7e7e1cd136e459523904fdee683f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Projectile: {fileID: 1254802954257865886, guid: 4db4dda655175004da704ea729a23c69, type: 3}
+  Projectile: {fileID: 1254802954257865886, guid: cd6373f52bdf0734ebb0048a0b120f02, type: 3}
   ProjectileSpawnPoint: {fileID: 6349848307902074457}
-  ProjectileSpeed: 20
-  ProjectileLifetime: 10
-  TimeBetweenShots: 1
---- !u!114 &6349848308703819439
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6349848308703819442}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50b27daf45ad42549b6843be10f4d1b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  RotationPoint: {fileID: 6349848308703819436}
-  RotationSpeedX: 0
-  RotationSpeedY: 0
-  RotationSpeedZ: 0
+  ProjectileSpeed: 1
+  ProjectileLifetime: 3
+  TimeBetweenShots: 3
 --- !u!1 &6349848309250537622
 GameObject:
   m_ObjectHideFlags: 0
@@ -111,7 +96,7 @@ GameObject:
   - component: {fileID: 6349848309250537616}
   m_Layer: 0
   m_Name: GFX
-  m_TagString: Enemy
+  m_TagString: Hazard
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -125,7 +110,8 @@ Transform:
   m_GameObject: {fileID: 6349848309250537622}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6349848308703819436}
   m_RootOrder: 0
@@ -149,6 +135,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -157,7 +144,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 44678bfb779099b4385d8bad560543f0, type: 2}
+  - {fileID: 2100000, guid: 2027002025eb966488491efe32faa61c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
