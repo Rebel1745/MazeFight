@@ -79,7 +79,6 @@ public class HazardProjectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.tag);
         // do nothing if it hits the player and they shot it
         if (IsPlayerProjectile && other.CompareTag("Player"))
             return;

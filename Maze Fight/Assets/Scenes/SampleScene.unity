@@ -558,7 +558,7 @@ GameObject:
   - component: {fileID: 1273461459}
   - component: {fileID: 1273461458}
   - component: {fileID: 1273461461}
-  - component: {fileID: 1273461460}
+  - component: {fileID: 1273461462}
   m_Layer: 0
   m_Name: MazeLoader
   m_TagString: Untagged
@@ -579,7 +579,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cs: {fileID: 1273461461}
-  hs: {fileID: 1273461460}
+  hs: {fileID: 1273461462}
   Wall: {fileID: 195376, guid: 5e6043ea0e6446c4b99fa86b481393a1, type: 3}
   Floor: {fileID: 140734, guid: 736acf0c96a324445a9aea0788a960c1, type: 3}
   UnderFloor: {fileID: 140734, guid: d0d6657ef0f116e43b7c8fbc91490bf1, type: 3}
@@ -606,22 +606,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1273461460
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1273461457}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81a5fd899c5f6f5459d62e041c84a3d7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mg: {fileID: 1273461458}
-  Poker: {fileID: 254857078606120856, guid: 6040e30a991513e468ec65cc8224c3ed, type: 3}
-  RotatingArm: {fileID: 5093173483362830944, guid: b5a8a3ede041ff643906701f7e42748b, type: 3}
-  ProjectileLauncher: {fileID: 6349848308703819442, guid: ecd4a8e175f474f4b8b5141bed0e2249, type: 3}
 --- !u!114 &1273461461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -642,6 +626,26 @@ MonoBehaviour:
   - {fileID: 7076842604959875438, guid: 12458131d02032944ba07dbcc8583af5, type: 3}
   - {fileID: 7076842604959875438, guid: 81ab54fd9eb770449bbf42e249b2a344, type: 3}
   EnemyNumber: 5
+--- !u!114 &1273461462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1273461457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba4cc165f02bd5a4dbde5bc560675a73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mg: {fileID: 1273461458}
+  RotationRoomPrefabs:
+  - {fileID: 8084755577146281620, guid: 88c33df96a33f414aae2e427afa2c55b, type: 3}
+  - {fileID: 7113807092550055649, guid: 80267785e5464804b8ec6fdfc6f90482, type: 3}
+  - {fileID: 3004534343831384078, guid: e8d6b187b143bc14a866f7e832299541, type: 3}
+  LauncherRoomPrefabs:
+  - {fileID: 829483104453373872, guid: 1c59fdb399d1fbc4b8c099a933a09cbf, type: 3}
+  PokerRoomPrefabs: []
 --- !u!1001 &1502180041589418793
 PrefabInstance:
   m_ObjectHideFlags: 0

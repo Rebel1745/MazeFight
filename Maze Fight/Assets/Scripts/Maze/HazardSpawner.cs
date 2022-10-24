@@ -6,9 +6,9 @@ public class HazardSpawner : MonoBehaviour
 {
     public MazeGenerator mg;
 
-    public GameObject Poker;
-    public GameObject RotatingArm;
-    public GameObject ProjectileLauncher;
+    public GameObject[] RotationRoomPrefabs;
+    public GameObject[] LauncherRoomPrefabs;
+    public GameObject[] PokerRoomPrefabs;
 
     public void CreateHazards()
     {
@@ -33,56 +33,63 @@ public class HazardSpawner : MonoBehaviour
                     currentCell = mg.MazeCells[x, y];
                     currentFloor = currentCell.Floor;*/
 
-                    //CreateRotationHazardCell(currentCell, currentFloor, hazardHolder);  // Used to create rotating arm traps
-                    //CreatePokerHazardCell(currentCell, currentFloor, hazardHolder);  // Used to create poker traps
-                    CreateProjectileLauncherCell(currentCell, currentFloor, hazardHolder);
-                /*}
-            }
-        }*/
-
+        //CreateRotationHazardCell(currentCell, currentFloor, hazardHolder);  // Used to create rotating arm traps
+        //CreatePokerHazardCell(currentCell, currentFloor, hazardHolder);  // Used to create poker traps
+        CreateLauncherCell(currentCell, currentFloor, hazardHolder);  // used to create projectile launchers
+        /*}
+    }
+}*/
     }
 
-    void CreateProjectileLauncherCell(MazeCell currentCell, GameObject currentFloor, GameObject hazardHolder)
+    void CreateRotationHazardCell(MazeCell cell, GameObject floor, GameObject parent)
     {
+        if (RotationRoomPrefabs.Length <= 0)
+            return;
+
+        Quaternion initialRotation = Quaternion.Euler(0f, Random.Range(0, 4) * 90f, 0f);
+
+        // first pick a random hazard GO from the array
+        GameObject layout = RotationRoomPrefabs[Random.Range(0, RotationRoomPrefabs.Length)];
         GameObject tempHazard;
-        float launcherHeight = ProjectileLauncher.transform.localScale.y;
-        tempHazard = Instantiate(ProjectileLauncher, currentFloor.transform.position, Quaternion.identity);
-        tempHazard.transform.position = new Vector3(tempHazard.transform.position.x, tempHazard.transform.position.y + launcherHeight, tempHazard.transform.position.z);
-        tempHazard.transform.parent = hazardHolder.transform;
-        tempHazard.name = "Projectile Launcher (" + currentCell.CellNumber + ")";
+        tempHazard = Instantiate(layout, floor.transform.position, initialRotation);
+        tempHazard.transform.parent = parent.transform;
+        tempHazard.name = "Rotating Arm (" + cell.CellNumber + ")";
     }
 
-    void CreateRotationHazardCell(MazeCell currentCell, GameObject currentFloor, GameObject hazardHolder)
+    void CreateLauncherCell(MazeCell cell, GameObject floor, GameObject parent)
     {
+        if (LauncherRoomPrefabs.Length <= 0)
+            return;
+
+        float[] NSOptions = new float[] { 0f, 180f };
+        float[] EWOptions = new float[] { 90f, 270f };
+
+        Quaternion initialRotation = Quaternion.Euler(0f, 0f, 0f);
+        // if cell is part of northsouth room, rotation should be y=0 or 180
+        // if cell is part of eastwest room, rotation should be y=90 or 270
+        if (cell.NorthSouthRoom)
+            initialRotation = Quaternion.Euler(0f, NSOptions[Random.Range(0,2)], 0f);
+        else if (cell.EastWestRoom)
+            initialRotation = Quaternion.Euler(0f, EWOptions[Random.Range(0, 2)], 0f);
+
+        // first pick a random hazard GO from the array
+        GameObject layout = LauncherRoomPrefabs[Random.Range(0, LauncherRoomPrefabs.Length)];
         GameObject tempHazard;
-        tempHazard = Instantiate(RotatingArm, currentFloor.transform.position, Quaternion.identity);
-        tempHazard.transform.parent = hazardHolder.transform;
-        tempHazard.name = "Rotating Arm (" + currentCell.CellNumber + ")";
+        tempHazard = Instantiate(layout, floor.transform.position, initialRotation);
+        tempHazard.transform.parent = parent.transform;
+        tempHazard.name = "Launcher (" + cell.CellNumber + ")";
     }
 
-    void CreatePokerHazardCell(MazeCell curentCell, GameObject currentFloor, GameObject hazardHolder)
+    void CreatePokerHazardCell(MazeCell cell, GameObject floor, GameObject parent)
     {
+        if (PokerRoomPrefabs.Length <= 0)
+            return;
+
+        // first pick a random hazard GO from the array
+        GameObject layout = PokerRoomPrefabs[Random.Range(0, PokerRoomPrefabs.Length)];
         GameObject tempHazard;
-        float pokerWidth = Poker.transform.localScale.x;
-        float pokerLength = Poker.transform.localScale.z;
-        float xOffset, zOffset;
-
-        int totalXHazards = Mathf.CeilToInt(mg.floorLength / pokerWidth);
-        int totalZHazards = Mathf.CeilToInt(mg.floorLength / pokerLength);
-
-        float startPosX = currentFloor.transform.position.x - (mg.floorLength / 2) + (pokerWidth / 2);
-        float startPosZ = currentFloor.transform.position.z - (mg.floorLength / 2) + (pokerLength / 2);
-
-        for (int zHaz = 0; zHaz < totalZHazards; zHaz++)
-        {
-            for (int xHaz = 0; xHaz < totalXHazards; xHaz++)
-            {
-                xOffset = xHaz * pokerLength;
-                zOffset = zHaz * pokerWidth;
-                tempHazard = Instantiate(Poker, new Vector3(startPosX + xOffset, 0f, startPosZ + zOffset), Quaternion.identity);
-                tempHazard.transform.parent = hazardHolder.transform;
-                tempHazard.name = "Poker (" + xHaz + ", " + zHaz + ")";
-            }
-        }
+        tempHazard = Instantiate(layout, floor.transform.position, Quaternion.identity);
+        tempHazard.transform.parent = parent.transform;
+        tempHazard.name = "Poker (" + cell.CellNumber + ")";
     }
 }
