@@ -623,8 +623,7 @@ MonoBehaviour:
   CameraFollowTargetPrefab: {fileID: 9186673820176548536, guid: 5fe0abadaae2415418c7a6061e0b534d, type: 3}
   cf: {fileID: 0}
   EnemyPrefabs:
-  - {fileID: 7076842604959875438, guid: 12458131d02032944ba07dbcc8583af5, type: 3}
-  - {fileID: 7076842604959875438, guid: 81ab54fd9eb770449bbf42e249b2a344, type: 3}
+  - {fileID: 1306763225742071493, guid: 8873858713293a447ac95732d81fc75e, type: 3}
   EnemyNumber: 5
 --- !u!114 &1273461462
 MonoBehaviour:
@@ -645,7 +644,10 @@ MonoBehaviour:
   - {fileID: 3004534343831384078, guid: e8d6b187b143bc14a866f7e832299541, type: 3}
   LauncherRoomPrefabs:
   - {fileID: 829483104453373872, guid: 1c59fdb399d1fbc4b8c099a933a09cbf, type: 3}
-  PokerRoomPrefabs: []
+  PokerRoomPrefabs:
+  - {fileID: 8009636645435794155, guid: ad084339ef5187740819c47a6e8cb7a8, type: 3}
+  - {fileID: 8009636645435794155, guid: cb13b08f4bddfa046964a72a912b3f72, type: 3}
+  - {fileID: 8009636645435794155, guid: c5e6141153e7cb64ebfd95175428ef45, type: 3}
 --- !u!1001 &1502180041589418793
 PrefabInstance:
   m_ObjectHideFlags: 0

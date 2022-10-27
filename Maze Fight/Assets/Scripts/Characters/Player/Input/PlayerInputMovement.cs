@@ -49,6 +49,8 @@ public class PlayerInputMovement : MonoBehaviour
         BodySphere.gameObject.SetActive(false);
         isTransforming = false;
         lockOnTarget = null;
+
+        StartCoroutine(characterMovement.DisableMovementForTime(2f));
     }
 
     private void FixedUpdate()
@@ -163,7 +165,7 @@ public class PlayerInputMovement : MonoBehaviour
         // if the player is in the default state, move them slowly
         if (isBodyStandard)
         {
-            rb.velocity = new Vector3(MoveInput.x, rb.velocity.y, MoveInput.y) * WalkSpeed;
+            rb.velocity = new Vector3(MoveInput.x, 0, MoveInput.y) * WalkSpeed;
 
             if (!playerController.playerInputAttack.isAttacking && !isTransforming)
             {

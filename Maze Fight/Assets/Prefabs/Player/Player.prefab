@@ -2002,7 +2002,9 @@ MonoBehaviour:
   DestroyPopupAfterTime: 1
   PopupSpawnPoint: {fileID: 6382641701898416492}
   PopupPrefab: {fileID: 8380677813114030212, guid: 8a24fa938613fd641aee9e9176d34231, type: 3}
-  MaxRandomOffset: 0.5
+  MaxRandomXOffset: 0.5
+  MaxRandomYOffset: 0
+  MaxRandomZOffset: 0
 --- !u!114 &222071043897766861
 MonoBehaviour:
   m_ObjectHideFlags: 0
