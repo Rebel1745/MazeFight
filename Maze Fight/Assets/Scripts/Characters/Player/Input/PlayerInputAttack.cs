@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 public class PlayerInputAttack : MonoBehaviour
 {
     [SerializeField] PlayerController playerController;
+    public ResourceAndUsage rau;
 
     [SerializeField] public bool isAttacking = false;
     [SerializeField] public LayerMask WhatIsEnemy;
@@ -22,6 +23,7 @@ public class PlayerInputAttack : MonoBehaviour
     [SerializeField] public float UpperArmRangeMultiplier = 1f;
     [SerializeField] public float FistRangeMultiplier = 1f;
     [SerializeField] public float AttackWidth = 0.001f;
+    public int ResourceGeneratedPerHit = 10;
 
     [Header("Spin Attack")]
     [SerializeField] bool attackSpinAvailable = false;
@@ -34,6 +36,7 @@ public class PlayerInputAttack : MonoBehaviour
     [SerializeField] public float AttackSpinAnimationSpeed = 0.5f;
     [SerializeField] public AudioClip SpinWhoosh;
     [SerializeField] public float SpinRadius = 1f;
+    public int AttackSpinResourceCost = 50;
 
     [Header("Ranged Attack")]
     [SerializeField] bool attackRangedAvailable = false;
@@ -44,6 +47,7 @@ public class PlayerInputAttack : MonoBehaviour
     [SerializeField] public Transform ProjectileSpawnPoint;
     [SerializeField] public float ProjectileSpeedMultiplier = 1f;
     [SerializeField] public float ProjectileDamage = 1f;
+    public int AttackRangedResourceCost = 20;
 
     [Header("Appendage Scalling")]
     [SerializeField] public Transform UpperArmRight;
@@ -204,6 +208,8 @@ public class PlayerInputAttack : MonoBehaviour
             // find the direction between the colliding objects
             Vector3 dir = hit.transform.position - transform.position;
             hit.transform.gameObject.GetComponent<Knockback>().KnockbackObject(dir, 0.1f);
+            // add some resource
+            rau.AddResource(ResourceGeneratedPerHit);
         }
         else
         {
@@ -214,7 +220,7 @@ public class PlayerInputAttack : MonoBehaviour
     #region Spinning
     public void AttackSpin(InputAction.CallbackContext context)
     {
-        if (context.performed && attackSpinAvailable && playerController.playerInputMove.isBodyStandard && !isAttacking)
+        if (context.performed && attackSpinAvailable && playerController.playerInputMove.isBodyStandard && !isAttacking && rau.CanAffordResourceCost(AttackSpinResourceCost))
         {
             StartSpinning();
         }
@@ -235,6 +241,7 @@ public class PlayerInputAttack : MonoBehaviour
         currentSpinDuration = 0f;
         attackSpinAvailable = false;
         attackSpinCooldown = AttackSpinCooldown;
+        rau.UseResource(AttackSpinResourceCost);
     }
 
     void StopSpinning()
@@ -280,7 +287,7 @@ public class PlayerInputAttack : MonoBehaviour
     #region Ranged
     public void AttackRanged(InputAction.CallbackContext context)
     {
-        if (context.performed && attackRangedAvailable && playerController.playerInputMove.isBodyStandard && !isAttacking)
+        if (context.performed && attackRangedAvailable && playerController.playerInputMove.isBodyStandard && !isAttacking && rau.CanAffordResourceCost(AttackRangedResourceCost))
         {
             playerController.ChangeAnimationState(playerController.PLAYER_ATTACK_RANGED, AttackRangedAnimationSpeed);
             isAttacking = true;
@@ -298,6 +305,7 @@ public class PlayerInputAttack : MonoBehaviour
         hp.Damage = ProjectileDamage;
         hp.IsPlayerProjectile = true;
         hp.SetVelocity(ProjectileSpawnPoint.forward * ProjectileSpeedMultiplier);
+        rau.UseResource(AttackRangedResourceCost);
     }
     #endregion
 

@@ -91,6 +91,19 @@ public class HealthAndDamage : MonoBehaviour
         pn.CreatePopup("+" + healAmount.ToString(), HealColour);
     }
 
+    public void HealPercent(float amount)
+    {
+        int addedHealth = Mathf.RoundToInt(StartingHealth * amount);
+        currentHealth += addedHealth;
+
+        if (currentHealth > StartingHealth)
+            currentHealth = StartingHealth;
+
+        UpdateHealthBar();
+
+        pn.CreatePopup("+" + addedHealth.ToString(), HealColour);
+    }
+
     void Die()
     {
         if(CollectableGoldPrefab && CollectableCount > 0)

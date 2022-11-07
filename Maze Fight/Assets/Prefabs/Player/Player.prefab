@@ -1545,6 +1545,7 @@ GameObject:
   - component: {fileID: -6338267218688942614}
   - component: {fileID: 222071043897766861}
   - component: {fileID: -913232684799700498}
+  - component: {fileID: -6937115892571092580}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -1839,6 +1840,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerController: {fileID: 4393225039927298353}
+  rau: {fileID: -6937115892571092580}
   isAttacking: 0
   WhatIsEnemy:
     serializedVersion: 2
@@ -1852,6 +1854,7 @@ MonoBehaviour:
   UpperArmRangeMultiplier: 0.5
   FistRangeMultiplier: 0.1
   AttackWidth: 0.5
+  ResourceGeneratedPerHit: 10
   attackSpinAvailable: 0
   isSpinning: 0
   AttackSpinCooldown: 2
@@ -1859,6 +1862,7 @@ MonoBehaviour:
   AttackSpinAnimationSpeed: 1
   SpinWhoosh: {fileID: 8300000, guid: 7764c1d48f4322f46a8e166c025d92b1, type: 3}
   SpinRadius: 1
+  AttackSpinResourceCost: 50
   attackRangedAvailable: 0
   AttackRangedCooldown: 0.1
   AttackRangedAnimationSpeed: 1
@@ -1866,6 +1870,7 @@ MonoBehaviour:
   ProjectileSpawnPoint: {fileID: 1064771857688485755}
   ProjectileSpeedMultiplier: 1
   ProjectileDamage: 1
+  AttackRangedResourceCost: 20
   UpperArmRight: {fileID: 5106286184551973631}
   FistRight: {fileID: 329494134705117795}
   UpperArmLeft: {fileID: 8053378775864873615}
@@ -2019,7 +2024,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pn: {fileID: -6338267218688942614}
   isPlayer: 1
-  StartingHealth: 100
+  StartingHealth: 420
   DamageColour: {r: 1, g: 0, b: 0, a: 0}
   HealColour: {r: 0, g: 1, b: 0.12013221, a: 0}
   HealthBarVisibilityTimer: 1
@@ -2044,6 +2049,19 @@ MonoBehaviour:
   StartingGold: 0
   GoldColor: {r: 0.8113208, g: 0.7031427, b: 0.19517621, a: 1}
   PurchaseColor: {r: 0.8490566, g: 0.108134575, b: 0.14950342, a: 1}
+--- !u!114 &-6937115892571092580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7076842604959875438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ee6dabb87e4dfc4aad6d3b90aa8c7c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StartingResource: 100
 --- !u!1 &7154442487531051998
 GameObject:
   m_ObjectHideFlags: 0

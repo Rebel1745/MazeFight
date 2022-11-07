@@ -47,8 +47,8 @@ public class MazeGenerator : MonoBehaviour
         UpdateAdjoiningWalls();
         DeactivateRooms();
         cs.CreatePlayer();
-        //cs.CreateEnemies();
-        hs.CreateHazards();
+        cs.CreateEnemies();
+        //hs.CreateHazards();
     }
 
     void DeactivateRooms()

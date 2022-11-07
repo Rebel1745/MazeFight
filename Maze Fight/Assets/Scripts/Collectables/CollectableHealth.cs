@@ -4,13 +4,20 @@ using UnityEngine;
 
 public class CollectableHealth : MonoBehaviour
 {
-    public float HealthAmount = 5f;
+    public bool IsPercentHeal = false;
+    [Range(0,1)]
+    public float PercentHealAmount = 0f;
+    public float HealAmount = 5f;
 
     private void OnTriggerEnter(Collider other)    
     {
         if (other.transform.CompareTag("Player"))
         {
-            other.transform.GetComponentInParent<HealthAndDamage>().Heal(HealthAmount);
+            HealthAndDamage had = other.transform.GetComponentInParent<HealthAndDamage>();
+            if(IsPercentHeal)
+                had.HealPercent(PercentHealAmount);
+            else
+                had.Heal(HealAmount);
 
             Destroy(transform.parent.gameObject);
         }

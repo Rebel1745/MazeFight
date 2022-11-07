@@ -110,7 +110,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7be602ea82af5c4a906323b4e13337a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HealthAmount: 5
+  IsPercentHeal: 1
+  PercentHealAmount: 0.372
+  HealAmount: 5
 --- !u!1 &3223261486549517938
 GameObject:
   m_ObjectHideFlags: 0
@@ -178,3 +180,4 @@ MonoBehaviour:
   AttractDistance: 2
   MoveSpeed: 20
   InitialSpeed: 100
+  TimeBeforeAttractable: 1
