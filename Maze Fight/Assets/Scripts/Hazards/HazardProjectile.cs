@@ -9,6 +9,8 @@ public class HazardProjectile : MonoBehaviour
     public GameObject ProjectileDestroyEffect;
 
     public bool IsPlayerProjectile = false;
+    public LayerMask PlayerLayer;
+    public LayerMask EnemyLayer;
 
     public float ProjectileSpeed = 5f;
     Vector3 lastVelocity;
@@ -23,6 +25,10 @@ public class HazardProjectile : MonoBehaviour
     public bool CanReturn = false;
     public float ReturnTime = 0f;
     bool dontDestroyOnContact = false;
+
+    public bool IsAreaOfEffect = false;
+    public float AOERadius = 0.5f;
+    public float AOEDamageModifier = 1f;
 
     public float Damage = 1f;
 
@@ -74,7 +80,28 @@ public class HazardProjectile : MonoBehaviour
             Instantiate(ProjectileDestroyEffect, transform.position, transform.rotation);
         }
 
+        if (IsAreaOfEffect)
+        {
+            DamageSurroundingArea();
+        }
+
         Destroy(this.gameObject);
+    }
+
+    void DamageSurroundingArea()
+    {
+        HealthAndDamage had;
+
+        // if we are the player, check the enemy layer
+        LayerMask mask = IsPlayerProjectile ? EnemyLayer : PlayerLayer;
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, AOERadius, mask, QueryTriggerInteraction.Collide);
+
+        foreach (var hitCollider in hitColliders)
+        {
+            had = hitCollider.transform.GetComponentInParent<HealthAndDamage>();
+            if (had)
+                had.TakeDamage(Damage * AOEDamageModifier);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -115,5 +142,15 @@ public class HazardProjectile : MonoBehaviour
         Vector3 direction = Vector3.Reflect(lastVelocity.normalized, collisionNormal);
 
         rb.velocity = direction * Mathf.Max(speed, ProjectileSpeed);
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (IsAreaOfEffect)
+        {
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawSphere(transform.position, AOERadius);
+        }
+        
     }
 }

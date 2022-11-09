@@ -130,12 +130,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ProjectileDestroyEffect: {fileID: 0}
   IsPlayerProjectile: 1
+  PlayerLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  EnemyLayer:
+    serializedVersion: 2
+    m_Bits: 1024
   ProjectileSpeed: 5
   ProjectileLifetime: 10
   CanBounce: 0
   MaxBounces: 2
   CanReturn: 0
   ReturnTime: 1
+  IsAreaOfEffect: 1
+  AOERadius: 1
+  AOEDamageModifier: 1
+  Damage: 1
 --- !u!82 &8488346953739567317
 AudioSource:
   m_ObjectHideFlags: 0
