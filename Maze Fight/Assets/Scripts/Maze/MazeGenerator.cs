@@ -45,10 +45,10 @@ public class MazeGenerator : MonoBehaviour
         CreateRooms();
         CreateDoors();
         UpdateAdjoiningWalls();
-        DeactivateRooms();
         cs.CreatePlayer();
         cs.CreateEnemies();
-        //hs.CreateHazards();
+        hs.CreateHazards();
+        DeactivateRooms();
     }
 
     void DeactivateRooms()
@@ -63,6 +63,7 @@ public class MazeGenerator : MonoBehaviour
 
                 if (currentCell.roomNo != 0)
                 {
+                    // Deactivate walls separately so shared walls can be activated from adjacent rooms
                     if (currentCell.HasNorthWall)
                         currentCell.NorthWall.SetActive(false);
                     if (currentCell.HasSouthWall)
@@ -72,6 +73,10 @@ public class MazeGenerator : MonoBehaviour
                     if (currentCell.HasWestWall)
                         currentCell.WestWall.SetActive(false);
                     currentCell.Floor.SetActive(false);
+                    
+                    //currentCell.WallsAndFloor.gameObject.SetActive(false);
+                    currentCell.Hazards.gameObject.SetActive(false);
+                    currentCell.Enemies.gameObject.SetActive(false);
                 }
             }
         }
@@ -100,6 +105,10 @@ public class MazeGenerator : MonoBehaviour
                     if (currentCell.WestWall)
                         currentCell.WestWall.SetActive(true);
                     currentCell.Floor.SetActive(true);
+
+                    //currentCell.WallsAndFloor.gameObject.SetActive(true);
+                    currentCell.Hazards.gameObject.SetActive(true);
+                    currentCell.Enemies.gameObject.SetActive(true);
                 }
             }
         }
@@ -120,7 +129,7 @@ public class MazeGenerator : MonoBehaviour
                     MazeCells[x, y].EastWall.name = "East Door " + x + "," + y;
                     MazeCells[x, y].HasEastWall = true;
                     MazeCells[x, y].EastWall.transform.Rotate(Vector3.up * 90f);
-                    tempDoor.transform.parent = MazeCells[x, y].CellHolder;
+                    tempDoor.transform.parent = MazeCells[x, y].WallsAndFloor;
                     int eastDoorToCellNo = y * MazeX + x + 1;
                     int westDoorToCellNo = y * MazeX + x;
                     tempDoor.GetComponentInChildren<Door>().DoorToCellNo1 = eastDoorToCellNo;
@@ -132,7 +141,7 @@ public class MazeGenerator : MonoBehaviour
                     MazeCells[x, y].NorthWall = tempDoor;
                     MazeCells[x, y].NorthWall.name = "North Door " + x + "," + y;
                     MazeCells[x, y].HasNorthWall = true;
-                    tempDoor.transform.parent = MazeCells[x, y].CellHolder;
+                    tempDoor.transform.parent = MazeCells[x, y].WallsAndFloor;
                     int northDoorToCellNo = (y + 1) * MazeX + x;
                     int southDoorToCellNo = y * MazeX + x;
                     tempDoor.GetComponentInChildren<Door>().DoorToCellNo1 = northDoorToCellNo;
@@ -561,9 +570,24 @@ public class MazeGenerator : MonoBehaviour
             {
                 int cellNo = y * MazeX + x;
 
-                GameObject CurrentCell = new GameObject
+                GameObject currentCell = new GameObject
                 {
                     name = "Maze Cell " + cellNo.ToString()
+                };
+
+                GameObject wallsAndFloor = new GameObject
+                {
+                    name = "Walls and Floor"
+                };
+
+                GameObject hazards = new GameObject
+                {
+                    name = "Hazards"
+                };
+
+                GameObject enemies = new GameObject
+                {
+                    name = "Enemies"
                 };
 
                 MazeCells[x, y] = new MazeCell
@@ -571,17 +595,23 @@ public class MazeGenerator : MonoBehaviour
                     CellNumber = cellNo,
                     CellX = x,
                     CellY = y,
-                    CellHolder = CurrentCell.transform
+                    CellHolder = currentCell.transform,
+                    WallsAndFloor = wallsAndFloor.transform,
+                    Hazards = hazards.transform,
+                    Enemies = enemies.transform
                 };
 
-                CurrentCell.transform.parent = MazeCellHolder.transform;
-                
+                currentCell.transform.parent = MazeCellHolder.transform;
+                wallsAndFloor.transform.parent = currentCell.transform;
+                hazards.transform.parent = currentCell.transform;
+                enemies.transform.parent = currentCell.transform;
+
                 // start with the floor
                 tempFloor = Instantiate(Floor, new Vector3(x * floorLength, 0, y * floorLength), Quaternion.identity) as GameObject;
                 MazeCells[x, y].Floor = tempFloor;
                 MazeCells[x, y].Floor.name = "Floor " + x + "," + y;
                 MazeCells[x, y].Floor.GetComponent<Floor>().FloorCellNo = cellNo;
-                tempFloor.transform.parent = CurrentCell.transform;
+                tempFloor.transform.parent = wallsAndFloor.transform;
 
                 if (y == 0)
                 {
@@ -589,14 +619,14 @@ public class MazeGenerator : MonoBehaviour
                     MazeCells[x, y].SouthWall = tempWall;
                     MazeCells[x, y].SouthWall.name = "South Wall " + x + "," + y;
                     MazeCells[x, y].HasSouthWall = true;
-                    tempWall.transform.parent = CurrentCell.transform;
+                    tempWall.transform.parent = wallsAndFloor.transform;
                 }
 
                 tempWall = Instantiate(Wall, new Vector3(x * wallLength, wallHeight / 2f, (y * wallLength) + (wallLength / 2f)), Quaternion.identity) as GameObject;
                 MazeCells[x, y].NorthWall = tempWall;
                 MazeCells[x, y].NorthWall.name = "North Wall " + x + "," + y;
                 MazeCells[x, y].HasNorthWall = true;
-                tempWall.transform.parent = CurrentCell.transform;
+                tempWall.transform.parent = wallsAndFloor.transform;
 
                 if (x == 0)
                 {
@@ -605,7 +635,7 @@ public class MazeGenerator : MonoBehaviour
                     MazeCells[x, y].WestWall.name = "West Wall " + x + "," + y;
                     MazeCells[x, y].HasWestWall = true;
                     MazeCells[x, y].WestWall.transform.Rotate(Vector3.up * 90f);
-                    tempWall.transform.parent = CurrentCell.transform;
+                    tempWall.transform.parent = wallsAndFloor.transform;
                 }
 
                 tempWall = Instantiate(Wall, new Vector3((x * wallLength) + (wallLength / 2f), wallHeight / 2f, y * wallLength), Quaternion.identity) as GameObject;
@@ -613,7 +643,7 @@ public class MazeGenerator : MonoBehaviour
                 MazeCells[x, y].EastWall.name = "East Wall " + x + "," + y;
                 MazeCells[x, y].HasEastWall = true;
                 MazeCells[x, y].EastWall.transform.Rotate(Vector3.up * 90f);
-                tempWall.transform.parent = CurrentCell.transform;
+                tempWall.transform.parent = wallsAndFloor.transform;
                 //MazeCell temp = GetMazeCellFromInt(cellNo);
             }
         }

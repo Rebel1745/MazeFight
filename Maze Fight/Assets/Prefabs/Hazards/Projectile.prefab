@@ -144,7 +144,7 @@ MonoBehaviour:
   ReturnTime: 1
   IsAreaOfEffect: 1
   AOERadius: 1
-  AOEDamageModifier: 1
+  AOEDamageModifier: 3
   Damage: 1
 --- !u!82 &8488346953739567317
 AudioSource:

@@ -29,14 +29,31 @@ public class CharacterSpawner : MonoBehaviour
 
     public void CreateEnemies()
     {
-        for(int i = 0; i <= EnemyNumber; i++)
-        {
-            float spawnX = Random.Range(-mg.floorLength / 2f, mg.floorLength / 2f);
-            float spawnZ = Random.Range(-mg.floorLength / 2f, mg.floorLength / 2f);
-            int randomEnemy = Random.Range(0, EnemyPrefabs.Length);
+        MazeCell currentCell;
+        GameObject currentFloor;
 
-            Vector3 enemySpawnPos = new Vector3(mg.MazeCells[2, 0].Floor.transform.position.x + spawnX, mg.MazeCells[2, 0].Floor.transform.position.y, mg.MazeCells[2, 0].Floor.transform.position.z + spawnZ);
-            GameObject testEnemy = Instantiate(EnemyPrefabs[randomEnemy], enemySpawnPos, Quaternion.identity);
+        for (int y = 0; y < mg.MazeY; y++)
+        {
+            for (int x = 0; x < mg.MazeX; x++)
+            {
+                currentCell = mg.MazeCells[x, y];
+
+                if (currentCell.roomNo != 0 && currentCell.EastWestRoom)
+                {
+                    currentFloor = currentCell.Floor;
+
+                    for (int i = 0; i <= EnemyNumber; i++)
+                    {
+                        float spawnX = Random.Range(-mg.floorLength / 2f, mg.floorLength / 2f);
+                        float spawnZ = Random.Range(-mg.floorLength / 2f, mg.floorLength / 2f);
+                        int randomEnemy = Random.Range(0, EnemyPrefabs.Length);
+
+                        Vector3 enemySpawnPos = new Vector3(currentCell.Floor.transform.position.x + spawnX, currentCell.Floor.transform.position.y, currentCell.Floor.transform.position.z + spawnZ);
+                        GameObject enemy = Instantiate(EnemyPrefabs[randomEnemy], enemySpawnPos, Quaternion.identity);
+                        enemy.transform.parent = currentCell.Enemies;
+                    }
+                }
+            }
         }
         
     }

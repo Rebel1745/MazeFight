@@ -9,6 +9,9 @@ public class MazeCell
     public int CellX = 0;
     public int CellY = 0;
     public Transform CellHolder;
+    public Transform WallsAndFloor;
+    public Transform Hazards;
+    public Transform Enemies;
     public bool visited = false;
     public bool HasNorthWall = false;
     public GameObject NorthWall; // 1

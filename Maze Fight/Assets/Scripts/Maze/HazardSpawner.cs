@@ -12,31 +12,42 @@ public class HazardSpawner : MonoBehaviour
 
     public void CreateHazards()
     {
-        // test cell will be the second cell created
         MazeCell currentCell;
         GameObject currentFloor;
-        Transform currentParentTransform;
+        Transform currentHazardTransform;
 
-        // used for debugging
-        currentCell = mg.MazeCells[1, 0];
-        currentFloor = currentCell.Floor;
-        currentParentTransform = mg.MazeCells[1, 0].CellHolder;
-
-        /*for (int y = 0; y < mg.MazeY; y++)
+        for (int y = 0; y < mg.MazeY; y++)
         {
             for (int x = 0; x < mg.MazeX; x++)
             {
-                if (x != 0 || y != 0)
-                {
-                    currentCell = mg.MazeCells[x, y];
-                    currentFloor = currentCell.Floor;*/
+                currentCell = mg.MazeCells[x, y];
 
-        //CreateRotationHazardCell(currentCell, currentFloor, currentParentTransform);  // Used to create rotating arm traps
-        CreatePokerHazardCell(currentCell, currentFloor, currentParentTransform);  // Used to create poker traps
-        //CreateLauncherCell(currentCell, currentFloor, currentParentTransform);  // used to create projectile launchers
-        /*}
+                if (currentCell.roomNo != 0 && currentCell.NorthSouthRoom)
+                {
+                    currentFloor = currentCell.Floor;
+                    currentHazardTransform = currentCell.Hazards;
+                    ChooseHazardForCell(currentCell, currentFloor, currentHazardTransform);
+                }
+            }
+        }
     }
-}*/
+
+    void ChooseHazardForCell(MazeCell mc, GameObject floor, Transform parent)
+    {
+        int rand = Random.Range(1, 4);
+
+        switch (rand)
+        {
+            case 1:
+                CreateRotationHazardCell(mc, floor, parent);
+                break;
+            case 2:
+                CreatePokerHazardCell(mc, floor, parent);
+                break;
+            case 3:
+                CreateLauncherCell(mc, floor, parent);
+                break;
+        }
     }
 
     void CreateRotationHazardCell(MazeCell cell, GameObject floor, Transform parent)
