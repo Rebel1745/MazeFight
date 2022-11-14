@@ -13,7 +13,7 @@ public class CharacterSpawner : MonoBehaviour
 
     private void Awake()
     {
-        cf = Camera.main.GetComponent<CameraFollow>();
+        cf = Camera.main.GetComponentInParent<CameraFollow>();
     }
 
     public void CreatePlayer()

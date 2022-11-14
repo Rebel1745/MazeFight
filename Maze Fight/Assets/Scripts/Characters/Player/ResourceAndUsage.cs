@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ResourceAndUsage : MonoBehaviour
 {
-    public int StartingResource = 100;
+    public int MaxResource = 100;
     int currentResource;
 
     private ResourceBar resourceBar;
@@ -12,7 +12,7 @@ public class ResourceAndUsage : MonoBehaviour
 
     void Start()
     {
-        currentResource = StartingResource;
+        currentResource = MaxResource;
 
         resourceBarGO = GameObject.Find("PlayerStatusBar");
 
@@ -28,17 +28,22 @@ public class ResourceAndUsage : MonoBehaviour
     public void AddResource(int amount)
     {
         currentResource += amount;
+        if (currentResource > MaxResource)
+            currentResource = MaxResource;
+
         resourceBar.SetResource(currentResource);
     }
 
     public void AddResourcePercent(float amount)
     {
-        currentResource += Mathf.RoundToInt(StartingResource * amount);
-        resourceBar.SetResource(currentResource);
+        AddResource(Mathf.RoundToInt(MaxResource * amount));
     }
 
     public void UseResource(int amount)
     {
+        if (currentResource - amount < 0)
+            Debug.LogError("Trying to spend too much. How was this not caught?");
+
         currentResource -= amount;
         resourceBar.SetResource(currentResource);
     }

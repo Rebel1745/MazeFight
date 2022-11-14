@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using EZCameraShake;
 
 public class HazardProjectile : MonoBehaviour
 {
@@ -96,6 +97,11 @@ public class HazardProjectile : MonoBehaviour
         LayerMask mask = IsPlayerProjectile ? EnemyLayer : PlayerLayer;
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, AOERadius, mask, QueryTriggerInteraction.Collide);
 
+        if(hitColliders.Length > 0)
+        {
+            CameraShaker.Instance.ShakeOnce(2f, 2f, 0.5f, 0.5f);
+        }
+
         foreach (var hitCollider in hitColliders)
         {
             had = hitCollider.transform.GetComponentInParent<HealthAndDamage>();
@@ -120,10 +126,11 @@ public class HazardProjectile : MonoBehaviour
         }
         else if (!other.CompareTag("Projectile") && !other.CompareTag("Hazard"))
         {
-            // TODO: code to hit either player or enemy
-            if(other.CompareTag("Player") || other.CompareTag("Enemy"))
+            // TODO: code to hit either player or enemy.  If it is an AOE projectile then damage is handled in the DestroyProjectile function
+            if((other.CompareTag("Player") || other.CompareTag("Enemy")) && !IsAreaOfEffect)
             {
                 other.GetComponentInParent<HealthAndDamage>().TakeDamage(Damage);
+                CameraShaker.Instance.ShakeOnce(2f, 2f, 0.5f, 0.5f);
             }
 
             // if it can return, dont destry on contact

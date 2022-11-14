@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using EZCameraShake;
 
 public class PlayerInputAttack : MonoBehaviour
 {
@@ -210,6 +211,7 @@ public class PlayerInputAttack : MonoBehaviour
             hit.transform.gameObject.GetComponent<Knockback>().KnockbackObject(dir, 0.1f);
             // add some resource
             rau.AddResource(ResourceGeneratedPerHit);
+            CameraShaker.Instance.ShakeOnce(2f, 2f, 0.5f, 0.5f);
         }
         else
         {
@@ -268,6 +270,11 @@ public class PlayerInputAttack : MonoBehaviour
         // when we are spinning, check if any enemies are in our spin radius, and knock them back
         Collider[] cols = Physics.OverlapSphere(transform.position, SpinRadius, WhatIsEnemy);
         
+        if(cols.Length > 0)
+        {
+            CameraShaker.Instance.ShakeOnce(2f, 2f, 0.5f, 0.5f);
+        }
+
         foreach(Collider c in cols)
         {
             // find the direction between the colliding objects
