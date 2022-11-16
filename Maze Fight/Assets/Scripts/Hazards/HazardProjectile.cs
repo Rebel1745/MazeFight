@@ -17,6 +17,10 @@ public class HazardProjectile : MonoBehaviour
     Vector3 lastVelocity;
     public float ProjectileLifetime = 999f;
     float currentLifetime = 0f;
+    public float ImpactShakeMagnitude = 1f;
+    public float ImpactShakeRoughness = 1f;
+    public float ImpactShakeFadeInTime = 0.25f;
+    public float ImpactShakeFadeOutTime = 0.25f;
     
     public bool CanBounce = false;
     public int MaxBounces = 0;
@@ -30,6 +34,10 @@ public class HazardProjectile : MonoBehaviour
     public bool IsAreaOfEffect = false;
     public float AOERadius = 0.5f;
     public float AOEDamageModifier = 1f;
+    public float AOEShakeMagnitude = 2f;
+    public float AOEShakeRoughness = 2f;
+    public float AOEShakeFadeInTime = 0.5f;
+    public float AOEShakeFadeOutTime = 0.5f;
 
     public float Damage = 1f;
 
@@ -99,7 +107,7 @@ public class HazardProjectile : MonoBehaviour
 
         if(hitColliders.Length > 0)
         {
-            CameraShaker.Instance.ShakeOnce(2f, 2f, 0.5f, 0.5f);
+            CameraShaker.Instance.ShakeOnce(ImpactShakeMagnitude, ImpactShakeRoughness, ImpactShakeFadeInTime, ImpactShakeFadeOutTime);
         }
 
         foreach (var hitCollider in hitColliders)
@@ -130,7 +138,7 @@ public class HazardProjectile : MonoBehaviour
             if((other.CompareTag("Player") || other.CompareTag("Enemy")) && !IsAreaOfEffect)
             {
                 other.GetComponentInParent<HealthAndDamage>().TakeDamage(Damage);
-                CameraShaker.Instance.ShakeOnce(2f, 2f, 0.5f, 0.5f);
+                CameraShaker.Instance.ShakeOnce(AOEShakeMagnitude, AOEShakeRoughness, AOEShakeFadeInTime, AOEShakeFadeOutTime);
             }
 
             // if it can return, dont destry on contact
@@ -149,15 +157,5 @@ public class HazardProjectile : MonoBehaviour
         Vector3 direction = Vector3.Reflect(lastVelocity.normalized, collisionNormal);
 
         rb.velocity = direction * Mathf.Max(speed, ProjectileSpeed);
-    }
-
-    private void OnDrawGizmos()
-    {
-        if (IsAreaOfEffect)
-        {
-            Gizmos.color = Color.cyan;
-            Gizmos.DrawSphere(transform.position, AOERadius);
-        }
-        
     }
 }

@@ -12,6 +12,7 @@ public class PlayerInputAttack : MonoBehaviour
     [SerializeField] AudioSource source;
 
     [Header("Melee Attack")]
+    public Transform MeleeAttackOriginPoint;
     [SerializeField] bool meleeAttackAvailable = false;
     [SerializeField] public float MeleeAttackCooldown = 1f;
     float lastMeleeAttackCooldown;
@@ -25,6 +26,10 @@ public class PlayerInputAttack : MonoBehaviour
     [SerializeField] public float FistRangeMultiplier = 1f;
     [SerializeField] public float AttackWidth = 0.001f;
     public int ResourceGeneratedPerHit = 10;
+    public float MeleeShakeMagnitude = 1f;
+    public float MeleeShakeRoughness = 1f;
+    public float MeleeShakeFadeInTime = 0.25f;
+    public float MeleeShakeFadeOutTime = 0.25f;
 
     [Header("Spin Attack")]
     [SerializeField] bool attackSpinAvailable = false;
@@ -38,6 +43,10 @@ public class PlayerInputAttack : MonoBehaviour
     [SerializeField] public AudioClip SpinWhoosh;
     [SerializeField] public float SpinRadius = 1f;
     public int AttackSpinResourceCost = 50;
+    public float SpinShakeMagnitude = 1f;
+    public float SpinShakeRoughness = 1f;
+    public float SpinShakeFadeInTime = 0.25f;
+    public float SpinShakeFadeOutTime = 0.25f;
 
     [Header("Ranged Attack")]
     [SerializeField] bool attackRangedAvailable = false;
@@ -196,27 +205,37 @@ public class PlayerInputAttack : MonoBehaviour
         CheckForMeleeHit();
     }
 
+    // TODO: Find a way to check for an enemy directly infront of the player.  Raycast just doesnt cut it as enemies just off centre get missed. Maybe fire 3 rays at different angles
     void CheckForMeleeHit()
     {
-        currentMeleeAttackRange = DefaultMeleeAttackRange + (UpperArmRangeMultiplier * UpperArmMeleeScale.y) + ( FistRangeMultiplier * FistMeleeScale.y);
-        // fire out a SphereCast corresponding to currentAttackRange, if it hits the enemy, hit it
+        // first fire out a short ray, this will check if there is anything directly infront of the player
         RaycastHit hit;
-        if (Physics.SphereCast(transform.position, AttackWidth, playerController.characterMovement.LastLookDirection, out hit, currentMeleeAttackRange, WhatIsEnemy))
+        if (Physics.Raycast(MeleeAttackOriginPoint.position, playerController.characterMovement.LastLookDirection, out hit, 1f, WhatIsEnemy))
         {
-            //Debug.Log("Hit " + hit.transform.name);
-            // Deal some damage
-            hit.transform.gameObject.GetComponent<HealthAndDamage>().TakeDamage(MeleeAttackDamage);
-            // find the direction between the colliding objects
-            Vector3 dir = hit.transform.position - transform.position;
-            hit.transform.gameObject.GetComponent<Knockback>().KnockbackObject(dir, 0.1f);
-            // add some resource
-            rau.AddResource(ResourceGeneratedPerHit);
-            CameraShaker.Instance.ShakeOnce(2f, 2f, 0.5f, 0.5f);
+            ProcessMeleeHit(hit);
         }
         else
         {
-            //Debug.Log("Miss");
+            currentMeleeAttackRange = DefaultMeleeAttackRange + (UpperArmRangeMultiplier * UpperArmMeleeScale.y) + ( FistRangeMultiplier * FistMeleeScale.y);
+            // fire out a SphereCast corresponding to currentAttackRange, if it hits the enemy, hit it
+            if (Physics.SphereCast(MeleeAttackOriginPoint.position, AttackWidth, playerController.characterMovement.LastLookDirection, out hit, currentMeleeAttackRange, WhatIsEnemy))
+            {
+                ProcessMeleeHit(hit);
+            }
         }
+    }
+
+    void ProcessMeleeHit(RaycastHit hit)
+    {
+        //Debug.Log("Hit " + hit.transform.name);
+        // Deal some damage
+        hit.transform.gameObject.GetComponent<HealthAndDamage>().TakeDamage(MeleeAttackDamage);
+        // find the direction between the colliding objects
+        Vector3 dir = hit.transform.position - transform.position;
+        hit.transform.gameObject.GetComponent<Knockback>().KnockbackObject(dir, 0.1f);
+        // add some resource
+        rau.AddResource(ResourceGeneratedPerHit);
+        CameraShaker.Instance.ShakeOnce(MeleeShakeMagnitude, MeleeShakeRoughness, MeleeShakeFadeInTime, MeleeShakeFadeOutTime);
     }
 
     #region Spinning
@@ -272,7 +291,7 @@ public class PlayerInputAttack : MonoBehaviour
         
         if(cols.Length > 0)
         {
-            CameraShaker.Instance.ShakeOnce(2f, 2f, 0.5f, 0.5f);
+            CameraShaker.Instance.ShakeOnce(SpinShakeMagnitude, SpinShakeRoughness, SpinShakeFadeInTime, SpinShakeFadeOutTime);
         }
 
         foreach(Collider c in cols)
@@ -351,10 +370,4 @@ public class PlayerInputAttack : MonoBehaviour
     }
 
     #endregion
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, SpinRadius);
-    }
 }

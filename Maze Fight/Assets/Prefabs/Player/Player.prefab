@@ -1058,6 +1058,37 @@ Transform:
   m_Father: {fileID: 3377448458893113910}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -1.6618233, y: -0.019509673, z: 1.5483996}
+--- !u!1 &5777686290048817575
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4485209900056999237}
+  m_Layer: 9
+  m_Name: MeleeAttackOriginPoint
+  m_TagString: Player
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4485209900056999237
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5777686290048817575}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.63, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7076842604959875426}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5806168051921202288
 GameObject:
   m_ObjectHideFlags: 0
@@ -1361,7 +1392,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7076842604959875426}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7076842604066791031
 GameObject:
@@ -1537,9 +1568,9 @@ GameObject:
   - component: {fileID: 2904773468151696707}
   - component: {fileID: 7076842604959875436}
   - component: {fileID: 7076842604959875437}
+  - component: {fileID: 1426370420010457646}
   - component: {fileID: 4846113487097133437}
   - component: {fileID: 4393225039927298353}
-  - component: {fileID: 1426370420010457646}
   - component: {fileID: 8563545764620429245}
   - component: {fileID: 3971769968481765440}
   - component: {fileID: -6338267218688942614}
@@ -1565,9 +1596,9 @@ Transform:
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 612039456003202054}
   - {fileID: 6382641701898416492}
   - {fileID: 1064771857688485755}
+  - {fileID: 4485209900056999237}
   - {fileID: 925414857551968137}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -1776,6 +1807,9 @@ MonoBehaviour:
     CellX: 0
     CellY: 0
     CellHolder: {fileID: 0}
+    WallsAndFloor: {fileID: 0}
+    Hazards: {fileID: 0}
+    Enemies: {fileID: 0}
     visited: 0
     HasNorthWall: 0
     NorthWall: {fileID: 0}
@@ -1796,6 +1830,67 @@ MonoBehaviour:
   WhatIsEnemy:
     serializedVersion: 2
     m_Bits: 1024
+--- !u!114 &1426370420010457646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7076842604959875438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 134756e897fdba444a3ff8bd8108d435, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerController: {fileID: 4393225039927298353}
+  rau: {fileID: -6937115892571092580}
+  isAttacking: 0
+  WhatIsEnemy:
+    serializedVersion: 2
+    m_Bits: 1024
+  source: {fileID: 3971769968481765440}
+  MeleeAttackOriginPoint: {fileID: 4485209900056999237}
+  meleeAttackAvailable: 0
+  MeleeAttackCooldown: 0.25
+  MeleeWhoosh: {fileID: 8300000, guid: 7764c1d48f4322f46a8e166c025d92b1, type: 3}
+  MeleeAttackDamage: 1
+  DefaultMeleeAttackRange: 0.01
+  UpperArmRangeMultiplier: 0.5
+  FistRangeMultiplier: 0.1
+  AttackWidth: 0.5
+  ResourceGeneratedPerHit: 10
+  MeleeShakeMagnitude: 1
+  MeleeShakeRoughness: 1
+  MeleeShakeFadeInTime: 0.25
+  MeleeShakeFadeOutTime: 0.25
+  attackSpinAvailable: 0
+  isSpinning: 0
+  AttackSpinCooldown: 2
+  AttackSpinNumber: 10
+  AttackSpinAnimationSpeed: 1
+  SpinWhoosh: {fileID: 8300000, guid: 7764c1d48f4322f46a8e166c025d92b1, type: 3}
+  SpinRadius: 1
+  AttackSpinResourceCost: 50
+  SpinShakeMagnitude: 1
+  SpinShakeRoughness: 1
+  SpinShakeFadeInTime: 0.25
+  SpinShakeFadeOutTime: 0.25
+  attackRangedAvailable: 0
+  AttackRangedCooldown: 0.1
+  AttackRangedAnimationSpeed: 1
+  RangedProjectilePrefab: {fileID: 1254802954257865886, guid: cd6373f52bdf0734ebb0048a0b120f02, type: 3}
+  ProjectileSpawnPoint: {fileID: 1064771857688485755}
+  ProjectileSpeedMultiplier: 1
+  ProjectileDamage: 1
+  AttackRangedResourceCost: 20
+  UpperArmRight: {fileID: 5106286184551973631}
+  FistRight: {fileID: 329494134705117795}
+  UpperArmLeft: {fileID: 8053378775864873615}
+  FistLeft: {fileID: 6669742077109006407}
+  UpperArmMeleeScale: {x: 1, y: 2.57, z: 1}
+  FistMeleeScale: {x: 1, y: 1, z: 1}
+  UpperArmSpinScale: {x: 1, y: 5.12, z: 1}
+  FistSpinScale: {x: 1, y: 1, z: 1}
 --- !u!114 &4846113487097133437
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1827,58 +1922,6 @@ MonoBehaviour:
   playerInputAttack: {fileID: 1426370420010457646}
   characterMovement: {fileID: 2904773468151696707}
   animState: 
---- !u!114 &1426370420010457646
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7076842604959875438}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 134756e897fdba444a3ff8bd8108d435, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerController: {fileID: 4393225039927298353}
-  rau: {fileID: -6937115892571092580}
-  isAttacking: 0
-  WhatIsEnemy:
-    serializedVersion: 2
-    m_Bits: 1024
-  source: {fileID: 3971769968481765440}
-  meleeAttackAvailable: 0
-  MeleeAttackCooldown: 0.25
-  MeleeWhoosh: {fileID: 8300000, guid: 7764c1d48f4322f46a8e166c025d92b1, type: 3}
-  MeleeAttackDamage: 1
-  DefaultMeleeAttackRange: 0.01
-  UpperArmRangeMultiplier: 0.5
-  FistRangeMultiplier: 0.1
-  AttackWidth: 0.5
-  ResourceGeneratedPerHit: 10
-  attackSpinAvailable: 0
-  isSpinning: 0
-  AttackSpinCooldown: 2
-  AttackSpinNumber: 10
-  AttackSpinAnimationSpeed: 1
-  SpinWhoosh: {fileID: 8300000, guid: 7764c1d48f4322f46a8e166c025d92b1, type: 3}
-  SpinRadius: 1
-  AttackSpinResourceCost: 50
-  attackRangedAvailable: 0
-  AttackRangedCooldown: 0.1
-  AttackRangedAnimationSpeed: 1
-  RangedProjectilePrefab: {fileID: 1254802954257865886, guid: cd6373f52bdf0734ebb0048a0b120f02, type: 3}
-  ProjectileSpawnPoint: {fileID: 1064771857688485755}
-  ProjectileSpeedMultiplier: 1
-  ProjectileDamage: 1
-  AttackRangedResourceCost: 20
-  UpperArmRight: {fileID: 5106286184551973631}
-  FistRight: {fileID: 329494134705117795}
-  UpperArmLeft: {fileID: 8053378775864873615}
-  FistLeft: {fileID: 6669742077109006407}
-  UpperArmMeleeScale: {x: 1, y: 2.57, z: 1}
-  FistMeleeScale: {x: 1, y: 1, z: 1}
-  UpperArmSpinScale: {x: 1, y: 5.12, z: 1}
-  FistSpinScale: {x: 1, y: 1, z: 1}
 --- !u!114 &8563545764620429245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1916,7 +1959,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 0.8500626
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
@@ -2061,7 +2104,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ee6dabb87e4dfc4aad6d3b90aa8c7c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartingResource: 100
+  MaxResource: 100
 --- !u!1 &7154442487531051998
 GameObject:
   m_ObjectHideFlags: 0
@@ -2125,37 +2168,6 @@ Transform:
   m_Father: {fileID: 7334858309882195335}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -19.655005, y: -46.122063, z: 41.18227}
---- !u!1 &7428905651828719692
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 612039456003202054}
-  m_Layer: 9
-  m_Name: DoorCheck
-  m_TagString: Player
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &612039456003202054
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7428905651828719692}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 7076842604959875426}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7436805882820433068
 GameObject:
   m_ObjectHideFlags: 0
@@ -2726,5 +2738,5 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7076842604959875426}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
