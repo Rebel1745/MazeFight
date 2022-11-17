@@ -9,6 +9,6 @@ public class GoldUI : MonoBehaviour
 
     public void UpdateGoldUI(int currentGold)
     {
-        GoldText.text = currentGold.ToString();
+        GoldText.text = Mathf.FloorToInt(currentGold).ToString() + "G";
     }
 }

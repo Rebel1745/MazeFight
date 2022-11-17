@@ -16,7 +16,7 @@ public class HealthBar : MonoBehaviour
     void SetHealthText()
     {
         if (HealthText)
-            HealthText.text = slider.value + " / " + slider.maxValue;
+            HealthText.text = Mathf.FloorToInt(slider.value) + " / " + slider.maxValue;
     }
 
     public void SetHealth(float health)

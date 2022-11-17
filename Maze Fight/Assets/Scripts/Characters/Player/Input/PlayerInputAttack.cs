@@ -227,12 +227,20 @@ public class PlayerInputAttack : MonoBehaviour
 
     void ProcessMeleeHit(RaycastHit hit)
     {
-        //Debug.Log("Hit " + hit.transform.name);
+        HealthAndDamage had = hit.transform.gameObject.GetComponent<HealthAndDamage>();
+
         // Deal some damage
-        hit.transform.gameObject.GetComponent<HealthAndDamage>().TakeDamage(MeleeAttackDamage);
-        // find the direction between the colliding objects
-        Vector3 dir = hit.transform.position - transform.position;
-        hit.transform.gameObject.GetComponent<Knockback>().KnockbackObject(dir, 0.1f);
+        if (had)
+            had.TakeDamage(MeleeAttackDamage);
+
+        Knockback kb = hit.transform.gameObject.GetComponent<Knockback>();
+        if (kb)
+        {
+            // find the direction between the colliding objects
+            Vector3 dir = hit.transform.position - transform.position;
+            kb.KnockbackObject(dir, 0.1f);
+        }
+
         // add some resource
         rau.AddResource(ResourceGeneratedPerHit);
         CameraShaker.Instance.ShakeOnce(MeleeShakeMagnitude, MeleeShakeRoughness, MeleeShakeFadeInTime, MeleeShakeFadeOutTime);
@@ -296,10 +304,14 @@ public class PlayerInputAttack : MonoBehaviour
 
         foreach(Collider c in cols)
         {
-            // find the direction between the colliding objects
-            Vector3 dir = c.transform.position - transform.position;
-            // the collider is on the GFX model, the code is on the top parent
-            c.GetComponentInParent<Knockback>().KnockbackObject(dir);
+            // the collider is on the GFX model, the code is on the top parent TODO: Make sure this is at the same level for every character
+            Knockback kb = c.GetComponentInParent<Knockback>();
+            if (kb)
+            {
+                // find the direction between the colliding objects
+                Vector3 dir = c.transform.position - transform.position;
+                kb.KnockbackObject(dir);
+            }
         }
     }
 

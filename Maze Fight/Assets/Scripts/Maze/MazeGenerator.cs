@@ -45,6 +45,7 @@ public class MazeGenerator : MonoBehaviour
         CreateRooms();
         CreateDoors();
         UpdateAdjoiningWalls();
+        cs.CreateTrainingDummy();
         cs.CreatePlayer();
         cs.CreateEnemies();
         hs.CreateHazards();

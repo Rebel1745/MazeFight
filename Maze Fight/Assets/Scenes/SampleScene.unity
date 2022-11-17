@@ -694,6 +694,7 @@ MonoBehaviour:
   mg: {fileID: 1273461458}
   PlayerPrefab: {fileID: 7076842604959875438, guid: 2f660afd6d30b4f4aa12657b3c9ea64f, type: 3}
   CameraFollowTargetPrefab: {fileID: 9186673820176548536, guid: 5fe0abadaae2415418c7a6061e0b534d, type: 3}
+  TrainingDummyPrefab: {fileID: 864192528005246019, guid: 718de882ab4caa14db5adba97f6b47ba, type: 3}
   cf: {fileID: 0}
   EnemyPrefabs:
   - {fileID: 7076842604959875438, guid: 81ab54fd9eb770449bbf42e249b2a344, type: 3}

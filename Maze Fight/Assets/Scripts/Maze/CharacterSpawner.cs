@@ -7,6 +7,7 @@ public class CharacterSpawner : MonoBehaviour
     public MazeGenerator mg;
     public GameObject PlayerPrefab;
     public GameObject CameraFollowTargetPrefab;
+    public GameObject TrainingDummyPrefab;
     public CameraFollow cf;
     public GameObject[] EnemyPrefabs;
     public int EnemyNumber = 5;
@@ -14,6 +15,12 @@ public class CharacterSpawner : MonoBehaviour
     private void Awake()
     {
         cf = Camera.main.GetComponentInParent<CameraFollow>();
+    }
+
+    public void CreateTrainingDummy()
+    {
+        Vector3 dummySpawnPoint = new Vector3(mg.MazeCells[1, 0].Floor.transform.position.x, mg.MazeCells[1, 0].Floor.transform.position.y, mg.MazeCells[1, 0].Floor.transform.position.z);
+        GameObject dummy = Instantiate(TrainingDummyPrefab, dummySpawnPoint, Quaternion.Euler(0f,-90f,0f));
     }
 
     public void CreatePlayer()

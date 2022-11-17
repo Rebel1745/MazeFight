@@ -8,6 +8,7 @@ public class HealthAndDamage : MonoBehaviour
     public PopupNumbers pn;
 
     public bool isPlayer = true;
+    public bool ShowHealText = true;
 
     public float StartingHealth = 2f;
     float currentHealth;
@@ -50,16 +51,20 @@ public class HealthAndDamage : MonoBehaviour
         }
     }
 
-    void UpdateHealthBar()
+    void UpdateHealthBar(bool stealFocus)
     {
         if (!healthBar)
             return;
 
         if (!isPlayer)
-        {
-            healthBarGO.SetActive(true);
+        {            
             healthBar.SetMaxHealth(StartingHealth);
-            healthBar.SetVisibleTimer(HealthBarVisibilityTimer);
+            //if (stealFocus)
+            //{
+                Debug.Log("Steal");
+                healthBarGO.SetActive(true);
+                healthBar.SetVisibleTimer(HealthBarVisibilityTimer);
+            //}
         }
 
         healthBar.SetHealth(currentHealth);
@@ -69,7 +74,7 @@ public class HealthAndDamage : MonoBehaviour
     {
         currentHealth -= damage;
 
-        UpdateHealthBar();
+        UpdateHealthBar(true);
 
         pn.CreatePopup(damage.ToString(), DamageColour);
 
@@ -86,9 +91,10 @@ public class HealthAndDamage : MonoBehaviour
         if (currentHealth > StartingHealth)
             currentHealth = StartingHealth;
 
-        UpdateHealthBar();
+        UpdateHealthBar(false);
 
-        pn.CreatePopup("+" + healAmount.ToString(), HealColour);
+        if(ShowHealText)
+            pn.CreatePopup("+" + healAmount.ToString(), HealColour);
     }
 
     public void HealPercent(float amount)
@@ -99,9 +105,10 @@ public class HealthAndDamage : MonoBehaviour
         if (currentHealth > StartingHealth)
             currentHealth = StartingHealth;
 
-        UpdateHealthBar();
+        UpdateHealthBar(false);
 
-        pn.CreatePopup("+" + addedHealth.ToString(), HealColour);
+        if(ShowHealText)
+            pn.CreatePopup("+" + addedHealth.ToString(), HealColour);
     }
 
     void Die()

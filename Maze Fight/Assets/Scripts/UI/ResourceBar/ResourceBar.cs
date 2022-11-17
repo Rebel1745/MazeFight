@@ -14,7 +14,7 @@ public class ResourceBar : MonoBehaviour
     void SetResourceText()
     {
         if (ResourceText)
-            ResourceText.text = slider.value + " / " + slider.maxValue;
+            ResourceText.text = Mathf.FloorToInt(slider.value) + " / " + slider.maxValue;
     }
 
     public void SetResource(float health)
