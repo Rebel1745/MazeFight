@@ -82,8 +82,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a632032ea0ebcee4e917cee40dd1e6aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  had: {fileID: -1657965436920959602}
-  HealthRegen: 3
 --- !u!114 &3021700692864888748
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -115,12 +113,16 @@ MonoBehaviour:
   StartingHealth: 200
   DamageColour: {r: 0, g: 0, b: 0, a: 0}
   HealColour: {r: 0, g: 0, b: 0, a: 0}
-  HealthBarVisibilityTimer: 1
+  healthBarGO: {fileID: 0}
+  HealthBarVisibilityTimer: 5
   CollectableSpawnPoint: {fileID: 7177466408022388671}
   CollectableGoldPrefab: {fileID: 0}
   CollectableHealthPrefab: {fileID: 0}
   CollectableCount: 0
   HealthChancePercentage: 0
+  IsHealthRegen: 1
+  HealthRegenPerSecond: 8.29
+  RegenDelayAfterDamage: 3
 --- !u!114 &-2947881881649499652
 MonoBehaviour:
   m_ObjectHideFlags: 0

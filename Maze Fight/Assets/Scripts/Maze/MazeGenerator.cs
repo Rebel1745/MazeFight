@@ -35,11 +35,16 @@ public class MazeGenerator : MonoBehaviour
     public int totalRooms = 0;
     private bool roomsComplete = false;
 
+    // Health bars
+    public GameObject PlayerStatusBar;
+    public GameObject EnemyHealthBar;
+
     //TODO: 
     // write a DrawMaze() funtion rather than creating walls first, then destroying them, then creating doors
 
     public void GenerateMaze()
     {
+        SaveHealthBarReferences();
         InitialiseMaze();
         CreateMaze();
         CreateRooms();
@@ -50,6 +55,12 @@ public class MazeGenerator : MonoBehaviour
         cs.CreateEnemies();
         hs.CreateHazards();
         DeactivateRooms();
+    }
+
+    void SaveHealthBarReferences()
+    {
+        PlayerStatusBar = GameObject.FindGameObjectWithTag("PlayerStatusBar");
+        EnemyHealthBar = GameObject.FindGameObjectWithTag("EnemyHealthBar");
     }
 
     void DeactivateRooms()

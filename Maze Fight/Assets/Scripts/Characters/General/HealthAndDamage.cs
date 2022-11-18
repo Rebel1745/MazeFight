@@ -6,6 +6,7 @@ using TMPro;
 public class HealthAndDamage : MonoBehaviour
 {
     public PopupNumbers pn;
+    MazeGenerator mg;
 
     public bool isPlayer = true;
     public bool ShowHealText = true;
@@ -17,7 +18,7 @@ public class HealthAndDamage : MonoBehaviour
     public Color HealColour;
     
     private HealthBar healthBar;
-    private GameObject healthBarGO;
+    public GameObject healthBarGO;
 
     public float HealthBarVisibilityTimer = 1f;
 
@@ -27,17 +28,25 @@ public class HealthAndDamage : MonoBehaviour
     public int CollectableCount = 1;
     public float HealthChancePercentage = 10f;
 
+    // Health Regen
+    public bool IsHealthRegen = false;
+    public float HealthRegenPerSecond = 2f;
+    public float RegenDelayAfterDamage = 1f;
+    float timeSinceLastHit = 0f;
+
     void Start()
     {
+        mg = FindObjectOfType<MazeGenerator>();
+
         currentHealth = StartingHealth;
 
         if (isPlayer)
         {
-            healthBarGO = GameObject.Find("PlayerStatusBar");
+            healthBarGO = mg.PlayerStatusBar;
         }
         else
         {
-            healthBarGO = GameObject.Find("EnemyHealthBar");
+            healthBarGO = mg.EnemyHealthBar;
         }
 
         if (healthBarGO)
@@ -51,6 +60,24 @@ public class HealthAndDamage : MonoBehaviour
         }
     }
 
+    void Update()
+    {
+        if (IsHealthRegen)
+            RegenerateHealth();
+    }
+
+    void RegenerateHealth()
+    {
+        timeSinceLastHit += Time.deltaTime;
+
+        if(timeSinceLastHit > RegenDelayAfterDamage)
+        {
+            // only heal if we need to
+            if(currentHealth < StartingHealth)
+                Heal(HealthRegenPerSecond * Time.deltaTime);
+        }
+    }
+
     void UpdateHealthBar(bool stealFocus)
     {
         if (!healthBar)
@@ -59,12 +86,8 @@ public class HealthAndDamage : MonoBehaviour
         if (!isPlayer)
         {            
             healthBar.SetMaxHealth(StartingHealth);
-            //if (stealFocus)
-            //{
-                Debug.Log("Steal");
-                healthBarGO.SetActive(true);
-                healthBar.SetVisibleTimer(HealthBarVisibilityTimer);
-            //}
+            healthBarGO.SetActive(true);
+            healthBar.SetVisibleTimer(HealthBarVisibilityTimer);
         }
 
         healthBar.SetHealth(currentHealth);
@@ -72,6 +95,8 @@ public class HealthAndDamage : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
+        timeSinceLastHit = 0f;
+
         currentHealth -= damage;
 
         UpdateHealthBar(true);

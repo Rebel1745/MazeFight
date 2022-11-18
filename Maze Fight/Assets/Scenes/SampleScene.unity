@@ -664,6 +664,8 @@ MonoBehaviour:
   MazeY: 6
   Cells: []
   totalRooms: 0
+  PlayerStatusBar: {fileID: 0}
+  EnemyHealthBar: {fileID: 0}
 --- !u!4 &1273461459
 Transform:
   m_ObjectHideFlags: 0
@@ -770,6 +772,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5539643426223761297, guid: 511f6dbb108b0c74ebe2b5380df4a28e, type: 3}
       propertyPath: m_Name
+      value: PlayerStatusBar
+      objectReference: {fileID: 0}
+    - target: {fileID: 5539643426223761297, guid: 511f6dbb108b0c74ebe2b5380df4a28e, type: 3}
+      propertyPath: m_TagString
       value: PlayerStatusBar
       objectReference: {fileID: 0}
     - target: {fileID: 5936373818317126614, guid: 511f6dbb108b0c74ebe2b5380df4a28e, type: 3}
@@ -879,6 +885,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3355048328074171166, guid: e840d8c256701eb40949a11ce61b5a41, type: 3}
       propertyPath: m_Name
+      value: EnemyHealthBar
+      objectReference: {fileID: 0}
+    - target: {fileID: 3355048328074171166, guid: e840d8c256701eb40949a11ce61b5a41, type: 3}
+      propertyPath: m_TagString
       value: EnemyHealthBar
       objectReference: {fileID: 0}
     - target: {fileID: 3355048328074171167, guid: e840d8c256701eb40949a11ce61b5a41, type: 3}

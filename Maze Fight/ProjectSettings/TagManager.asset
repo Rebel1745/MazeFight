@@ -9,6 +9,8 @@ TagManager:
   - Enemy
   - Projectile
   - Hazard
+  - PlayerStatusBar
+  - EnemyHealthBar
   layers:
   - Default
   - TransparentFX
