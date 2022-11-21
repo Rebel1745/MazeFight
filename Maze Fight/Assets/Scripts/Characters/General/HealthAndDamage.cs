@@ -15,6 +15,7 @@ public class HealthAndDamage : MonoBehaviour
     float currentHealth;
 
     public Color DamageColour;
+    public Color DamageBGColour;
     public Color HealColour;
     
     private HealthBar healthBar;
@@ -101,7 +102,7 @@ public class HealthAndDamage : MonoBehaviour
 
         UpdateHealthBar(true);
 
-        pn.CreatePopup(damage.ToString(), DamageColour);
+        pn.CreatePopup(damage.ToString(), DamageColour, true, DamageBGColour);
 
         if(currentHealth <= 0)
         {
@@ -119,7 +120,7 @@ public class HealthAndDamage : MonoBehaviour
         UpdateHealthBar(false);
 
         if(ShowHealText)
-            pn.CreatePopup("+" + healAmount.ToString(), HealColour);
+            pn.CreatePopup("+" + healAmount.ToString(), HealColour, false, Color.black);
     }
 
     public void HealPercent(float amount)
@@ -133,7 +134,7 @@ public class HealthAndDamage : MonoBehaviour
         UpdateHealthBar(false);
 
         if(ShowHealText)
-            pn.CreatePopup("+" + addedHealth.ToString(), HealColour);
+            pn.CreatePopup("+" + addedHealth.ToString(), HealColour, false, Color.black);
     }
 
     void Die()

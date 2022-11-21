@@ -297,15 +297,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pn: {fileID: -6455955914981040354}
   isPlayer: 0
+  ShowHealText: 1
   StartingHealth: 2
-  DamageColour: {r: 1, g: 0, b: 0, a: 0}
+  DamageColour: {r: 1, g: 0, b: 0, a: 0.5019608}
+  DamageBGColour: {r: 1, g: 0.97981787, b: 0, a: 0.5019608}
   HealColour: {r: 0.0048570633, g: 1, b: 0, a: 0}
+  healthBarGO: {fileID: 0}
   HealthBarVisibilityTimer: 2
   CollectableSpawnPoint: {fileID: 1799007902693628733}
   CollectableGoldPrefab: {fileID: 3223261486549517938, guid: fb5a1d5c2a7725941ab13ba8ac1d9036, type: 3}
   CollectableHealthPrefab: {fileID: 3223261486549517938, guid: 286da284f97db9f489443b665b1190e9, type: 3}
   CollectableCount: 1
   HealthChancePercentage: 10
+  IsHealthRegen: 0
+  HealthRegenPerSecond: 2
+  RegenDelayAfterDamage: 1
 --- !u!114 &5229977527534884409
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -351,6 +357,9 @@ MonoBehaviour:
   DestroyPopupAfterTime: 1
   PopupSpawnPoint: {fileID: 1799007902693628733}
   PopupPrefab: {fileID: 8380677813114030212, guid: 8a24fa938613fd641aee9e9176d34231, type: 3}
+  MaxRandomXOffset: 0.5
+  MaxRandomYOffset: 0
+  MaxRandomZOffset: 0
 --- !u!1 &1884124168287265315
 GameObject:
   m_ObjectHideFlags: 0

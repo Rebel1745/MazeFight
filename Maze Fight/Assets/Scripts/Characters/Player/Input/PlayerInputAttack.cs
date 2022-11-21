@@ -13,6 +13,7 @@ public class PlayerInputAttack : MonoBehaviour
 
     [Header("Melee Attack")]
     public Transform MeleeAttackOriginPoint;
+    public Transform[] AlternateMeleeAttackOriginPoints;
     [SerializeField] bool meleeAttackAvailable = false;
     [SerializeField] public float MeleeAttackCooldown = 1f;
     float lastMeleeAttackCooldown;
@@ -210,19 +211,30 @@ public class PlayerInputAttack : MonoBehaviour
     {
         // first fire out a short ray, this will check if there is anything directly infront of the player
         RaycastHit hit;
-        if (Physics.Raycast(MeleeAttackOriginPoint.position, playerController.characterMovement.LastLookDirection, out hit, 1f, WhatIsEnemy))
+        if (Physics.Raycast(MeleeAttackOriginPoint.position, playerController.characterMovement.LastLookDirection, out hit, AttackWidth, WhatIsEnemy))
         {
             ProcessMeleeHit(hit);
         }
         else
         {
-            currentMeleeAttackRange = DefaultMeleeAttackRange + (UpperArmRangeMultiplier * UpperArmMeleeScale.y) + ( FistRangeMultiplier * FistMeleeScale.y);
+            // next check for a hit from any of the alternate melee origin points
+            foreach(Transform t in AlternateMeleeAttackOriginPoints)
+            {
+                if (Physics.Raycast(t.position, playerController.characterMovement.LastLookDirection, out hit, AttackWidth, WhatIsEnemy))
+                {
+                    ProcessMeleeHit(hit);
+                    return;
+                }
+            }
+
+            // if we get here then we didnt get any hits from the raycasts, now sphere cast
+            currentMeleeAttackRange = DefaultMeleeAttackRange + (UpperArmRangeMultiplier * UpperArmMeleeScale.y) + (FistRangeMultiplier * FistMeleeScale.y);
             // fire out a SphereCast corresponding to currentAttackRange, if it hits the enemy, hit it
             if (Physics.SphereCast(MeleeAttackOriginPoint.position, AttackWidth, playerController.characterMovement.LastLookDirection, out hit, currentMeleeAttackRange, WhatIsEnemy))
             {
                 ProcessMeleeHit(hit);
             }
-        }
+        }        
     }
 
     void ProcessMeleeHit(RaycastHit hit)

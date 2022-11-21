@@ -111,7 +111,8 @@ MonoBehaviour:
   isPlayer: 0
   ShowHealText: 0
   StartingHealth: 200
-  DamageColour: {r: 0, g: 0, b: 0, a: 0}
+  DamageColour: {r: 1, g: 0, b: 0, a: 1}
+  DamageBGColour: {r: 1, g: 0.95914936, b: 0, a: 1}
   HealColour: {r: 0, g: 0, b: 0, a: 0}
   healthBarGO: {fileID: 0}
   HealthBarVisibilityTimer: 5

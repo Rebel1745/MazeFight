@@ -32,13 +32,13 @@ public class CoinPurse : MonoBehaviour
     {
         currentGold += amount;
         goldUI.UpdateGoldUI(currentGold);
-        pn.CreatePopup(amount.ToString(), GoldColor);
+        pn.CreatePopup(amount.ToString(), GoldColor, false, Color.black);
     }
 
     public void SpendGold(int amount)
     {
         currentGold -= amount;
         goldUI.UpdateGoldUI(currentGold);
-        pn.CreatePopup("-" + amount.ToString(), PurchaseColor);
+        pn.CreatePopup("-" + amount.ToString(), PurchaseColor, false, Color.black);
     }
 }
