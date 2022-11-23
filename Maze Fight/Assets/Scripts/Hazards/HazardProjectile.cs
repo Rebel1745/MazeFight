@@ -39,6 +39,11 @@ public class HazardProjectile : MonoBehaviour
     public float AOEShakeFadeInTime = 0.5f;
     public float AOEShakeFadeOutTime = 0.5f;
 
+    public bool IsHoming = false;
+    public float HomingRotationSpeed = 1f;
+    public Transform RotationTarget;
+    public float TargetMaxDistance = 1f;
+
     public float Damage = 1f;
 
     // TODO: make the whole sound play even if the projectile is destroy quickly
@@ -60,6 +65,69 @@ public class HazardProjectile : MonoBehaviour
 
         if (CanReturn)
             CheckReturn();
+    }
+
+    private void FixedUpdate()
+    {
+        if (IsHoming)
+            UpdateHomingRotation();
+    }
+
+    void UpdateHomingRotation()
+    {
+        GetRotationTarget();
+
+        if (RotationTarget)
+        {
+            /*
+            Vector3 direction = RotationTarget.position - transform.position;
+            direction.Normalize();
+
+            Vector3 rotateAmount = Vector3.Cross(direction, transform.forward);
+            Debug.Log(rotateAmount);
+
+            transform.Rotate(rotateAmount * HomingRotationSpeed);
+            */
+        }
+    }
+
+    void GetRotationTarget()
+    {
+        if (IsPlayerProjectile)
+        {
+            if (!RotationTarget)
+            {
+                RotationTarget = CheckForCharacter(EnemyLayer);
+            }
+        }
+        else
+        {
+            if (!RotationTarget)
+            {
+                RotationTarget = CheckForCharacter(PlayerLayer);
+            }
+        }
+    }
+
+    Transform CheckForCharacter(LayerMask layer)
+    {
+        Collider[] targets = Physics.OverlapSphere(transform.position, TargetMaxDistance, layer);
+
+        Transform closestTarget = null;
+        float closestTargetDistance = Mathf.Infinity;
+        float currentDistance;
+
+        foreach(Collider c in targets)
+        {
+            currentDistance = Vector3.Distance(c.transform.position, transform.position);
+            if(currentDistance < closestTargetDistance)
+            {
+                closestTarget = c.transform;
+                closestTargetDistance = currentDistance;
+            }
+        }
+
+        return closestTarget;
     }
 
     void CheckReturn()

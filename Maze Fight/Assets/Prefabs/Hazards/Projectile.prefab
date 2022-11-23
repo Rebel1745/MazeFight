@@ -138,6 +138,10 @@ MonoBehaviour:
     m_Bits: 1024
   ProjectileSpeed: 5
   ProjectileLifetime: 10
+  ImpactShakeMagnitude: 1
+  ImpactShakeRoughness: 1
+  ImpactShakeFadeInTime: 0.25
+  ImpactShakeFadeOutTime: 0.25
   CanBounce: 0
   MaxBounces: 2
   CanReturn: 0
@@ -145,6 +149,14 @@ MonoBehaviour:
   IsAreaOfEffect: 1
   AOERadius: 1
   AOEDamageModifier: 3
+  AOEShakeMagnitude: 2
+  AOEShakeRoughness: 2
+  AOEShakeFadeInTime: 0.5
+  AOEShakeFadeOutTime: 0.5
+  IsHoming: 0
+  HomingRotationSpeed: 1
+  RotationTarget: {fileID: 0}
+  TargetMaxDistance: 1
   Damage: 1
 --- !u!82 &8488346953739567317
 AudioSource:

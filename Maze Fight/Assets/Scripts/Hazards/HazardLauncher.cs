@@ -5,43 +5,69 @@ using UnityEngine;
 public class HazardLauncher : MonoBehaviour
 {
     public GameObject Projectile;
-    public Transform ProjectileSpawnPoint;
+    public Transform[] ProjectileSpawnPoints;
     public float ProjectileSpeed = 1f;
     public float ProjectileLifetime = 3f;
     public float TimeBetweenShots = 1f;
-    float currentTime = 0f;
+    public int ShotsPerBurst = 1;
+    int currentShotCount;
+    public float TimeBetweenBursts = 1f;
+    float currentTimeBetweenShots;
+    float currentTimeBetweenBursts;
 
     private void Start()
     {
-        currentTime = TimeBetweenShots;
+        currentShotCount = 0;
+        currentTimeBetweenBursts = TimeBetweenBursts;
+        currentTimeBetweenShots = 0f;
     }
 
     private void Update()
     {
-        if(currentTime > 0)
+        TimeToShoot();
+    }
+
+    void TimeToShoot()
+    {
+        currentTimeBetweenBursts += Time.deltaTime;
+
+        if(currentTimeBetweenBursts >= TimeBetweenBursts)
         {
-            currentTime -= Time.deltaTime;
-        }
-        else
-        {
-            Shoot();
+            // we should be shooting, currentTimeBetweenBursts should only get reset when shooting is done
+            if(currentShotCount < ShotsPerBurst)
+            {
+                // check to see if we are ready to shoot
+                currentTimeBetweenShots += Time.deltaTime;
+                if(currentTimeBetweenShots >= TimeBetweenShots)
+                {
+                    Shoot();
+                    currentTimeBetweenShots = 0f;
+                    currentShotCount++;
+                }
+            }
+            else
+            {
+                currentTimeBetweenBursts = 0f;
+                currentShotCount = 0;
+            }
         }
     }
 
     void Shoot()
     {
-        currentTime = TimeBetweenShots;
-
         // Don't know why this IF is required.  Even though the projectile spawns without it, it still errors. Weird
-        if (ProjectileSpawnPoint)
+        if (ProjectileSpawnPoints.Length > 0)
         {
-            GameObject projectile = Instantiate(Projectile, ProjectileSpawnPoint.position, Quaternion.identity);
-            projectile.GetComponent<Rigidbody>().velocity = ProjectileSpawnPoint.forward * ProjectileSpeed;
-            HazardProjectile hp = projectile.GetComponent<HazardProjectile>();
-            hp.ProjectileLifetime = ProjectileLifetime;
-            hp.CanBounce = false;
-            hp.MaxBounces = 0;
-            hp.IsPlayerProjectile = false;
+            foreach(Transform t in ProjectileSpawnPoints)
+            {
+                GameObject projectile = Instantiate(Projectile, t.position, Quaternion.identity);
+                projectile.GetComponent<Rigidbody>().velocity = t.forward * ProjectileSpeed;
+                HazardProjectile hp = projectile.GetComponent<HazardProjectile>();
+                hp.ProjectileLifetime = ProjectileLifetime;
+                hp.CanBounce = false;
+                hp.MaxBounces = 0;
+                hp.IsPlayerProjectile = false;
+            }
         }
         
     }
