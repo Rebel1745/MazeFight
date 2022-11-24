@@ -56,6 +56,7 @@ public class PlayerInputAttack : MonoBehaviour
     [SerializeField] public float AttackRangedAnimationSpeed = 1f;
     [SerializeField] public GameObject RangedProjectilePrefab;
     [SerializeField] public Transform ProjectileSpawnPoint;
+    [SerializeField] public float ProjectileSpeed = 1f;
     [SerializeField] public float ProjectileSpeedMultiplier = 1f;
     [SerializeField] public float ProjectileDamage = 1f;
     public int AttackRangedResourceCost = 20;
@@ -350,11 +351,11 @@ public class PlayerInputAttack : MonoBehaviour
     public void FireRangedPrefab()
     {
         // instantiate the prjectile and set it flying
-        GameObject projectile = Instantiate(RangedProjectilePrefab, ProjectileSpawnPoint.position, Quaternion.identity);
+        GameObject projectile = Instantiate(RangedProjectilePrefab, ProjectileSpawnPoint.position, ProjectileSpawnPoint.rotation);
         HazardProjectile hp = projectile.GetComponent<HazardProjectile>();
         hp.Damage = ProjectileDamage;
         hp.IsPlayerProjectile = true;
-        hp.SetVelocity(ProjectileSpawnPoint.forward * ProjectileSpeedMultiplier);
+        hp.ProjectileSpeed = ProjectileSpeed * ProjectileSpeedMultiplier;
         rau.UseResource(AttackRangedResourceCost);
     }
     #endregion

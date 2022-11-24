@@ -43,6 +43,8 @@ public class HazardProjectile : MonoBehaviour
     public float HomingRotationSpeed = 1f;
     public Transform RotationTarget;
     public float TargetMaxDistance = 1f;
+    public float TimeBeforeHomingActivated = 1f;
+    private bool homingActivated = false;
 
     public float Damage = 1f;
 
@@ -51,11 +53,6 @@ public class HazardProjectile : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
-    }
-
-    public void SetVelocity(Vector3 vel)
-    {
-        rb.velocity = vel * ProjectileSpeed;
     }
 
     void Update()
@@ -69,25 +66,29 @@ public class HazardProjectile : MonoBehaviour
 
     private void FixedUpdate()
     {
+        rb.velocity = transform.forward * ProjectileSpeed;
+
         if (IsHoming)
             UpdateHomingRotation();
     }
 
     void UpdateHomingRotation()
     {
+        // if we arent ready to home yet, bail
+        if (currentLifetime < TimeBeforeHomingActivated)
+            return;
+
         GetRotationTarget();
 
         if (RotationTarget)
         {
-            /*
-            Vector3 direction = RotationTarget.position - transform.position;
-            direction.Normalize();
+            // adjust the y value so the projectile always remains at the same level regardless of the position of the targets height
 
-            Vector3 rotateAmount = Vector3.Cross(direction, transform.forward);
-            Debug.Log(rotateAmount);
+            Vector3 yAdjustedTarget = new Vector3(RotationTarget.position.x, transform.position.y, RotationTarget.position.z);
 
-            transform.Rotate(rotateAmount * HomingRotationSpeed);
-            */
+            Quaternion rotationToTarget = Quaternion.LookRotation(yAdjustedTarget - transform.position);
+
+            rb.MoveRotation(Quaternion.RotateTowards(transform.rotation, rotationToTarget, HomingRotationSpeed));
         }
     }
 

@@ -43,6 +43,7 @@ public class EnemyMovement : MonoBehaviour
     // Ranged Attack
     [SerializeField] public GameObject RangedProjectilePrefab;
     [SerializeField] public Transform ProjectileSpawnPoint;
+    [SerializeField] public float ProjectileSpeed = 1f;
     [SerializeField] public float ProjectileSpeedMultiplier = 1f;
     [SerializeField] public float ProjectileDamage = 1f;
     [SerializeField] public float RangedAttackCooldown = 1f;
@@ -165,11 +166,11 @@ public class EnemyMovement : MonoBehaviour
     public void RangedAttack()
     {
         // instantiate the prjectile and set it flying
-        GameObject projectile = Instantiate(RangedProjectilePrefab, ProjectileSpawnPoint.position, Quaternion.identity);
+        GameObject projectile = Instantiate(RangedProjectilePrefab, ProjectileSpawnPoint.position, ProjectileSpawnPoint.rotation);
         HazardProjectile hp = projectile.GetComponent<HazardProjectile>();
         hp.Damage = ProjectileDamage;
         hp.IsPlayerProjectile = false;
-        hp.SetVelocity(ProjectileSpawnPoint.forward * ProjectileSpeedMultiplier);
+        hp.ProjectileSpeed = ProjectileSpeed * ProjectileSpeedMultiplier;
         // TODO: SORT THIS. If attackPlayer is not made false, multiple projectiles are released.  If followPlayer is not true, the enemy just stands there idle and doesnt shoot again.
         // if code as below, multiple projectiles are released AND an error appears.
 

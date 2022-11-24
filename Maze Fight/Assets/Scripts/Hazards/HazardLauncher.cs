@@ -60,9 +60,9 @@ public class HazardLauncher : MonoBehaviour
         {
             foreach(Transform t in ProjectileSpawnPoints)
             {
-                GameObject projectile = Instantiate(Projectile, t.position, Quaternion.identity);
-                projectile.GetComponent<Rigidbody>().velocity = t.forward * ProjectileSpeed;
+                GameObject projectile = Instantiate(Projectile, t.position, t.rotation);
                 HazardProjectile hp = projectile.GetComponent<HazardProjectile>();
+                hp.ProjectileSpeed = ProjectileSpeed;
                 hp.ProjectileLifetime = ProjectileLifetime;
                 hp.CanBounce = false;
                 hp.MaxBounces = 0;

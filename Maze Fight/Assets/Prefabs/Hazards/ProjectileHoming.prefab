@@ -146,7 +146,7 @@ MonoBehaviour:
   MaxBounces: 2
   CanReturn: 0
   ReturnTime: 1
-  IsAreaOfEffect: 1
+  IsAreaOfEffect: 0
   AOERadius: 1
   AOEDamageModifier: 3
   AOEShakeMagnitude: 2
@@ -154,9 +154,10 @@ MonoBehaviour:
   AOEShakeFadeInTime: 0.5
   AOEShakeFadeOutTime: 0.5
   IsHoming: 1
-  HomingRotationSpeed: 100
+  HomingRotationSpeed: 1
   RotationTarget: {fileID: 0}
   TargetMaxDistance: 5
+  TimeBeforeHomingActivated: 1
   Damage: 1
 --- !u!82 &8488346953739567317
 AudioSource:

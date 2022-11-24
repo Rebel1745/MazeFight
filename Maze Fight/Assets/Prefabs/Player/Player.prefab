@@ -1914,8 +1914,9 @@ MonoBehaviour:
   attackRangedAvailable: 0
   AttackRangedCooldown: 0.1
   AttackRangedAnimationSpeed: 1
-  RangedProjectilePrefab: {fileID: 1254802954257865886, guid: cd6373f52bdf0734ebb0048a0b120f02, type: 3}
+  RangedProjectilePrefab: {fileID: 1254802954257865886, guid: 133cf5d6d0968b741a8bb061b271df63, type: 3}
   ProjectileSpawnPoint: {fileID: 1064771857688485755}
+  ProjectileSpeed: 1
   ProjectileSpeedMultiplier: 1
   ProjectileDamage: 25
   AttackRangedResourceCost: 20
