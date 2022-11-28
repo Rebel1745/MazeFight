@@ -1566,6 +1566,7 @@ MonoBehaviour:
   MeleeAttackCooldown: 1
   RangedProjectilePrefab: {fileID: 1254802954257865886, guid: cd6373f52bdf0734ebb0048a0b120f02, type: 3}
   ProjectileSpawnPoint: {fileID: 1064771857688485755}
+  ProjectileSpeed: 1
   ProjectileSpeedMultiplier: 1
   ProjectileDamage: 1
   RangedAttackCooldown: 1
@@ -1621,6 +1622,7 @@ MonoBehaviour:
   HealColour: {r: 0.0048570633, g: 1, b: 0, a: 0}
   healthBarGO: {fileID: 0}
   HealthBarVisibilityTimer: 2
+  InvicibilityTimeAfterDamage: 0.5
   CollectableSpawnPoint: {fileID: 7512968174314019132}
   CollectableGoldPrefab: {fileID: 3223261486549517938, guid: fb5a1d5c2a7725941ab13ba8ac1d9036, type: 3}
   CollectableHealthPrefab: {fileID: 3223261486549517938, guid: 286da284f97db9f489443b665b1190e9, type: 3}

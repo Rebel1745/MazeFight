@@ -23,6 +23,10 @@ public class HealthAndDamage : MonoBehaviour
 
     public float HealthBarVisibilityTimer = 1f;
 
+    public float InvicibilityTimeAfterDamage = 0.5f;
+    bool isInvincible = false;
+
+    // collectables
     public Transform CollectableSpawnPoint;
     public GameObject CollectableGoldPrefab;
     public GameObject CollectableHealthPrefab;
@@ -59,6 +63,8 @@ public class HealthAndDamage : MonoBehaviour
             if (!isPlayer)
                 healthBar.SetVisibleTimer(0);
         }
+
+        isInvincible = false;
     }
 
     void Update()
@@ -96,7 +102,11 @@ public class HealthAndDamage : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
+        if (isInvincible)
+            return;
+        Debug.Log(transform.name);
         timeSinceLastHit = 0f;
+        MakeInvincible(InvicibilityTimeAfterDamage);
 
         currentHealth -= damage;
 
@@ -108,6 +118,18 @@ public class HealthAndDamage : MonoBehaviour
         {
             Die();
         }
+    }
+
+    void MakeInvincible(float duration)
+    {
+        isInvincible = true;
+        // add invincibility animation (blinking or something)
+        Invoke("MakeUnInvincible", duration);
+    }
+
+    void MakeUnInvincible()
+    {
+        isInvincible = false;
     }
 
     public void Heal(float healAmount)

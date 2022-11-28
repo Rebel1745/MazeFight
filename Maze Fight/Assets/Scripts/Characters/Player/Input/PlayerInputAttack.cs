@@ -21,11 +21,12 @@ public class PlayerInputAttack : MonoBehaviour
     float meleeAttackAnimationSpeed = 1f;
     [SerializeField] public AudioClip MeleeWhoosh;
     [SerializeField] public float MeleeAttackDamage = 1f;
-    [SerializeField] public float DefaultMeleeAttackRange;
-    float currentMeleeAttackRange;
-    [SerializeField] public float UpperArmRangeMultiplier = 1f;
-    [SerializeField] public float FistRangeMultiplier = 1f;
+    // new range info
+    public Transform MeleeAttackRightEndPoint;
+    public Transform MeleeAttackLeftEndPoint;
+    Transform currentEndPoint;
     [SerializeField] public float AttackWidth = 0.001f;
+
     public int ResourceGeneratedPerHit = 10;
     public float MeleeShakeMagnitude = 1f;
     public float MeleeShakeRoughness = 1f;
@@ -192,9 +193,15 @@ public class PlayerInputAttack : MonoBehaviour
         // pick a side and attack with it
         int rand = Random.Range(0, 2);
         if (rand == 0)
+        {
             playerController.ChangeAnimationState(playerController.PLAYER_ATTACK_PUNCH_LEFT, meleeAttackAnimationSpeed);
+            currentEndPoint = MeleeAttackLeftEndPoint;
+        }
         else
+        {
             playerController.ChangeAnimationState(playerController.PLAYER_ATTACK_PUNCH_RIGHT, meleeAttackAnimationSpeed);
+            currentEndPoint = MeleeAttackRightEndPoint;
+        }
 
         source.pitch = Random.Range(0.8f, 1.2f);
         source.PlayOneShot(MeleeWhoosh);
@@ -204,12 +211,15 @@ public class PlayerInputAttack : MonoBehaviour
         meleeAttackCooldown = MeleeAttackCooldown;
         CancelAttackAfterAnimation(meleeAttackAnimationDuration / meleeAttackAnimationSpeed);
 
-        CheckForMeleeHit();
+        // hits are now triggered in the animation 
+        //CheckForMeleeHit();
     }
-
-    // TODO: Find a way to check for an enemy directly infront of the player.  Raycast just doesnt cut it as enemies just off centre get missed. Maybe fire 3 rays at different angles
-    void CheckForMeleeHit()
+    
+    public void CheckForMeleeHit()
     {
+        // calculate the range of the attack from the melee attack origin to the end point marker of either the left or right punch
+        float attackRange = Vector3.Distance(MeleeAttackOriginPoint.position, currentEndPoint.position);
+
         // first fire out a short ray, this will check if there is anything directly infront of the player
         RaycastHit hit;
         if (Physics.Raycast(MeleeAttackOriginPoint.position, playerController.characterMovement.LastLookDirection, out hit, AttackWidth, WhatIsEnemy))
@@ -227,15 +237,13 @@ public class PlayerInputAttack : MonoBehaviour
                     return;
                 }
             }
-
-            // if we get here then we didnt get any hits from the raycasts, now sphere cast
-            currentMeleeAttackRange = DefaultMeleeAttackRange + (UpperArmRangeMultiplier * UpperArmMeleeScale.y) + (FistRangeMultiplier * FistMeleeScale.y);
+            
             // fire out a SphereCast corresponding to currentAttackRange, if it hits the enemy, hit it
-            if (Physics.SphereCast(MeleeAttackOriginPoint.position, AttackWidth, playerController.characterMovement.LastLookDirection, out hit, currentMeleeAttackRange, WhatIsEnemy))
+            if (Physics.SphereCast(MeleeAttackOriginPoint.position, AttackWidth, playerController.characterMovement.LastLookDirection, out hit, attackRange, WhatIsEnemy))
             {
                 ProcessMeleeHit(hit);
             }
-        }        
+        }
     }
 
     void ProcessMeleeHit(RaycastHit hit)

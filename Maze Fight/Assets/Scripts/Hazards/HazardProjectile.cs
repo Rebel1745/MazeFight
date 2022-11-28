@@ -44,7 +44,6 @@ public class HazardProjectile : MonoBehaviour
     public Transform RotationTarget;
     public float TargetMaxDistance = 1f;
     public float TimeBeforeHomingActivated = 1f;
-    private bool homingActivated = false;
 
     public float Damage = 1f;
 

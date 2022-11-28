@@ -42,6 +42,11 @@ public class AnimationEventRedirector : MonoBehaviour
         pa.UpdateAppendageScale("FistRightPunch");
     }
 
+    public void CheckForMeleeHit()
+    {
+        pa.CheckForMeleeHit();
+    }
+
     public void PlaySpinSound()
     {
         pa.PlaySpinSound();

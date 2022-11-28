@@ -116,6 +116,7 @@ MonoBehaviour:
   HealColour: {r: 0, g: 0, b: 0, a: 0}
   healthBarGO: {fileID: 0}
   HealthBarVisibilityTimer: 5
+  InvicibilityTimeAfterDamage: 0.4
   CollectableSpawnPoint: {fileID: 7177466408022388671}
   CollectableGoldPrefab: {fileID: 0}
   CollectableHealthPrefab: {fileID: 0}
