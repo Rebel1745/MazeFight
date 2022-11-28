@@ -1937,7 +1937,6 @@ MonoBehaviour:
   AttackSpinNumber: 10
   AttackSpinAnimationSpeed: 1
   SpinWhoosh: {fileID: 8300000, guid: 7764c1d48f4322f46a8e166c025d92b1, type: 3}
-  SpinRadius: 1
   AttackSpinResourceCost: 50
   SpinShakeMagnitude: 1
   SpinShakeRoughness: 1
@@ -1956,9 +1955,9 @@ MonoBehaviour:
   FistRight: {fileID: 329494134705117795}
   UpperArmLeft: {fileID: 8053378775864873615}
   FistLeft: {fileID: 6669742077109006407}
-  UpperArmMeleeScale: {x: 1, y: 2.57, z: 1}
+  UpperArmMeleeScale: {x: 1, y: 1, z: 1}
   FistMeleeScale: {x: 1, y: 1, z: 1}
-  UpperArmSpinScale: {x: 1, y: 5.12, z: 1}
+  UpperArmSpinScale: {x: 1, y: 1, z: 1}
   FistSpinScale: {x: 1, y: 1, z: 1}
 --- !u!114 &4846113487097133437
 MonoBehaviour:

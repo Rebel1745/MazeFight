@@ -43,7 +43,6 @@ public class PlayerInputAttack : MonoBehaviour
     float currentSpinDuration;
     [SerializeField] public float AttackSpinAnimationSpeed = 0.5f;
     [SerializeField] public AudioClip SpinWhoosh;
-    [SerializeField] public float SpinRadius = 1f;
     public int AttackSpinResourceCost = 50;
     public float SpinShakeMagnitude = 1f;
     public float SpinShakeRoughness = 1f;
@@ -251,8 +250,15 @@ public class PlayerInputAttack : MonoBehaviour
         HealthAndDamage had = hit.transform.gameObject.GetComponent<HealthAndDamage>();
 
         // Deal some damage
-        if (had)
+        if (had && !had.IsInvincible)
+        {
             had.TakeDamage(MeleeAttackDamage);
+
+            // add some resource
+            rau.AddResource(ResourceGeneratedPerHit);
+
+            CameraShaker.Instance.ShakeOnce(MeleeShakeMagnitude, MeleeShakeRoughness, MeleeShakeFadeInTime, MeleeShakeFadeOutTime);
+        }
 
         Knockback kb = hit.transform.gameObject.GetComponent<Knockback>();
         if (kb)
@@ -261,10 +267,6 @@ public class PlayerInputAttack : MonoBehaviour
             Vector3 dir = hit.transform.position - transform.position;
             kb.KnockbackObject(dir, 0.1f);
         }
-
-        // add some resource
-        rau.AddResource(ResourceGeneratedPerHit);
-        CameraShaker.Instance.ShakeOnce(MeleeShakeMagnitude, MeleeShakeRoughness, MeleeShakeFadeInTime, MeleeShakeFadeOutTime);
     }
 
     #region Spinning
@@ -315,8 +317,10 @@ public class PlayerInputAttack : MonoBehaviour
 
     void CheckSpinHit()
     {
+        float spinRadius = Vector3.Distance(MeleeAttackLeftEndPoint.position, MeleeAttackRightEndPoint.position) / 2f;
+        Debug.Log(spinRadius);
         // when we are spinning, check if any enemies are in our spin radius, and knock them back
-        Collider[] cols = Physics.OverlapSphere(transform.position, SpinRadius, WhatIsEnemy);
+        Collider[] cols = Physics.OverlapSphere(transform.position, spinRadius, WhatIsEnemy);
         
         if(cols.Length > 0)
         {

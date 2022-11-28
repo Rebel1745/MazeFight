@@ -119,7 +119,7 @@ MonoBehaviour:
   m_MinSize: {x: 400, y: 200}
   m_MaxSize: {x: 32384, y: 16192}
   vertical: 0
-  controlID: 161
+  controlID: 53
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -349,8 +349,8 @@ MonoBehaviour:
     y: 0
     width: 404
     height: 947
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 276, y: 71}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 24}
   m_Panes:
   - {fileID: 24}
@@ -479,7 +479,7 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
+      m_SelectedIDs: ee4f0000
       m_LastClickedID: 0
       m_ExpandedIDs: 32fbffff
       m_RenameOverlay:
@@ -732,7 +732,7 @@ MonoBehaviour:
   m_Position:
     m_Target: {x: 5.999617, y: 0.48304665, z: 0.046087682}
     speed: 2
-    m_Value: {x: 2.4553733, y: 0.7833241, z: -0.32674062}
+    m_Value: {x: 5.999617, y: 0.48304665, z: 0.046087682}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -785,7 +785,7 @@ MonoBehaviour:
   m_Size:
     m_Target: 1.5734235
     speed: 2
-    m_Value: 1.5056684
+    m_Value: 1.5734235
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -851,22 +851,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Prefabs/Enemy
+    - Assets/Scripts/Characters/Player/Input
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Prefabs/Enemy
+  - Assets/Scripts/Characters/Player/Input
   m_LastFoldersGridSize: 16
   m_LastProjectPath: E:\Projects\Unity\MazeFight\Maze Fight
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 114.806625}
-    m_SelectedIDs: 568e0000
-    m_LastClickedID: 36438
-    m_ExpandedIDs: 00000000348e0000368e0000388e00003a8e00003c8e00003e8e0000408e0000428e000000ca9a3b
+    scrollPos: {x: 0, y: 200}
+    m_SelectedIDs: 768e0000
+    m_LastClickedID: 36470
+    m_ExpandedIDs: 000000003c8e00003e8e0000408e0000428e0000448e0000468e0000488e00004a8e000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -894,7 +894,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000348e0000368e0000388e00003a8e00003c8e00003e8e0000408e0000428e0000
+    m_ExpandedIDs: 000000003c8e00003e8e0000408e0000428e0000448e0000468e0000488e00004a8e0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1448,7 +1448,7 @@ MonoBehaviour:
   m_MinSize: {x: 275, y: 50}
   m_MaxSize: {x: 4000, y: 4000}
   m_TitleContent:
-    m_Text: Debug
+    m_Text: Inspector
     m_Image: {fileID: -2667387946076563598, guid: 0000000000000000d000000000000000, type: 0}
     m_Tooltip: 
   m_Pos:
@@ -1470,7 +1470,7 @@ MonoBehaviour:
   m_LastInspectedObjectInstanceID: -1
   m_LastVerticalScrollValue: 0
   m_GlobalObjectId: 
-  m_InspectorMode: 1
+  m_InspectorMode: 0
   m_LockTracker:
     m_IsLocked: 0
   m_PreviewWindow: {fileID: 0}

@@ -24,7 +24,7 @@ public class HealthAndDamage : MonoBehaviour
     public float HealthBarVisibilityTimer = 1f;
 
     public float InvicibilityTimeAfterDamage = 0.5f;
-    bool isInvincible = false;
+    public bool IsInvincible = false;
 
     // collectables
     public Transform CollectableSpawnPoint;
@@ -64,7 +64,7 @@ public class HealthAndDamage : MonoBehaviour
                 healthBar.SetVisibleTimer(0);
         }
 
-        isInvincible = false;
+        IsInvincible = false;
     }
 
     void Update()
@@ -102,9 +102,9 @@ public class HealthAndDamage : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        if (isInvincible)
+        if (IsInvincible)
             return;
-        Debug.Log(transform.name);
+
         timeSinceLastHit = 0f;
         MakeInvincible(InvicibilityTimeAfterDamage);
 
@@ -122,14 +122,14 @@ public class HealthAndDamage : MonoBehaviour
 
     void MakeInvincible(float duration)
     {
-        isInvincible = true;
+        IsInvincible = true;
         // add invincibility animation (blinking or something)
         Invoke("MakeUnInvincible", duration);
     }
 
     void MakeUnInvincible()
     {
-        isInvincible = false;
+        IsInvincible = false;
     }
 
     public void Heal(float healAmount)
