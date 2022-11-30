@@ -13,7 +13,8 @@ public class PlayerInputAttack : MonoBehaviour
 
     [Header("Melee Attack")]
     public Transform MeleeAttackOriginPoint;
-    public Transform[] AlternateMeleeAttackOriginPoints;
+    public Transform MeleeAttackOriginPointLeft;
+    public Transform MeleeAttackOriginPointRight;
     [SerializeField] bool meleeAttackAvailable = false;
     [SerializeField] public float MeleeAttackCooldown = 1f;
     float lastMeleeAttackCooldown;
@@ -24,7 +25,9 @@ public class PlayerInputAttack : MonoBehaviour
     // new range info
     public Transform MeleeAttackRightEndPoint;
     public Transform MeleeAttackLeftEndPoint;
+    Transform currentStartPoint;
     Transform currentEndPoint;
+    float attackRange;
     [SerializeField] public float AttackWidth = 0.001f;
 
     public int ResourceGeneratedPerHit = 10;
@@ -194,11 +197,13 @@ public class PlayerInputAttack : MonoBehaviour
         if (rand == 0)
         {
             playerController.ChangeAnimationState(playerController.PLAYER_ATTACK_PUNCH_LEFT, meleeAttackAnimationSpeed);
+            currentStartPoint = MeleeAttackOriginPointLeft;
             currentEndPoint = MeleeAttackLeftEndPoint;
         }
         else
         {
             playerController.ChangeAnimationState(playerController.PLAYER_ATTACK_PUNCH_RIGHT, meleeAttackAnimationSpeed);
+            currentStartPoint = MeleeAttackOriginPointRight;
             currentEndPoint = MeleeAttackRightEndPoint;
         }
 
@@ -217,8 +222,8 @@ public class PlayerInputAttack : MonoBehaviour
     public void CheckForMeleeHit()
     {
         // calculate the range of the attack from the melee attack origin to the end point marker of either the left or right punch
-        float attackRange = Vector3.Distance(MeleeAttackOriginPoint.position, currentEndPoint.position);
-
+        attackRange = Vector3.Distance(currentStartPoint.position, currentEndPoint.position);
+        
         // first fire out a short ray, this will check if there is anything directly infront of the player
         RaycastHit hit;
         if (Physics.Raycast(MeleeAttackOriginPoint.position, playerController.characterMovement.LastLookDirection, out hit, AttackWidth, WhatIsEnemy))
@@ -227,19 +232,23 @@ public class PlayerInputAttack : MonoBehaviour
         }
         else
         {
-            // next check for a hit from any of the alternate melee origin points
-            foreach(Transform t in AlternateMeleeAttackOriginPoints)
+            if (Physics.Raycast(MeleeAttackOriginPointLeft.position, playerController.characterMovement.LastLookDirection, out hit, AttackWidth, WhatIsEnemy))
             {
-                if (Physics.Raycast(t.position, playerController.characterMovement.LastLookDirection, out hit, AttackWidth, WhatIsEnemy))
+                ProcessMeleeHit(hit);
+                return;
+            }
+            else
+            {
+                if (Physics.Raycast(MeleeAttackOriginPointRight.position, playerController.characterMovement.LastLookDirection, out hit, AttackWidth, WhatIsEnemy))
                 {
                     ProcessMeleeHit(hit);
                     return;
                 }
             }
-            
             // fire out a SphereCast corresponding to currentAttackRange, if it hits the enemy, hit it
             if (Physics.SphereCast(MeleeAttackOriginPoint.position, AttackWidth, playerController.characterMovement.LastLookDirection, out hit, attackRange, WhatIsEnemy))
             {
+                Debug.Log("Sphere cast hit " + attackRange + " : " + Vector3.Distance(MeleeAttackOriginPoint.position, hit.transform.position));
                 ProcessMeleeHit(hit);
             }
         }
@@ -407,4 +416,11 @@ public class PlayerInputAttack : MonoBehaviour
     }
 
     #endregion
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawRay(MeleeAttackOriginPointLeft.position, playerController.characterMovement.LastLookDirection * attackRange);
+        Gizmos.DrawRay(MeleeAttackOriginPointRight.position, playerController.characterMovement.LastLookDirection * attackRange);
+        //Gizmos.DrawWireSphere(MeleeAttackOriginPoint.position, attackRange);
+    }
 }

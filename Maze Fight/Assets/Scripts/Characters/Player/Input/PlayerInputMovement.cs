@@ -13,6 +13,10 @@ public class PlayerInputMovement : MonoBehaviour
     public float WalkSpeed = 3f;
     public AudioClip WalkClip;
     public float RollSpeed = 5f;
+    public float RollTimeout = 5f;
+    float currentRollTime = 0f;
+    public float RollCooldown = 3f;
+    float currentRollCooldown = 0f;
     public AudioClip RollClip;
     public Vector2 MoveInput;
     Vector3 lookDirection;
@@ -178,12 +182,13 @@ public class PlayerInputMovement : MonoBehaviour
                     playerController.ChangeAnimationState(playerController.PLAYER_IDLE);
                 }
             }
-            
+
+            // update the roll cooldown
+            if (currentRollCooldown < RollCooldown)
+                currentRollCooldown += Time.deltaTime;
         } else // we be rolling
         {
-            Vector3 force = new Vector3(MoveInput.x, 0f, MoveInput.y);
-
-            rb.AddForce(force * RollSpeed);
+            Roll();
         }
 
         if (MoveInput != Vector2.zero)
@@ -202,15 +207,34 @@ public class PlayerInputMovement : MonoBehaviour
         }
     }
 
+    void Roll()
+    {
+        currentRollTime += Time.deltaTime;
+
+        if(currentRollTime < RollTimeout)
+        {
+            Vector3 force = new Vector3(MoveInput.x, 0f, MoveInput.y);
+
+            rb.AddForce(force * RollSpeed);
+        }
+        else
+        {
+            ChangeStanceModel();
+        }
+    }
+
     public void ChangeStance(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
             if (isBodyStandard)
             {
-                isTransforming = true;
-                playerController.ChangeAnimationState(playerController.PLAYER_TO_BALL);
-                //ChangeStanceModel();
+                if(currentRollCooldown >= RollCooldown)
+                {
+                    isTransforming = true;
+                    playerController.ChangeAnimationState(playerController.PLAYER_TO_BALL);
+                    //ChangeStanceModel(); this is now called from the animation of turning into a ball
+                }
             }
             else
             {
@@ -231,6 +255,7 @@ public class PlayerInputMovement : MonoBehaviour
             source.clip = RollClip;
             source.pitch = 1f;
             CancelLockOn();
+            currentRollTime = 0f;
         }
         else
         {
@@ -240,6 +265,7 @@ public class PlayerInputMovement : MonoBehaviour
             BodyStandard.gameObject.SetActive(true);
             BodySphere.gameObject.SetActive(false);
             playerController.ChangeAnimationState(playerController.PLAYER_FROM_BALL);
+            currentRollCooldown = 0f;
         }
     }
 
