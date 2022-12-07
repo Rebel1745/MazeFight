@@ -1856,6 +1856,7 @@ MonoBehaviour:
   gm: {fileID: 0}
   characterMovement: {fileID: 2904773468151696707}
   playerController: {fileID: 4393225039927298353}
+  playerInputAttack: {fileID: 1426370420010457646}
   source: {fileID: 3971769968481765440}
   WalkSpeed: 3
   WalkClip: {fileID: 8300000, guid: d1d0d76bf0e079649b0ea0ab0d6df117, type: 3}

@@ -7,6 +7,7 @@ public class PlayerInputMovement : MonoBehaviour
     public GameManager gm;
     [SerializeField] CharacterMovement characterMovement;
     [SerializeField] PlayerController playerController;
+    [SerializeField] PlayerInputAttack playerInputAttack;
     [SerializeField] AudioSource source;
 
     [Header("Movement")]
@@ -22,6 +23,7 @@ public class PlayerInputMovement : MonoBehaviour
     Vector3 lookDirection;
     public Rigidbody rb;
     public float RotationSpeed = 500f;
+    public float TimeBeforeRotation = 0.5f;
 
     public bool isBodyStandard = true;
     public Transform BodyStandard;
@@ -83,30 +85,19 @@ public class PlayerInputMovement : MonoBehaviour
 
     Transform FindTargetToLockOn()
     {
-        Transform newTarget;
+        Transform newTarget = null;
 
         // fire a raycast from the player in LastLookDirection, if it hits an enemy, lock on, if not, return null
         RaycastHit hit;
-        if (Physics.SphereCast(transform.position, LockOnCastWidthMax, characterMovement.LastLookDirection, out hit, LockOnRange, WhatIsEnemy))
+        if (Physics.Raycast(transform.position, playerController.characterMovement.LastLookDirection, out hit, LockOnRange, WhatIsEnemy))
         {
-            //Debug.Log("Hit " + hit.transform.name);
             newTarget = hit.transform;
         }
         else
         {
-            //Debug.Log("Checking SphereCastAll");
-            // if the target is closer than LockOnCastWidth then it won't be detected so run a SphereCastAll to check for a hit
-            RaycastHit[] hits = Physics.SphereCastAll(transform.position, LockOnCastWidthMin, characterMovement.LastLookDirection, LockOnRange, WhatIsEnemy);
-
-            if (hits.Length > 0)
+            if (Physics.SphereCast(transform.position, LockOnCastWidthMax, characterMovement.LastLookDirection, out hit, LockOnRange, WhatIsEnemy))
             {
-                //Debug.Log("Hit " + hits[0].transform.name);
-                newTarget = hits[0].transform;
-            }
-            else
-            {
-                //Debug.Log("Miss");
-                newTarget = null;
+                newTarget = hit.transform;
             }
         }
 
@@ -199,7 +190,10 @@ public class PlayerInputMovement : MonoBehaviour
             // removed so that turning is instantaneous rather than gradual
             /*transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, RotationSpeed * Time.deltaTime);*/
 
-            transform.rotation = toRotation;            
+            // only change the rotation of the player if they aren't currently attacking
+            if(!playerInputAttack.isAttacking)
+                transform.rotation = toRotation;
+
             source.Play();
 
             // set this when moveinput is non-zero so we know which direction we are facing for knockback purposes

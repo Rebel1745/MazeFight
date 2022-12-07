@@ -29,6 +29,8 @@ public class PlayerInputAttack : MonoBehaviour
     Transform currentEndPoint;
     float attackRange;
     [SerializeField] public float AttackWidth = 0.001f;
+    public int MaxEnemiesToHit = 10;
+    private RaycastHit[] hits;
 
     public int ResourceGeneratedPerHit = 10;
     public float MeleeShakeMagnitude = 1f;
@@ -84,6 +86,8 @@ public class PlayerInputAttack : MonoBehaviour
 
     private void Start()
     {
+        hits = new RaycastHit[MaxEnemiesToHit];
+
         SetAnimClipTimes();
         SetMeleeCooldownTime();
         SetInitialScales();
@@ -244,13 +248,21 @@ public class PlayerInputAttack : MonoBehaviour
                     ProcessMeleeHit(hit);
                     return;
                 }
-            }
-            // fire out a SphereCast corresponding to currentAttackRange, if it hits the enemy, hit it
-            if (Physics.SphereCast(MeleeAttackOriginPoint.position, AttackWidth, playerController.characterMovement.LastLookDirection, out hit, attackRange, WhatIsEnemy))
-            {
-                Debug.Log("Sphere cast hit " + attackRange + " : " + Vector3.Distance(MeleeAttackOriginPoint.position, hit.transform.position));
-                ProcessMeleeHit(hit);
-            }
+                else
+                {
+                    System.Array.Clear(hits, 0, hits.Length);
+                    // fire out a SphereCast corresponding to currentAttackRange, if it hits the enemy, hit it
+                    if (Physics.SphereCastNonAlloc(MeleeAttackOriginPoint.position, AttackWidth, playerController.characterMovement.LastLookDirection.normalized, hits, attackRange - (AttackWidth / 2f), WhatIsEnemy) > 0)
+                    {
+                        //Debug.Log(hits.Length);
+                        foreach (RaycastHit h in hits)
+                        {
+                            if(h.collider)
+                                ProcessMeleeHit(h);
+                        }
+                    }
+                }
+            }            
         }
     }
 
@@ -327,7 +339,7 @@ public class PlayerInputAttack : MonoBehaviour
     void CheckSpinHit()
     {
         float spinRadius = Vector3.Distance(MeleeAttackLeftEndPoint.position, MeleeAttackRightEndPoint.position) / 2f;
-        Debug.Log(spinRadius);
+        
         // when we are spinning, check if any enemies are in our spin radius, and knock them back
         Collider[] cols = Physics.OverlapSphere(transform.position, spinRadius, WhatIsEnemy);
         

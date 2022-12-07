@@ -10,6 +10,8 @@ public class HealthAndDamage : MonoBehaviour
 
     public bool isPlayer = true;
     public bool ShowHealText = true;
+    public bool CanDie = true;
+    public float MinHealth = 1f;
 
     public float StartingHealth = 2f;
     float currentHealth;
@@ -60,6 +62,7 @@ public class HealthAndDamage : MonoBehaviour
         if (healthBar)
         {
             healthBar.SetMaxHealth(StartingHealth);
+            healthBar.SetHealth(StartingHealth);
             if (!isPlayer)
                 healthBar.SetVisibleTimer(0);
         }
@@ -92,9 +95,12 @@ public class HealthAndDamage : MonoBehaviour
 
         if (!isPlayer)
         {            
-            healthBar.SetMaxHealth(StartingHealth);
-            healthBarGO.SetActive(true);
-            healthBar.SetVisibleTimer(HealthBarVisibilityTimer);
+            if (stealFocus)
+            {
+                healthBarGO.SetActive(true);
+                healthBar.SetMaxHealth(StartingHealth);
+                healthBar.SetVisibleTimer(HealthBarVisibilityTimer);
+            }            
         }
 
         healthBar.SetHealth(currentHealth);
@@ -114,10 +120,16 @@ public class HealthAndDamage : MonoBehaviour
 
         pn.CreatePopup(damage.ToString(), DamageColour, true, DamageBGColour);
 
-        if(currentHealth <= 0)
+        if (!CanDie && currentHealth <= MinHealth)
+            currentHealth = MinHealth;
+        else
         {
-            Die();
+            if (currentHealth <= 0)
+            {
+                Die();
+            }
         }
+        
     }
 
     void MakeInvincible(float duration)
