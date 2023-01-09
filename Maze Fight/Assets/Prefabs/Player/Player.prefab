@@ -1867,6 +1867,7 @@ MonoBehaviour:
   MoveInput: {x: 0, y: 0}
   rb: {fileID: 7076842604959875427}
   RotationSpeed: 500
+  TimeBeforeRotation: 0.5
   isBodyStandard: 1
   BodyStandard: {fileID: 7076842604066791030}
   BodySphere: {fileID: 7076842604758505357}
@@ -1928,6 +1929,7 @@ MonoBehaviour:
   MeleeAttackRightEndPoint: {fileID: 3572210498641042743}
   MeleeAttackLeftEndPoint: {fileID: 4604108787651675048}
   AttackWidth: 0.5
+  MaxEnemiesToHit: 10
   ResourceGeneratedPerHit: 10
   MeleeShakeMagnitude: 1
   MeleeShakeRoughness: 1
@@ -1947,9 +1949,9 @@ MonoBehaviour:
   attackRangedAvailable: 0
   AttackRangedCooldown: 0.1
   AttackRangedAnimationSpeed: 1
-  RangedProjectilePrefab: {fileID: 1254802954257865886, guid: 133cf5d6d0968b741a8bb061b271df63, type: 3}
+  RangedProjectilePrefab: {fileID: 1254802954257865886, guid: cd6373f52bdf0734ebb0048a0b120f02, type: 3}
   ProjectileSpawnPoint: {fileID: 1064771857688485755}
-  ProjectileSpeed: 1
+  ProjectileSpeed: 17.73
   ProjectileSpeedMultiplier: 1
   ProjectileDamage: 25
   AttackRangedResourceCost: 20
@@ -2138,6 +2140,8 @@ MonoBehaviour:
   pn: {fileID: -6338267218688942614}
   isPlayer: 1
   ShowHealText: 1
+  CanDie: 1
+  MinHealth: 1
   StartingHealth: 420
   DamageColour: {r: 1, g: 0, b: 0, a: 1}
   DamageBGColour: {r: 0.26312745, g: 0.3831063, b: 0.6886792, a: 0}

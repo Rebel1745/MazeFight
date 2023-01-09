@@ -604,7 +604,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MazeLoader: {fileID: 1273461459}
   mg: {fileID: 0}
-  MazeSeed: 0
+  MazeSeed: 1
 --- !u!4 &1231071525
 Transform:
   m_ObjectHideFlags: 0

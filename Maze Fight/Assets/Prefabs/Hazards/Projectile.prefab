@@ -136,7 +136,7 @@ MonoBehaviour:
   EnemyLayer:
     serializedVersion: 2
     m_Bits: 1024
-  ProjectileSpeed: 5
+  ProjectileSpeed: 17.03
   ProjectileLifetime: 10
   ImpactShakeMagnitude: 1
   ImpactShakeRoughness: 1
@@ -157,6 +157,7 @@ MonoBehaviour:
   HomingRotationSpeed: 1
   RotationTarget: {fileID: 0}
   TargetMaxDistance: 1
+  TimeBeforeHomingActivated: 1
   Damage: 1
 --- !u!82 &8488346953739567317
 AudioSource:

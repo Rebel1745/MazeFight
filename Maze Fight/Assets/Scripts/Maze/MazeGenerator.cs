@@ -52,9 +52,9 @@ public class MazeGenerator : MonoBehaviour
         UpdateAdjoiningWalls();
         cs.CreateTrainingDummy();
         cs.CreatePlayer();
-        cs.CreateEnemies();
-        hs.CreateHazards();
-        DeactivateRooms();
+        //cs.CreateEnemies();
+        //hs.CreateHazards();
+        //DeactivateRooms();
     }
 
     void SaveHealthBarReferences()
@@ -147,7 +147,7 @@ public class MazeGenerator : MonoBehaviour
                     tempDoor.GetComponentInChildren<Door>().DoorToCellNo1 = eastDoorToCellNo;
                     tempDoor.GetComponentInChildren<Door>().DoorToCellNo2 = westDoorToCellNo;
                 }
-                else if (y + 1 < MazeY && MazeCells[x, y].roomNo != MazeCells[x, y + 1].roomNo && !MazeCells[x, y].HasNorthWall)
+                if (y + 1 < MazeY && MazeCells[x, y].roomNo != MazeCells[x, y + 1].roomNo && !MazeCells[x, y].HasNorthWall)
                 {
                     tempDoor = Instantiate(Door, new Vector3(x * doorLength, doorHeight / 2f, (y * doorLength) + (doorLength / 2f)), Quaternion.identity) as GameObject;
                     MazeCells[x, y].NorthWall = tempDoor;

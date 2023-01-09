@@ -1585,13 +1585,16 @@ MonoBehaviour:
   pn: {fileID: 7006072629967796057}
   isPlayer: 0
   ShowHealText: 1
+  CanDie: 1
+  MinHealth: 1
   StartingHealth: 40
   DamageColour: {r: 1, g: 0, b: 0, a: 0.5019608}
-  DamageBGColour: {r: 1, g: 0.97981787, b: 0, a: 0.5019608}
+  DamageBGColour: {r: 1, g: 0.97981787, b: 0, a: 0}
   HealColour: {r: 0.0048570633, g: 1, b: 0, a: 0}
   healthBarGO: {fileID: 0}
   HealthBarVisibilityTimer: 2
   InvicibilityTimeAfterDamage: 0.5
+  IsInvincible: 0
   CollectableSpawnPoint: {fileID: 8113118112056732866}
   CollectableGoldPrefab: {fileID: 3223261486549517938, guid: fb5a1d5c2a7725941ab13ba8ac1d9036, type: 3}
   CollectableHealthPrefab: {fileID: 3223261486549517938, guid: 286da284f97db9f489443b665b1190e9, type: 3}
