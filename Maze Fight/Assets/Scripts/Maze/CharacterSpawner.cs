@@ -7,6 +7,7 @@ public class CharacterSpawner : MonoBehaviour
     public MazeGenerator mg;
     public GameObject PlayerPrefab;
     public GameObject CameraFollowTargetPrefab;
+    public MinimapCamera Minimap;
     public GameObject TrainingDummyPrefab;
     public CameraFollow cf;
     public GameObject[] EnemyPrefabs;
@@ -32,6 +33,9 @@ public class CharacterSpawner : MonoBehaviour
         camFollowTarget.GetComponent<CameraFollowTarget>().pm = player.GetComponent<PlayerInputMovement>();
         cf.FollowTarget = camFollowTarget.transform;
         cf.pm = player.GetComponent<PlayerInputMovement>();
+
+        // create the minimap
+        Minimap.FollowTarget = camFollowTarget.transform;
     }
 
     public void CreateEnemies()

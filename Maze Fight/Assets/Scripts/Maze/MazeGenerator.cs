@@ -52,9 +52,9 @@ public class MazeGenerator : MonoBehaviour
         UpdateAdjoiningWalls();
         cs.CreateTrainingDummy();
         cs.CreatePlayer();
-        //cs.CreateEnemies();
+        cs.CreateEnemies();
         //hs.CreateHazards();
-        //DeactivateRooms();
+        DeactivateRooms();
     }
 
     void SaveHealthBarReferences()
