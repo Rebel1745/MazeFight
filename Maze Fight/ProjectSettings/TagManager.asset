@@ -11,6 +11,8 @@ TagManager:
   - Hazard
   - PlayerStatusBar
   - EnemyHealthBar
+  - FullMap
+  - MiniMap
   layers:
   - Default
   - TransparentFX
@@ -25,7 +27,7 @@ TagManager:
   - Enemy
   - Collectable
   - MinimapOnly
-  - 
+  - FullMapOnly
   - 
   - 
   - 

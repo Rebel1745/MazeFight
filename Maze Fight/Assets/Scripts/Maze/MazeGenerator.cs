@@ -39,6 +39,10 @@ public class MazeGenerator : MonoBehaviour
     public GameObject PlayerStatusBar;
     public GameObject EnemyHealthBar;
 
+    // Maps
+    public GameObject FullMap;
+    public GameObject MiniMap;
+
     //TODO: 
     // write a DrawMaze() funtion rather than creating walls first, then destroying them, then creating doors
 
@@ -52,7 +56,7 @@ public class MazeGenerator : MonoBehaviour
         UpdateAdjoiningWalls();
         cs.CreateTrainingDummy();
         cs.CreatePlayer();
-        cs.CreateEnemies();
+        //cs.CreateEnemies();
         //hs.CreateHazards();
         DeactivateRooms();
     }
@@ -61,6 +65,8 @@ public class MazeGenerator : MonoBehaviour
     {
         PlayerStatusBar = GameObject.FindGameObjectWithTag("PlayerStatusBar");
         EnemyHealthBar = GameObject.FindGameObjectWithTag("EnemyHealthBar");
+        FullMap = GameObject.FindGameObjectWithTag("FullMap");
+        MiniMap = GameObject.FindGameObjectWithTag("MiniMap");
     }
 
     void DeactivateRooms()

@@ -1714,7 +1714,7 @@ MonoBehaviour:
   CollectableGoldPrefab: {fileID: 3223261486549517938, guid: fb5a1d5c2a7725941ab13ba8ac1d9036, type: 3}
   CollectableHealthPrefab: {fileID: 3223261486549517938, guid: 286da284f97db9f489443b665b1190e9, type: 3}
   CollectableCount: 2
-  HealthChancePercentage: 5
+  HealthChancePercentage: 50
   IsHealthRegen: 0
   HealthRegenPerSecond: 2
   RegenDelayAfterDamage: 1
