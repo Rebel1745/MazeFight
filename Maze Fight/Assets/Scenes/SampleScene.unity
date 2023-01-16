@@ -1117,6 +1117,10 @@ MonoBehaviour:
   Floor: {fileID: 140734, guid: 736acf0c96a324445a9aea0788a960c1, type: 3}
   UnderFloor: {fileID: 140734, guid: d0d6657ef0f116e43b7c8fbc91490bf1, type: 3}
   Door: {fileID: 129612843123279255, guid: 935df08b5df40ec4fa3ffff9532826be, type: 3}
+  StartingRoom: {fileID: 6211800035157685579, guid: 71d442f8b979ec1408a4b69ee67fbe1e, type: 3}
+  CellsInStartingRoom: 3
+  EndingRoom: {fileID: 6211800035157685579, guid: 64477d4d2f236604f8104eba08351cff, type: 3}
+  CellsInEndingRoom: 3
   floorLength: 0
   UnderFloorHeight: -0.5
   UnderFloorColliderOffsetY: 0.15

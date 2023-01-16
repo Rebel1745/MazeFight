@@ -13,6 +13,10 @@ public class MazeGenerator : MonoBehaviour
     public GameObject Floor;
     public GameObject UnderFloor;
     public GameObject Door;
+    public GameObject StartingRoom;
+    public float CellsInStartingRoom = 3;
+    public GameObject EndingRoom;
+    public float CellsInEndingRoom = 3;
     private float wallLength = 0.0f;
     private float wallHeight = 0.0f;
     private float wallWidth = 0.0f;
@@ -48,7 +52,7 @@ public class MazeGenerator : MonoBehaviour
 
     public void GenerateMaze()
     {
-        SaveHealthBarReferences();
+        SaveUIReferences();
         InitialiseMaze();
         CreateMaze();
         CreateRooms();
@@ -58,10 +62,29 @@ public class MazeGenerator : MonoBehaviour
         cs.CreatePlayer();
         //cs.CreateEnemies();
         //hs.CreateHazards();
-        DeactivateRooms();
+        //DeactivateRooms();
+        CreateStartEndRooms();
     }
 
-    void SaveHealthBarReferences()
+    void CreateStartEndRooms()
+    {
+        // Starting Room
+        float startPosX = -CellsInStartingRoom * floorLength;
+        Instantiate(StartingRoom, new Vector3(startPosX, 0f, 0f), Quaternion.identity);
+
+        MazeCell startCell = MazeCells[0, 0];
+        DestroyWall(startCell, startCell.WestWall, 4);
+
+        // Ending Room
+        startPosX = floorLength * MazeX;
+        float startPosZ = floorLength * (MazeY - 1);
+        Instantiate(EndingRoom, new Vector3(startPosX, 0f, startPosZ), Quaternion.identity);
+
+        MazeCell endCell = MazeCells[MazeX - 1, MazeY - 1];
+        DestroyWall(endCell, endCell.EastWall, 4);
+    }
+
+    void SaveUIReferences()
     {
         PlayerStatusBar = GameObject.FindGameObjectWithTag("PlayerStatusBar");
         EnemyHealthBar = GameObject.FindGameObjectWithTag("EnemyHealthBar");
