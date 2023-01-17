@@ -6,6 +6,7 @@ public class MazeGenerator : MonoBehaviour
 {
     public CharacterSpawner cs;
     public HazardSpawner hs;
+    public FullMapCamera fmc;
 
     // maze setup
     public MazeCell[,] MazeCells;
@@ -71,17 +72,23 @@ public class MazeGenerator : MonoBehaviour
         // Starting Room
         float startPosX = -CellsInStartingRoom * floorLength;
         Instantiate(StartingRoom, new Vector3(startPosX, 0f, 0f), Quaternion.identity);
+        Vector3 startingRoomPosition = new Vector3(startPosX - floorLength, 0f, 0f);
 
         MazeCell startCell = MazeCells[0, 0];
         DestroyWall(startCell, startCell.WestWall, 4);
 
         // Ending Room
         startPosX = floorLength * MazeX;
+        float endPosX = startPosX + CellsInEndingRoom * floorLength;
         float startPosZ = floorLength * (MazeY - 1);
         Instantiate(EndingRoom, new Vector3(startPosX, 0f, startPosZ), Quaternion.identity);
+        Vector3 endingRoomPosition = new Vector3(endPosX, 0f, floorLength * MazeY);
 
         MazeCell endCell = MazeCells[MazeX - 1, MazeY - 1];
         DestroyWall(endCell, endCell.EastWall, 4);
+
+        // setup the zoom for the full map camera to make full map visible
+        fmc.StartCongigureZoom(startingRoomPosition, endingRoomPosition);
     }
 
     void SaveUIReferences()
@@ -597,8 +604,8 @@ public class MazeGenerator : MonoBehaviour
         float underFloorStartY = -0.45f;
         float underFloorStartZ = floorLength * (MazeY / 2) - (floorLength / 2);
         // make the length and width of the underfloor double the size of the maze so it extends to cover the whole camera
-        float underfloorLength = floorLength * (MazeX * 2);
-        float underfloorWidth = floorLength * (MazeY * 2);
+        float underfloorLength = floorLength * (MazeX * 3) + 100;
+        float underfloorWidth = floorLength * (MazeY * 3) + 100;
 
         tempUnderFloor = Instantiate(UnderFloor, new Vector3(underFloorStartX, underFloorStartY, underFloorStartZ), Quaternion.identity);
         tempUnderFloor.transform.localScale = new Vector3(underfloorLength, 1f, underfloorWidth);

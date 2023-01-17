@@ -317,6 +317,7 @@ GameObject:
   m_Component:
   - component: {fileID: 418629409}
   - component: {fileID: 418629411}
+  - component: {fileID: 418629412}
   m_Layer: 0
   m_Name: FullMapCamera
   m_TagString: Untagged
@@ -382,6 +383,20 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &418629412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 418629408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b80fef2d4db1faf4c95b8061721cb1b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cam: {fileID: 418629411}
+  zoomIncrement: 1
 --- !u!1 &459176350
 GameObject:
   m_ObjectHideFlags: 0
@@ -1113,6 +1128,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cs: {fileID: 1273461461}
   hs: {fileID: 1273461462}
+  fmc: {fileID: 418629412}
   Wall: {fileID: 195376, guid: 5e6043ea0e6446c4b99fa86b481393a1, type: 3}
   Floor: {fileID: 140734, guid: 736acf0c96a324445a9aea0788a960c1, type: 3}
   UnderFloor: {fileID: 140734, guid: d0d6657ef0f116e43b7c8fbc91490bf1, type: 3}
