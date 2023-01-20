@@ -28,15 +28,12 @@ public class MazeGenerator : MonoBehaviour
     public float UnderFloorColliderOffsetY = 0.15f;
     public int MazeX = 5;
     public int MazeY = 5;
-    private int mazeCellCount;
-    // for debugging purposes only
-    public MazeCell[] Cells;
 
     // maze creation
     private int currentX = 0;
     private int currentY = 0;
     private bool courseComplete = false;
-    private int currentRoom = 0;
+    private int currentRoom = 1;
     public int totalRooms = 0;
     private bool roomsComplete = false;
 
@@ -67,25 +64,79 @@ public class MazeGenerator : MonoBehaviour
         CreateStartEndRooms();
     }
 
+    // TODO: give the floors in the extra rooms numbers and create a MazeCell for each and add it to the array, with meta data
     void CreateStartEndRooms()
     {
         // Starting Room
         float startPosX = -CellsInStartingRoom * floorLength;
-        Instantiate(StartingRoom, new Vector3(startPosX, 0f, 0f), Quaternion.identity);
+        GameObject sRoom = Instantiate(StartingRoom, new Vector3(startPosX, 0f, 0f), Quaternion.identity);
         Vector3 startingRoomPosition = new Vector3(startPosX - floorLength, 0f, 0f);
 
+        // remove the west wall from the first cell in the maze to replace it with the starting room door
         MazeCell startCell = MazeCells[0, 0];
         DestroyWall(startCell, startCell.WestWall, 4);
+
+        // loop through the cells in the prefabs to create a MazeCell and number the floor
+        int currentX = 0, currentY = MazeY, currentCellNo;
+        Floor[] floors = sRoom.GetComponentsInChildren<Floor>();
+        foreach(Floor f in floors)
+        {
+            currentCellNo = currentY * MazeX + currentX;
+            f.FloorCellNo = currentCellNo;
+            MazeCells[currentX, currentY] = new MazeCell
+            {
+                CellNumber = currentCellNo,
+                CellX = currentX,
+                CellY = currentY,
+                EastWestRoom = true,
+                NorthSouthRoom = false,
+                SingleCellRoom = false,
+                Floor = f.gameObject,
+                CanBeActivated = false
+            };
+            currentX++;
+        }
+
+        // set the cell numbers on the door script so it can be opened
+        Door sDoor = sRoom.GetComponentInChildren<Door>();
+        sDoor.DoorToCellNo1 = 0;
+        sDoor.DoorToCellNo2 = currentY * MazeX + currentX - 1;
 
         // Ending Room
         startPosX = floorLength * MazeX;
         float endPosX = startPosX + CellsInEndingRoom * floorLength;
         float startPosZ = floorLength * (MazeY - 1);
-        Instantiate(EndingRoom, new Vector3(startPosX, 0f, startPosZ), Quaternion.identity);
+        GameObject eRoom = Instantiate(EndingRoom, new Vector3(startPosX, 0f, startPosZ), Quaternion.identity);
         Vector3 endingRoomPosition = new Vector3(endPosX, 0f, floorLength * MazeY);
 
+        // remove the east wall from the last cell in the maze to replace it with the ending room door
         MazeCell endCell = MazeCells[MazeX - 1, MazeY - 1];
         DestroyWall(endCell, endCell.EastWall, 4);
+
+        // loop through the cells in the prefabs to create a MazeCell and number the floor
+        floors = eRoom.GetComponentsInChildren<Floor>();
+        foreach (Floor f in floors)
+        {
+            currentCellNo = currentY * MazeX + currentX;
+            f.FloorCellNo = currentCellNo;
+            MazeCells[currentX, currentY] = new MazeCell
+            {
+                CellNumber = currentCellNo,
+                CellX = currentX,
+                CellY = currentY,
+                EastWestRoom = true,
+                NorthSouthRoom = false,
+                SingleCellRoom = false,
+                Floor = f.gameObject,
+                CanBeActivated = false
+            };
+            currentX++;
+        }
+
+        // set the cell numbers on the door script so it can be opened
+        Door eDoor = eRoom.GetComponentInChildren<Door>();
+        eDoor.DoorToCellNo1 = currentY * MazeX + currentX - 1;
+        eDoor.DoorToCellNo2 = (MazeX * MazeY) - 1;
 
         // setup the zoom for the full map camera to make full map visible
         fmc.StartCongigureZoom(startingRoomPosition, endingRoomPosition);
@@ -109,7 +160,7 @@ public class MazeGenerator : MonoBehaviour
             {
                 currentCell = MazeCells[x, y];
 
-                if (currentCell.roomNo != 0)
+                if (currentCell.CanBeActivated)
                 {
                     // Deactivate walls separately so shared walls can be activated from adjacent rooms
                     if (currentCell.HasNorthWall)
@@ -222,19 +273,6 @@ public class MazeGenerator : MonoBehaviour
             VisitCellAndCheckConnection(currentCell, false, true);
             currentCell = GetNextUnvisitedCell();
             currentRoom++;
-        }
-        UpdateDebugCells();
-    }
-
-    void UpdateDebugCells()
-    {
-        for (int y = 0; y < MazeY; y++)
-        {
-            for (int x = 0; x < MazeX; x++)
-            {
-                int cellNo = y * MazeX + x;
-                Cells[cellNo] = MazeCells[x, y];
-            }
         }
     }
 
@@ -578,8 +616,6 @@ public class MazeGenerator : MonoBehaviour
     // sets up all cells with walls on all sides
     void InitialiseMaze()
     {
-        mazeCellCount = MazeX * MazeY;
-
         wallLength = Wall.transform.localScale.x;
         wallHeight = Wall.transform.localScale.y;
         wallWidth = Wall.transform.localScale.z;
@@ -587,9 +623,7 @@ public class MazeGenerator : MonoBehaviour
         doorLength = Door.transform.localScale.x;
         doorHeight = Door.transform.localScale.y;
 
-        MazeCells = new MazeCell[MazeX, MazeY];
-        // DEBUG
-        Cells = new MazeCell[MazeX * MazeY];
+        MazeCells = new MazeCell[MazeX, MazeY + 1]; // add 1 to the y length to allow the starting and ending rooms to be added
 
         GameObject MazeCellHolder = new GameObject
         {
@@ -718,7 +752,7 @@ public class MazeGenerator : MonoBehaviour
     {
         int cellX = cellNo % MazeX;
         int cellY = Mathf.FloorToInt (cellNo / MazeX);
-
+        
         return MazeCells[cellX, cellY];
         
     }

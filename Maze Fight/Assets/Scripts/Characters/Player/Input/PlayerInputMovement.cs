@@ -30,8 +30,8 @@ public class PlayerInputMovement : MonoBehaviour
     public Transform BodySphere;
     bool isTransforming = false;
 
-    int currentCellNo = -1;
-    public Transform CurrentFloor;
+    //int currentCellNo = -1;
+    //public Transform CurrentFloor;
     public MazeCell CurrentCell;
     int currentRoom;
 
@@ -122,9 +122,9 @@ public class PlayerInputMovement : MonoBehaviour
 
     public void UpdateFloor(Transform floor, int cellNo)
     {
-        CurrentFloor = floor;
-        currentCellNo = cellNo;
-        CurrentCell = gm.mg.GetMazeCellFromInt(currentCellNo);
+        //CurrentFloor = floor;
+        //currentCellNo = cellNo;
+        CurrentCell = gm.mg.GetMazeCellFromInt(cellNo);
 
         if(currentRoom != CurrentCell.roomNo)
         {

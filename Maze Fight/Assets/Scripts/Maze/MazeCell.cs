@@ -26,4 +26,5 @@ public class MazeCell
     public bool EastWestRoom = false;
     public bool NorthSouthRoom = false;
     public bool SingleCellRoom = false;
+    public bool CanBeActivated = true; // only false for start and end rooms
 }

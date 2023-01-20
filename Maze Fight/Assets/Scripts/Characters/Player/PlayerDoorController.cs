@@ -23,7 +23,11 @@ public class PlayerDoorController : MonoBehaviour
             else
                 nextRoom = currentDoor.DoorToCellNo1;
 
-            mg.ActivateRoom(nextRoom);
+            MazeCell nextCell = mg.GetMazeCellFromInt(nextRoom);
+
+            if (nextCell.CanBeActivated)
+                mg.ActivateRoom(nextRoom);
+
             Destroy(currentDoor.gameObject);
             currentDoor = null;
         }
