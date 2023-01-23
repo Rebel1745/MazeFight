@@ -8,7 +8,6 @@ public class CharacterSpawner : MonoBehaviour
     public GameObject PlayerPrefab;
     public GameObject CameraFollowTargetPrefab;
     public MinimapCamera Minimap;
-    public GameObject TrainingDummyPrefab;
     public CameraFollow cf;
     public GameObject[] EnemyPrefabs;
     public int EnemyNumber = 5;
@@ -18,17 +17,12 @@ public class CharacterSpawner : MonoBehaviour
         cf = Camera.main.GetComponentInParent<CameraFollow>();
     }
 
-    public void CreateTrainingDummy()
+    public void CreatePlayer(Vector3 pos)
     {
-        Vector3 dummySpawnPoint = new Vector3(mg.MazeCells[1, 0].Floor.transform.position.x, mg.MazeCells[1, 0].Floor.transform.position.y, mg.MazeCells[1, 0].Floor.transform.position.z);
-        GameObject dummy = Instantiate(TrainingDummyPrefab, dummySpawnPoint, Quaternion.Euler(0f,-90f,0f));
-    }
-
-    public void CreatePlayer()
-    {
-        Vector3 playerSpawnPos = new Vector3(mg.MazeCells[0, 0].Floor.transform.position.x, mg.MazeCells[0, 0].Floor.transform.position.y + 1.5f, mg.MazeCells[0, 0].Floor.transform.position.z);
+        //Vector3 playerSpawnPos = new Vector3(mg.MazeCells[0, 0].Floor.transform.position.x, mg.MazeCells[0, 0].Floor.transform.position.y + 1.5f, mg.MazeCells[0, 0].Floor.transform.position.z);
+        Vector3 playerSpawnPos = new Vector3(pos.x, pos.y + 1.5f, pos.z);
         GameObject player = Instantiate(PlayerPrefab, playerSpawnPos, Quaternion.identity);
-        GameObject camFollowTarget = Instantiate(CameraFollowTargetPrefab, playerSpawnPos, Quaternion.identity);
+        GameObject camFollowTarget = Instantiate(CameraFollowTargetPrefab, player.transform.position, Quaternion.identity);
         camFollowTarget.GetComponent<CameraFollowTarget>().pl = player;
         camFollowTarget.GetComponent<CameraFollowTarget>().pm = player.GetComponent<PlayerInputMovement>();
         cf.FollowTarget = camFollowTarget.transform;

@@ -441,7 +441,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 459176350}
   m_LocalRotation: {x: 0.5, y: -0, z: -0, w: 0.8660254}
-  m_LocalPosition: {x: 0, y: 5, z: 0}
+  m_LocalPosition: {x: -18, y: 5, z: -3.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1129,6 +1129,7 @@ MonoBehaviour:
   cs: {fileID: 1273461461}
   hs: {fileID: 1273461462}
   fmc: {fileID: 418629412}
+  Cells: []
   Wall: {fileID: 195376, guid: 5e6043ea0e6446c4b99fa86b481393a1, type: 3}
   Floor: {fileID: 140734, guid: 736acf0c96a324445a9aea0788a960c1, type: 3}
   UnderFloor: {fileID: 140734, guid: d0d6657ef0f116e43b7c8fbc91490bf1, type: 3}
@@ -1178,7 +1179,6 @@ MonoBehaviour:
   PlayerPrefab: {fileID: 7076842604959875438, guid: 2f660afd6d30b4f4aa12657b3c9ea64f, type: 3}
   CameraFollowTargetPrefab: {fileID: 9186673820176548536, guid: 5fe0abadaae2415418c7a6061e0b534d, type: 3}
   Minimap: {fileID: 975294544}
-  TrainingDummyPrefab: {fileID: 864192528005246019, guid: 718de882ab4caa14db5adba97f6b47ba, type: 3}
   cf: {fileID: 0}
   EnemyPrefabs:
   - {fileID: 7076842604959875438, guid: 81ab54fd9eb770449bbf42e249b2a344, type: 3}

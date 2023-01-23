@@ -8,6 +8,9 @@ public class MazeGenerator : MonoBehaviour
     public HazardSpawner hs;
     public FullMapCamera fmc;
 
+    // for debugging purposes only
+    public MazeCell[] Cells;
+    
     // maze setup
     public MazeCell[,] MazeCells;
     public GameObject Wall;
@@ -56,12 +59,11 @@ public class MazeGenerator : MonoBehaviour
         CreateRooms();
         CreateDoors();
         UpdateAdjoiningWalls();
-        cs.CreateTrainingDummy();
-        cs.CreatePlayer();
+        CreateStartEndRooms();
         //cs.CreateEnemies();
         //hs.CreateHazards();
-        //DeactivateRooms();
-        CreateStartEndRooms();
+        DeactivateRooms();
+        UpdateDebugCells();
     }
 
     // TODO: give the floors in the extra rooms numbers and create a MazeCell for each and add it to the array, with meta data
@@ -76,11 +78,15 @@ public class MazeGenerator : MonoBehaviour
         MazeCell startCell = MazeCells[0, 0];
         DestroyWall(startCell, startCell.WestWall, 4);
 
+        Vector3 playerStartPos = Vector3.zero;
+
         // loop through the cells in the prefabs to create a MazeCell and number the floor
         int currentX = 0, currentY = MazeY, currentCellNo;
         Floor[] floors = sRoom.GetComponentsInChildren<Floor>();
         foreach(Floor f in floors)
         {
+            if (currentX == 0)
+                playerStartPos = f.transform.position;
             currentCellNo = currentY * MazeX + currentX;
             f.FloorCellNo = currentCellNo;
             MazeCells[currentX, currentY] = new MazeCell
@@ -97,6 +103,9 @@ public class MazeGenerator : MonoBehaviour
             currentX++;
         }
 
+        // create the player in the newly created room
+        cs.CreatePlayer(playerStartPos);
+
         // set the cell numbers on the door script so it can be opened
         Door sDoor = sRoom.GetComponentInChildren<Door>();
         sDoor.DoorToCellNo1 = 0;
@@ -111,7 +120,7 @@ public class MazeGenerator : MonoBehaviour
 
         // remove the east wall from the last cell in the maze to replace it with the ending room door
         MazeCell endCell = MazeCells[MazeX - 1, MazeY - 1];
-        DestroyWall(endCell, endCell.EastWall, 4);
+        DestroyWall(endCell, endCell.EastWall, 3);
 
         // loop through the cells in the prefabs to create a MazeCell and number the floor
         floors = eRoom.GetComponentsInChildren<Floor>();
@@ -755,5 +764,19 @@ public class MazeGenerator : MonoBehaviour
         
         return MazeCells[cellX, cellY];
         
+    }
+
+    void UpdateDebugCells()
+    {
+        Cells = new MazeCell[MazeX * (MazeY + 1)];
+
+        for (int y = 0; y < MazeY + 1; y++)
+        {
+            for (int x = 0; x < MazeX; x++)
+            {
+                int cellNo = y * MazeX + x;
+                Cells[cellNo] = MazeCells[x, y];
+            }
+        }
     }
 }

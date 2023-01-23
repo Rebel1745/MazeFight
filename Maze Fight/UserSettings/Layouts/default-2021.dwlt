@@ -273,7 +273,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 128
+  controlID: 126
 --- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -479,23 +479,23 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: ac4f0000
-      m_LastClickedID: 20396
-      m_ExpandedIDs: 48e0fcff76b2fdff54b3fdff26bffdff2abffdff58d3fdff82fdfdff5409feff5809feff821dfeff861dfeff4620feff2421feffa88dfeff6eacfeff94d4feff6a3effff483fffff1a4bffff1e4bffff4c5fffff5c64ffff3a65ffff406cffff0c71ffff1071ffff8077ffff8477ffffba7affffbe7affff3e85ffff1a8affffec95fffff095ffff1eaaffff5aafffff38b0ffff80baffffe4c9ffffe8c9ffffeecdfffff2cdffffdcceffffe0cefffffeceffff1cd4ffff32fbffffa04f0000ac4f0000f44f0000
+      m_SelectedIDs: f44f0000
+      m_LastClickedID: 20468
+      m_ExpandedIDs: 0423fdff0823fdff5423fdff5823fdff3637fdffd217feffd617feff2218feff2618feff042cfeffce6fffff32fbffffa04f0000f44f0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
-        m_Name: 
-        m_OriginalName: 
+        m_Name: CameraFollowTarget(Clone)
+        m_OriginalName: CameraFollowTarget(Clone)
         m_EditFieldRect:
           serializedVersion: 2
           x: 0
           y: 0
           width: 0
           height: 0
-        m_UserData: 0
+        m_UserData: -54834
         m_IsWaitingForDelay: 0
         m_IsRenaming: 0
-        m_OriginalEventType: 11
+        m_OriginalEventType: 0
         m_IsRenamingFilename: 0
         m_ClientGUIView: {fileID: 8}
       m_SearchString: 
@@ -730,9 +730,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 246.9042, y: 237.76816, z: -118.695465}
+    m_Target: {x: 39.91011, y: -8.614037, z: 34.211143}
     speed: 2
-    m_Value: {x: 246.9042, y: 237.76816, z: -118.695465}
+    m_Value: {x: 39.91011, y: -8.614037, z: 34.211143}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -783,9 +783,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0.34483677, y: -0.40180576, z: 0.16657522, w: 0.8318007}
   m_Size:
-    m_Target: 5.178656
+    m_Target: 10.465149
     speed: 2
-    m_Value: 5.178656
+    m_Value: 10.465149
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -851,21 +851,21 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Prefabs/Maze
+    - Assets/Prefabs/NPCs
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Prefabs/Maze
+  - Assets/Prefabs/NPCs
   m_LastFoldersGridSize: 16
   m_LastProjectPath: E:\Projects\Unity\MazeFight\Maze Fight
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 131}
-    m_SelectedIDs: e4910000
-    m_LastClickedID: 37348
+    scrollPos: {x: 0, y: 92}
+    m_SelectedIDs: e6910000
+    m_LastClickedID: 37350
     m_ExpandedIDs: 00000000c2910000c4910000c6910000c8910000ca910000cc91000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -925,20 +925,20 @@ MonoBehaviour:
     m_ExpandedInstanceIDs: c623000000000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: 
-      m_OriginalName: 
+      m_Name: CameraFollowTarget
+      m_OriginalName: CameraFollowTarget
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 0
+      m_UserData: 20544
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 11
+      m_OriginalEventType: 0
       m_IsRenamingFilename: 1
-      m_ClientGUIView: {fileID: 9}
+      m_ClientGUIView: {fileID: 12}
     m_CreateAssetUtility:
       m_EndAction: {fileID: 0}
       m_InstanceID: 0
@@ -1008,7 +1008,7 @@ MonoBehaviour:
     m_SaveData: []
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: 20396
+  m_LastSelectedObjectID: 20468
 --- !u!114 &21
 MonoBehaviour:
   m_ObjectHideFlags: 52
