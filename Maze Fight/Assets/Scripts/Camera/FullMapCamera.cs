@@ -20,13 +20,6 @@ public class FullMapCamera : MonoBehaviour
             endingRoomPos = end;
             CentreCamera();
             isStarted = true;
-
-            GameObject sp = new GameObject();
-            sp.name = "Start pos";
-            sp.transform.position = start;
-            GameObject ep = new GameObject();
-            ep.name = "End pos";
-            ep.transform.position = end;
         }
     }
 
