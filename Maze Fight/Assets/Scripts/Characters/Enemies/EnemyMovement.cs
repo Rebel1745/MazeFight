@@ -123,7 +123,7 @@ public class EnemyMovement : MonoBehaviour
 
         if(Vector3.Distance(transform.position, Player.position) > attackDistance)
         {
-            transform.LookAt(Player);
+            transform.LookAt(new Vector3 (Player.position.x, 0f, Player.position.z));
             characterMovement.LastLookDirection = Player.position - transform.position;
 
             // Below doesn't want to work

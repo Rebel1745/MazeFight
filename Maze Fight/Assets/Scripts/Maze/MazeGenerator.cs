@@ -60,7 +60,7 @@ public class MazeGenerator : MonoBehaviour
         CreateDoors();
         UpdateAdjoiningWalls();
         CreateStartEndRooms();
-        //cs.CreateEnemies();
+        cs.CreateEnemies();
         //hs.CreateHazards();
         DeactivateRooms();
         UpdateDebugCells();
@@ -153,10 +153,10 @@ public class MazeGenerator : MonoBehaviour
 
     void SaveUIReferences()
     {
-        PlayerStatusBar = GameObject.FindGameObjectWithTag("PlayerStatusBar");
-        EnemyHealthBar = GameObject.FindGameObjectWithTag("EnemyHealthBar");
-        FullMap = GameObject.FindGameObjectWithTag("FullMap");
-        MiniMap = GameObject.FindGameObjectWithTag("MiniMap");
+        if(!PlayerStatusBar) PlayerStatusBar = GameObject.FindGameObjectWithTag("PlayerStatusBar");
+        if(!EnemyHealthBar) EnemyHealthBar = GameObject.FindGameObjectWithTag("EnemyHealthBar");
+        if(!FullMap) FullMap = GameObject.FindGameObjectWithTag("FullMap");
+        if(!MiniMap) MiniMap = GameObject.FindGameObjectWithTag("MiniMap");
     }
 
     void DeactivateRooms()

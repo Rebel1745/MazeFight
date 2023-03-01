@@ -686,7 +686,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &706912811
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1095,6 +1095,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1271892901 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3355048328074171166, guid: e840d8c256701eb40949a11ce61b5a41, type: 3}
+  m_PrefabInstance: {fileID: 1502180041589418793}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1273461457
 GameObject:
   m_ObjectHideFlags: 0
@@ -1144,10 +1149,10 @@ MonoBehaviour:
   MazeX: 10
   MazeY: 6
   totalRooms: 0
-  PlayerStatusBar: {fileID: 0}
-  EnemyHealthBar: {fileID: 0}
-  FullMap: {fileID: 0}
-  MiniMap: {fileID: 0}
+  PlayerStatusBar: {fileID: 472876156}
+  EnemyHealthBar: {fileID: 1271892901}
+  FullMap: {fileID: 706912810}
+  MiniMap: {fileID: 1807234196}
 --- !u!4 &1273461459
 Transform:
   m_ObjectHideFlags: 0
@@ -1181,8 +1186,7 @@ MonoBehaviour:
   Minimap: {fileID: 975294544}
   cf: {fileID: 0}
   EnemyPrefabs:
-  - {fileID: 7076842604959875438, guid: 81ab54fd9eb770449bbf42e249b2a344, type: 3}
-  - {fileID: 7076842604959875438, guid: 12458131d02032944ba07dbcc8583af5, type: 3}
+  - {fileID: 1407634560864903681, guid: 4079f49d3d7776345bbfcbd998ff3783, type: 3}
   EnemyNumber: 5
 --- !u!114 &1273461462
 MonoBehaviour:
@@ -1222,7 +1226,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1807234197
 RectTransform:
   m_ObjectHideFlags: 0
